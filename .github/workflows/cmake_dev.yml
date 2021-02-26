@@ -43,6 +43,7 @@ jobs:
         mkdir hpf/build
         cd hpf/build
         cmake ..
+        ./efc_no
         ctest
         cd ../..
         
