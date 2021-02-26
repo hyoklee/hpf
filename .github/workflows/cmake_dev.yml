@@ -53,4 +53,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: ${{ runner.workspace }}/hpf/build/Testing/*
+        path: ${{ runner.workspace }}/hpf/hpf/build/Testing/*
