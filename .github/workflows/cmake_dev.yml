@@ -19,9 +19,8 @@ jobs:
 #     repository: HDFGroup/hdf5
 #     path: ./hdf5
 
-     - name: Install dependencies
-       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin hdf5-dev
-
+    - name: Install dependencies
+      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin hdf5-dev
 #    - name: Install HDF5
 #      run: |
 #        mkdir ./hdf5/build
