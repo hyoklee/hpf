@@ -39,14 +39,12 @@ jobs:
         pwd
         echo "${{ runner.workspace }}"
         ls .
-        ls ./hpf
-        mkdir ./hpf/build
-        cd ./hpf/build
+        mkdir build
+        cd build
         cmake ..
         make
         ./efc_no
         ctest
-        cd ../..
         
     - name: Upload
       uses: actions/upload-artifact@v2
