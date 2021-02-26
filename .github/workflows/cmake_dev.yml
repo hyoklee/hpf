@@ -55,7 +55,7 @@ jobs:
         path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
         
     - name: Store benchmark result
-      uses: rhysd/github-action-benchmark@master
+      uses: leoholz/github-action-benchmark@v1
       with:
         tool: "catch2"
         output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt

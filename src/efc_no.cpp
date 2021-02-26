@@ -205,7 +205,7 @@ done:
 
 TEST_CASE("efc_no") {
   // now let's benchmark:
-  BENCHMARK("test") {
+  BENCHMARK("efc_no_1") {
       test();
   };
 }
