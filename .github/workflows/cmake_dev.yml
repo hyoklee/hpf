@@ -30,7 +30,10 @@ jobs:
     - name: Test performance
       run: |
         ls .
-        ls "${{ runner.workspace }}"
+        ls hpf
+        mkdir hpf/build
+        cd hpf/build
+        cmake ..
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake "${{ runner.workspace }}/hpf"
