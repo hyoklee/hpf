@@ -21,13 +21,15 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
-
-    - name: Run a multi-line script
-      run: |
+#    - name: Install HDF5
+#      run: |
 #        mkdir ./hdf5/build
 #        cd ./hdf5/build
 #        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
 #        sudo make install
+     - name: Test performance
+      run: |
+        ls .
         ls "${{ runner.workspace }}"
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
