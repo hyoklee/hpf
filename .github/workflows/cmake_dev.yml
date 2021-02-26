@@ -24,11 +24,12 @@ jobs:
 
     - name: Run a multi-line script
       run: |
-        mkdir ./hdf5/build
-        cd ./hdf5/build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-        sudo make install
+#        mkdir ./hdf5/build
+#        cd ./hdf5/build
+#        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+#        sudo make install
+        ls "${{ runner.workspace }}"
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
-        cmake "${{ runner.workspace }}"
+        cmake "${{ runner.workspace }}/hpf"
         ctest
