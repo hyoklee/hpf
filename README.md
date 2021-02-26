@@ -1,2 +1,0 @@
-# hpf
-HDF Performance Framework
