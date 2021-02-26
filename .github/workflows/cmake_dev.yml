@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: HDFGroup/hdf5
-        path: ${{ runner.workspace }}/hdf5
+        path: hdf5
 
     - name: Install dependencies
       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
@@ -25,8 +25,8 @@ jobs:
       run: |
         pwd
         ls        
-        mkdir ${{ runner.workspace }}/hdf5/build
-        cd ${{ runner.workspace }}/hdf5/build
+        mkdir hdf5/build
+        cd hdf5/build
         pwd        
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
         ls        
@@ -36,13 +36,14 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: hyoklee/hpf
-
+        path: hpf
+        
     - name: Test performance
       run: |
         pwd
         ls
-        mkdir build
-        cd build
+        mkdir hpf/build
+        cd hpf/build
         cmake ..
         make
         ./efc_no
