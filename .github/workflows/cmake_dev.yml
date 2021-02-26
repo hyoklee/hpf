@@ -22,22 +22,23 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
 
-    - name: Install HDF5
-      run: |
-        mkdir ./hdf5/build
-        cd ./hdf5/build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-        sudo make install
-        cd ../..
+#    - name: Install HDF5
+#      run: |
+#        mkdir ./hdf5/build
+#        cd ./hdf5/build
+#        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+#        sudo make install
+#        cd ../..
 
     - name: Checkout HPF
       uses: actions/checkout@v2
       with:
         repository: hyoklee/hpf
-        path: ./hpf
 
     - name: Test performance
       run: |
+        pwd
+        ls ${{ runner.workspace }}
         ls .
         ls hpf
         mkdir hpf/build
