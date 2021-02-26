@@ -1,10 +1,10 @@
-name: spack
+name: cmake
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events for the develop branch
   push:
-    branches: [ spack ]
+    branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab    
   workflow_dispatch:
 jobs:
@@ -16,17 +16,18 @@ jobs:
     - name: Checkout Spack
       uses: actions/checkout@v2
       with:
-        repository: hyoklee/spack
-        path: ./spack
+        repository: HDFGroup/hdf5
+        path: ./hdf5
 
     - name: Install dependencies
-      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin bison flex pkg-conf libdb-dev zlib libsz2 ncurses zstd libgdbm-dev perl
+      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
 
     - name: Run a multi-line script
       run: |
-        ./spack/bin/spack install hdf5-cmake
-        . ./spack/share/spack/setup-env.sh
-        ./spack/bin/spack load hdf5-cmake
+        mkdir ./hdf5/build"
+        cd ./hdf5/build"
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        sudo make install
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake ..
