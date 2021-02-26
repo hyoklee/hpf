@@ -24,8 +24,8 @@ jobs:
 
     - name: Run a multi-line script
       run: |
-        mkdir ./hdf5/build"
-        cd ./hdf5/build"
+        mkdir ./hdf5/build
+        cd ./hdf5/build
         cmake -DCMAKE_BUILD_TYPE=Release ..
         sudo make install
         mkdir "${{ runner.workspace }}/build"

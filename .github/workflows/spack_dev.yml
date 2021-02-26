@@ -1,6 +1,6 @@
 name: spack
 
-# Controls when the action will run. 
+# This will take an hour.
 on:
   # Triggers the workflow on push or pull request events for the develop branch
   push:
