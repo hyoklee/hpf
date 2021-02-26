@@ -19,7 +19,7 @@ set (efc_no_srcs
     src/efc_no.c
 )
 
-add_executable (efc_no ${efc_no_srcs})
+add_executable(efc_no ${efc_no_srcs})
 target_link_libraries (efc_no ${LINK_LIBS})
 target_include_directories(efc_no PUBLIC ${MPI_C_INCLUDE_DIRS})
 set_property (TARGET efc_no

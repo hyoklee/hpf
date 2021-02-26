@@ -44,3 +44,10 @@ jobs:
         cd hpf/build
         cmake ..
         ctest
+        cd ../..
+        
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: ${{ runner.workspace }}/hpf/build/Testing/*
