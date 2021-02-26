@@ -24,6 +24,9 @@
  *              5 February 2009
  */
 
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
+
 #include "hdf5.h"
 #include <sys/time.h>
 #include <time.h>

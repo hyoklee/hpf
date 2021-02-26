@@ -1,7 +1,22 @@
-cmake_minimum_required (VERSION 3.10.2)
-project (efc_no C)
+cmake_minimum_required (VERSION 3.12)
+project (efc_no)
+
+include(FetchContent)
+FetchContent_Declare(
+  catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG v2.11.0)
+
+FetchContent_GetProperties(catch2)
+if(NOT catch2_POPULATED)
+  FetchContent_Populate(catch2)
+  add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+endif()
+
 find_package(Threads)
+
 set (FIND_HDF_COMPONENTS C static)
+
 find_package (HDF5 NAMES "hdf5" COMPONENTS ${FIND_HDF_COMPONENTS})
 if (HDF5_FOUND)
   if (HDF5_static_C_FOUND)
@@ -16,11 +31,11 @@ INCLUDE_DIRECTORIES (${HDF5_INCLUDE_DIR})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2")
 
 set (efc_no_srcs
-    src/efc_no.c
+    src/efc_no.cpp
 )
 
 add_executable(efc_no ${efc_no_srcs})
-target_link_libraries (efc_no ${LINK_LIBS})
+target_link_libraries (efc_no ${LINK_LIBS} Catch2::Catch2)
 target_include_directories(efc_no PUBLIC ${MPI_C_INCLUDE_DIRS})
 set_property (TARGET efc_no
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
@@ -50,3 +65,9 @@ enable_testing ()
 include (CTest)
 include (${PROJECT_SOURCE_DIR}/CTestConfig.cmake)
 
+target_compile_options(
+  ${PROJECT_NAME}
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
+    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
+)
