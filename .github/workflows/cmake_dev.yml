@@ -27,7 +27,7 @@ jobs:
 #        cd ./hdf5/build
 #        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
 #        sudo make install
-     - name: Test performance
+    - name: Test performance
       run: |
         ls .
         ls "${{ runner.workspace }}"
