@@ -27,6 +27,14 @@ jobs:
 #        cd ./hdf5/build
 #        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
 #        sudo make install
+         cd ../..
+
+    - name: Checkout HPF
+      uses: actions/checkout@v2
+      with:
+        repository: hyoklee/hpf
+        path: ./hpf
+
     - name: Test performance
       run: |
         ls .
@@ -34,7 +42,4 @@ jobs:
         mkdir hpf/build
         cd hpf/build
         cmake ..
-        mkdir "${{ runner.workspace }}/build"
-        cd "${{ runner.workspace }}/build"
-        cmake "${{ runner.workspace }}/hpf"
         ctest
