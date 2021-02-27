@@ -51,7 +51,7 @@ jobs:
         path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
 
     - name: Store benchmark result
-      uses: rhysd/github-action-benchmark@v1
+      uses: hyoklee/github-action-benchmark@v1
       with:
         name: Catch2 Benchmark
         tool: "catch2"
