@@ -53,12 +53,19 @@ jobs:
       with:
         name: output.txt
         path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
+
+    - name: Download previous benchmark data
+      uses: actions/cache@v1
+      with:
+        path: ./cache
+        key: ${{ runner.os }}-benchmark
         
     - name: Store benchmark result
       uses: rhysd/github-action-benchmark@v1
       with:
         tool: "catch2"
         output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
+        external-data-json-path: ./cache/benchmark-data.json
         github-token: ${{ secrets.GITHUB_TOKEN }}
         auto-push: true
         alert-threshold: "100%"
