@@ -42,23 +42,22 @@ jobs:
         cd hpf/build
         cmake ..
         make
-        ./efc_no | tee ../../../output.txt
+        ./efc_no | tee output.txt
         
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: output.txt
-        path: output.txt
-        # path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
+        path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
 
     - name: Store benchmark result
       uses: rhysd/github-action-benchmark@v1
       with:
         name: Catch2 Benchmark
         tool: "catch2"
-        output-file-path: output.txt
-        github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-        auto-push: true
+        output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: false
         alert-threshold: "100%"
         comment-on-alert: true
         fail-on-alert: true
