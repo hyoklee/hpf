@@ -208,4 +208,7 @@ TEST_CASE("Fibonnaci") {
   BENCHMARK("Fibonnaci 10") {
       test();
   };
+  BENCHMARK("Fibonnaci 20") {
+      test();
+  };  
 }

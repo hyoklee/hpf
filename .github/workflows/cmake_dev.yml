@@ -23,14 +23,10 @@ jobs:
       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
     - name: Install HDF5
       run: |
-        pwd
-        ls        
         mkdir hdf5/build
         cd hdf5/build
-        pwd        
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-        ls        
-        sudo make install
+        sudo make -j2 install
 
     - name: Checkout HPF
       uses: actions/checkout@v2
@@ -54,12 +50,6 @@ jobs:
         name: output.txt
         path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
 
-    - name: Download previous benchmark data
-      uses: actions/cache@v1
-      with:
-        path: ./cache
-        key: ${{ runner.os }}-benchmark
-        
     - name: Store benchmark result
       uses: rhysd/github-action-benchmark@v1
       with:
