@@ -55,11 +55,11 @@ jobs:
         path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
         
     - name: Store benchmark result
-      uses: leoholz/github-action-benchmark@v1
+      uses: rhysd/github-action-benchmark@v1
       with:
         tool: "catch2"
         output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
-        github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         auto-push: true
         alert-threshold: "100%"
         comment-on-alert: true
