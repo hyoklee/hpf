@@ -43,6 +43,9 @@ jobs:
         cmake ..
         make
         ./efc_no | tee output.txt
+        cd ..
+        pwd
+        ls
         
     - name: Upload
       uses: actions/upload-artifact@v2
