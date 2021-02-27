@@ -57,7 +57,7 @@ jobs:
         tool: "catch2"
         output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        auto-push: false
+        auto-push: true
         alert-threshold: "100%"
         comment-on-alert: true
         fail-on-alert: true
