@@ -203,9 +203,9 @@ done:
     return(ret_value);
 }
 
-TEST_CASE("efc_no") {
+TEST_CASE("Fibonnaci") {
   // now let's benchmark:
-  BENCHMARK("efc_no_1") {
+  BENCHMARK("Fibonnaci 10") {
       test();
   };
 }

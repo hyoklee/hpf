@@ -65,7 +65,6 @@ jobs:
       with:
         tool: "catch2"
         output-file-path: ${{ runner.workspace }}/hpf/hpf/build/output.txt
-        external-data-json-path: ./cache/benchmark-data.json
         github-token: ${{ secrets.GITHUB_TOKEN }}
         auto-push: true
         alert-threshold: "100%"
