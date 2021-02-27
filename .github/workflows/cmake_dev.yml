@@ -13,6 +13,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout HPF
+      uses: actions/checkout@v2
     - name: Checkout HDF5
       uses: actions/checkout@v2
       with:
@@ -27,11 +29,6 @@ jobs:
         cd hdf5/build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
         sudo make -j2 install
-
-    - name: Checkout HPF
-      uses: actions/checkout@v2
-      with:
-        repository: hyoklee/hpf
         
     - name: Test performance
       run: |
