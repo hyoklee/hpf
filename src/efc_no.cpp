@@ -74,7 +74,7 @@ const char *ELINKNAME[] = {
  *              Failure:        1
  *
  * Programmer:  Neil Fortner
- *              Tuersday, 1 February 201
+ *              Tuesday, 1 February 2011
  *
  * Modifications:
  *-------------------------------------------------------------------------
@@ -203,9 +203,9 @@ done:
     return(ret_value);
 }
 
-TEST_CASE("Fibonnaci") {
+TEST_CASE("efc_no") {
   // now let's benchmark:
-  BENCHMARK("Fibonnaci 10") {
+  BENCHMARK("efc_no 100") {
       test();
   };
 }
