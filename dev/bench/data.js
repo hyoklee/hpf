@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1614438268718,
+  "lastUpdate": 1614475653369,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -60,6 +60,37 @@ window.BENCHMARK_DATA = {
             "value": 868.314,
             "range": "± 12.0461",
             "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "e2573de27e681fe95557c0cfcba533613dff856b",
+          "message": "HPF-29:Test cron job.",
+          "timestamp": "2021-02-27T19:21:13-06:00",
+          "tree_id": "0b25252b6a3007417776f5a02de53a08c078b684",
+          "url": "https://github.com/hyoklee/hpf/commit/e2573de27e681fe95557c0cfcba533613dff856b"
+        },
+        "date": 1614475652900,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 1.00423,
+            "range": "± 38.5535",
+            "unit": "s",
             "extra": "100 samples\n1 iterations"
           }
         ]
