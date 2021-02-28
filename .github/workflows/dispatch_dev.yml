@@ -10,7 +10,8 @@ jobs:
         echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"    
     - name: Checkout HPF
       uses: actions/checkout@v2
-    - name: Commit to trigger a new action
+    - name: Record time
       run: |
         date >> ChangeLog
-        git add -u && git commit -m "Trigger by HDF5" && git push
+    - name: Commit
+      uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
