@@ -1,0 +1,59 @@
+name: dispatch
+on: [repository_dispatch]
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - name: Event Information
+      run: |
+        echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"    
+    - name: Checkout HPF
+      uses: actions/checkout@v2
+    - name: Checkout HDF5
+      uses: actions/checkout@v2
+      with:
+        repository: hyoklee/hdf5
+        path: hdf5
+
+    - name: Install dependencies
+      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
+    - name: Install HDF5
+      run: |
+        mkdir hdf5/build
+        cd hdf5/build
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+        sudo make -j2 install
+        
+    - name: Test performance
+      run: |
+        pwd
+        ls
+        mkdir build
+        cd build
+        cmake ..
+        make
+        ./efc_no | tee ../output.txt
+        cd ..
+        pwd
+        ls
+        
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: output.txt
+        path: ${{ runner.workspace }}/hpf/output.txt
+
+    - name: Store benchmark result
+      uses: hyoklee/github-action-benchmark@v1
+      with:
+        name: Catch2 Benchmark
+        tool: "catch2"
+        output-file-path: ${{ runner.workspace }}/hpf/output.txt
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        skip-fetch-gh-pages: false
+        auto-push: true
+        alert-threshold: "100%"
+        comment-on-alert: false
+        fail-on-alert: false
+        alert-comment-cc-users: "@hyoklee"         
