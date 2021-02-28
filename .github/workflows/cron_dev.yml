@@ -1,0 +1,51 @@
+name: cron
+on:
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout HPF
+      uses: actions/checkout@v2
+    - name: Checkout HDF5
+      uses: actions/checkout@v2
+      with:
+        repository: HDFGroup/hdf5
+        path: hdf5
+
+    - name: Install dependencies
+      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
+    - name: Install HDF5
+      run: |
+        mkdir hdf5/build
+        cd hdf5/build
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+        sudo make -j2 install
+        
+    - name: Test performance
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
+        ./efc_no | tee ../output.txt
+        
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: output.txt
+        path: ${{ runner.workspace }}/hpf/output.txt
+
+    - name: Store benchmark result
+      uses: hyoklee/github-action-benchmark@v1
+      with:
+        name: Catch2 Benchmark
+        tool: "catch2"
+        output-file-path: ${{ runner.workspace }}/hpf/output.txt
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
+        alert-threshold: "100%"
+        comment-on-alert: true
+        fail-on-alert: true
+        alert-comment-cc-users: "@hyoklee"         
