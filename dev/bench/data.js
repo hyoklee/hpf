@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1614475653369,
+  "lastUpdate": 1614481973976,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -91,6 +91,37 @@ window.BENCHMARK_DATA = {
             "value": 1.00423,
             "range": "± 38.5535",
             "unit": "s",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "f0bfa3e9be851abf11a2a9b61c8991bc94ced539",
+          "message": "HPF-29:Add ping dispatcher.",
+          "timestamp": "2021-02-27T21:06:45-06:00",
+          "tree_id": "db8932e0ebc16e51de3c27027237a15f2384b83c",
+          "url": "https://github.com/hyoklee/hpf/commit/f0bfa3e9be851abf11a2a9b61c8991bc94ced539"
+        },
+        "date": 1614481973500,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 840.74,
+            "range": "± 18.8268",
+            "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
         ]
