@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1614481973976,
+  "lastUpdate": 1614555469514,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -121,6 +121,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 840.74,
             "range": "± 18.8268",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "57fa4ac4ef0bbf22a549446c7c912c7a28e6cb94",
+          "message": "Update dispatch_dev.yml",
+          "timestamp": "2021-02-28T17:30:49-06:00",
+          "tree_id": "31ded4c7921cfebeea2ddc06339abe4053c28689",
+          "url": "https://github.com/hyoklee/hpf/commit/57fa4ac4ef0bbf22a549446c7c912c7a28e6cb94"
+        },
+        "date": 1614555468992,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 949.365,
+            "range": "± 76.1099",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
