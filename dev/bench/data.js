@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1614555469514,
+  "lastUpdate": 1614562654697,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -152,6 +152,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 949.365,
             "range": "± 76.1099",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            "name": "github-actions[bot]",
+            "username": "github-actions[bot]"
+          },
+          "committer": {
+            "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            "name": "github-actions[bot]",
+            "username": "github-actions[bot]"
+          },
+          "distinct": true,
+          "id": "a6a0df9e813264500859aac8ea5722cdfdb75ff8",
+          "message": "Add changes",
+          "timestamp": "2021-03-01T01:31:18Z",
+          "tree_id": "918d9071e471d594d1f52c239b3a62256153e281",
+          "url": "https://github.com/hyoklee/hpf/commit/a6a0df9e813264500859aac8ea5722cdfdb75ff8"
+        },
+        "date": 1614562654079,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 798.28,
+            "range": "± 45.3425",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
