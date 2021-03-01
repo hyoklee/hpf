@@ -29,6 +29,8 @@ jobs:
         cd hdf5/build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
         sudo make -j2 install
+        cd ..
+        git rev-parse HEAD > git.txt
         
     - name: Test performance
       run: |
@@ -46,8 +48,8 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: output.txt
-        path: ${{ runner.workspace }}/hpf/output.txt
+        name: git.txt
+        path: ${{ runner.workspace }}/hpf/hdf5/git.txt
 
     - name: Store benchmark result
       uses: hyoklee/github-action-benchmark@v1
