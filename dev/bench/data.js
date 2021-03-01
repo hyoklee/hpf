@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1614562654697,
+  "lastUpdate": 1614614836682,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -184,6 +184,37 @@ window.BENCHMARK_DATA = {
             "value": 798.28,
             "range": "± 45.3425",
             "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "045cbee587697dfd9fdd6d4d299f514fa65dd716",
+          "message": "HPF-29:Save git revision from HDF5.",
+          "timestamp": "2021-03-01T10:00:28-06:00",
+          "tree_id": "6d4051f8939409746b9055caa2977202c5bd9fa2",
+          "url": "https://github.com/hyoklee/hpf/commit/045cbee587697dfd9fdd6d4d299f514fa65dd716"
+        },
+        "date": 1614614836175,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 1.0638,
+            "range": "± 13.2516",
+            "unit": "s",
             "extra": "100 samples\n1 iterations"
           }
         ]
