@@ -10,6 +10,8 @@ jobs:
         echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"    
     - name: Checkout HPF
       uses: actions/checkout@v2
+      with: 
+        persist-credentials: false
     - name: Record time
       run: |
         date >> ChangeLog
