@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615169194106,
+  "lastUpdate": 1615170897723,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -276,6 +276,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 805.381,
             "range": "± 43.6243",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "81e454fbb11264df91642ed1f36f1602048a1fe4",
+          "message": "HPF-31:Turn off daily cron.",
+          "timestamp": "2021-03-07T20:27:49-06:00",
+          "tree_id": "2104c7802a7d2631fc11753118a03c513dd113e8",
+          "url": "https://github.com/hyoklee/hpf/commit/81e454fbb11264df91642ed1f36f1602048a1fe4"
+        },
+        "date": 1615170897250,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 997.229,
+            "range": "± 17.3085",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
