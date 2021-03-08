@@ -88,9 +88,9 @@ window.BENCHMARK_DATA = {
         "benches": [
           {
             "name": "efc_no 100",
-            "value": 1.00423,
+            "value": 1004.23,
             "range": "± 38.5535",
-            "unit": "s",
+            "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
         ]
@@ -212,9 +212,9 @@ window.BENCHMARK_DATA = {
         "benches": [
           {
             "name": "efc_no 100",
-            "value": 1.0638,
+            "value": 1063.8,
             "range": "± 13.2516",
-            "unit": "s",
+            "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
         ]
