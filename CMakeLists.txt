@@ -38,13 +38,13 @@ set_property(TARGET efc_no
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
-set(cmpd_subset_srcs src/cmpd_subset.cpp)
-add_executable(cmpd_subset ${cmpd_subset_srcs})
-target_link_libraries(cmpd_subset ${LINK_LIBS} Catch2::Catch2)
-target_include_directories(cmpd_subset PUBLIC ${MPI_C_INCLUDE_DIRS})
-set_property(TARGET cmpd_subset
-      APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
-)
+# set(cmpd_subset_srcs src/cmpd_subset.cpp)
+# add_executable(cmpd_subset ${cmpd_subset_srcs})
+# target_link_libraries(cmpd_subset ${LINK_LIBS} Catch2::Catch2)
+# target_include_directories(cmpd_subset PUBLIC ${MPI_C_INCLUDE_DIRS})
+# set_property(TARGET cmpd_subset
+#       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
+# )
 
 set(TEST_nprocs 6)
 
@@ -62,19 +62,19 @@ add_test(NAME TEST_efc_no COMMAND "${CMAKE_COMMAND}"
 )
 set_tests_properties(TEST_efc_no PROPERTIES DEPENDS CLEAR_efc_no)
 
-add_test(
-   NAME CLEAR_cmpd_subset
-   COMMAND ${CMAKE_COMMAND} -E remove *.h5
-)
-add_test(NAME TEST_cmpd_subset COMMAND "${CMAKE_COMMAND}"
-    -D "TEST_PROGRAM=$<TARGET_FILE:cmpd_subset>"
-    -D "TEST_EXPECT=0"
-    -D "TEST_SKIP_COMPARE:BOOL=true"
-    -D "TEST_OUTPUT=cmpd_subset.out"
-    -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
-    -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
-)
-set_tests_properties(TEST_cmpd_subset PROPERTIES DEPENDS CLEAR_cmpd_subset)
+# add_test(
+#    NAME CLEAR_cmpd_subset
+#    COMMAND ${CMAKE_COMMAND} -E remove *.h5
+# )
+# add_test(NAME TEST_cmpd_subset COMMAND "${CMAKE_COMMAND}"
+#     -D "TEST_PROGRAM=$<TARGET_FILE:cmpd_subset>"
+#     -D "TEST_EXPECT=0"
+#     -D "TEST_SKIP_COMPARE:BOOL=true"
+#     -D "TEST_OUTPUT=cmpd_subset.out"
+#     -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
+#     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
+# )
+# set_tests_properties(TEST_cmpd_subset PROPERTIES DEPENDS CLEAR_cmpd_subset)
 
 set(DART_TESTING_TIMEOUT 1200
     CACHE STRING
@@ -91,9 +91,9 @@ target_compile_options(
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
 )
 
-target_compile_options(
-  cmpd_subset  
-  PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
-    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
-)
+# target_compile_options(
+#   cmpd_subset  
+#   PRIVATE
+#     $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
+#     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
+# )
