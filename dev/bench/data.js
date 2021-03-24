@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1616120309949,
+  "lastUpdate": 1616617902740,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -896,6 +896,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 1063.3799999999999,
             "range": "± 25.679",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "4a131e30ccf0230ce3779dc20273645f49bd00ce",
+          "message": "HPF-32:Fix compiler error as suggested by Ray.",
+          "timestamp": "2021-03-24T15:24:34-05:00",
+          "tree_id": "86bf2ac377c703aebc0b28db3496202b1c2aa154",
+          "url": "https://github.com/hyoklee/hpf/commit/4a131e30ccf0230ce3779dc20273645f49bd00ce"
+        },
+        "date": 1616617901800,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 836.925,
+            "range": "± 13.1654",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
