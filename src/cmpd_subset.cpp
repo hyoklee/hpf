@@ -600,8 +600,13 @@ compare_data(unsigned char *src_data, unsigned char *dst_data, hbool_t src_subse
 	   s_ptr = ((stype1*)src_data) + i;
 	   d_ptr = ((stype2*)dst_data)  + i;
         } else {
+            /*
             s_ptr = ((stype2*)src_data) + i;
             d_ptr = ((stype1*)dst_data)  + i;
+            */
+            s_ptr = (stype1 *)(((stype2 *)src_data) + i);
+            d_ptr = (stype2 *)(((stype1 *)dst_data) + i);
+
         }
 
 	if (s_ptr->a    != d_ptr->a    ||
