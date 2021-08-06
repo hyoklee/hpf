@@ -61,7 +61,7 @@ add_test(NAME TEST_efc_no COMMAND "${CMAKE_COMMAND}"
     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
 set_tests_properties(TEST_efc_no PROPERTIES DEPENDS CLEAR_efc_no)
-
+#[[
 add_test(
    NAME CLEAR_cmpd_subset
    COMMAND ${CMAKE_COMMAND} -E remove *.h5
@@ -75,7 +75,7 @@ add_test(NAME TEST_cmpd_subset COMMAND "${CMAKE_COMMAND}"
      -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
 set_tests_properties(TEST_cmpd_subset PROPERTIES DEPENDS CLEAR_cmpd_subset)
-
+]]
 set(DART_TESTING_TIMEOUT 1200
     CACHE STRING
     "Timeout in seconds for each test(default 1200=20minutes)"
