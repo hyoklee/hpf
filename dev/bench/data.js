@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1628258540955,
+  "lastUpdate": 1628280094462,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -958,6 +958,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 837.702,
             "range": "± 12.438",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "dbfb114da73cc8c17ace86cc707fd722a4b780a7",
+          "message": "Update README.md",
+          "timestamp": "2021-08-06T14:55:47-05:00",
+          "tree_id": "4ac9ae929c47560c3330f51fb36e8f527fe77b25",
+          "url": "https://github.com/hyoklee/hpf/commit/dbfb114da73cc8c17ace86cc707fd722a4b780a7"
+        },
+        "date": 1628280094016,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 746.887,
+            "range": "± 12.0593",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
