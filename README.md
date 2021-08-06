@@ -1,4 +1,5 @@
 # HPF
+[![cmake](https://github.com/hyoklee/hpf/actions/workflows/cmake_dev.yml/badge.svg)](https://github.com/hyoklee/hpf/actions/workflows/cmake_dev.yml)
 
 HDF Performance Framework
 
