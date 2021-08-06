@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1616617902740,
+  "lastUpdate": 1628258540955,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -927,6 +927,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 836.925,
             "range": "± 13.1654",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "7f1b7fc051bd54f1f439a4854ccbdb33b8e32bd1",
+          "message": "Disable cmpd_subset test.",
+          "timestamp": "2021-08-06T08:55:38-05:00",
+          "tree_id": "c7c8b29be0884ffa0d8a80b71ecc5a286cdb50bd",
+          "url": "https://github.com/hyoklee/hpf/commit/7f1b7fc051bd54f1f439a4854ccbdb33b8e32bd1"
+        },
+        "date": 1628258540425,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 837.702,
+            "range": "± 12.438",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
