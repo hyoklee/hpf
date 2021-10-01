@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1629032908138,
+  "lastUpdate": 1633123149226,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -1051,6 +1051,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 1140.22,
             "range": "± 16.3143",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "eb9dbf3c840b1f29c1fb2feb27200f7025b1c179",
+          "message": "changed find_package() for HDF5.",
+          "timestamp": "2021-10-01T16:13:15-05:00",
+          "tree_id": "3e9a96fb7d390f7b8bd653b54e59f81d52555a08",
+          "url": "https://github.com/hyoklee/hpf/commit/eb9dbf3c840b1f29c1fb2feb27200f7025b1c179"
+        },
+        "date": 1633123148283,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 824.961,
+            "range": "± 5.4401",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
