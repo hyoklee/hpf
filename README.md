@@ -7,7 +7,7 @@ https://hyoklee.github.io/hpf/dev/bench/
 
 ## About
 
-This directory contains tests from HDF Performance Framework 1.0.
+This directory contains tests from [HDF Performance Framework 1.0.0](https://hpf.hdfgroup.org/).
 These tests do not require MPI.
 
 ## Tests
