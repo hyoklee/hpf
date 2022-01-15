@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1642218510599,
+  "lastUpdate": 1642224973122,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -3872,6 +3872,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 826.244,
             "range": "± 2.89363",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "c1dbca4597805d8d1f5e285b112aa41bf2c429a9",
+          "message": "Add link to HPF 1.0.0.",
+          "timestamp": "2022-01-14T23:28:06-06:00",
+          "tree_id": "d94baa08be26185b678dad23f877053de67c7edd",
+          "url": "https://github.com/hyoklee/hpf/commit/c1dbca4597805d8d1f5e285b112aa41bf2c429a9"
+        },
+        "date": 1642224972128,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 1309.99,
+            "range": "± 30.474",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
