@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658205014864,
+  "lastUpdate": 1658857572821,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -4151,6 +4151,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 777.619,
             "range": "± 8.83667",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "8317000754f1e5970d837596231947bccc656daa",
+          "message": "Add MathWorks performance example.",
+          "timestamp": "2022-07-26T12:37:47-05:00",
+          "tree_id": "a53bc587090c15a3d1722045861c92825ba5b189",
+          "url": "https://github.com/hyoklee/hpf/commit/8317000754f1e5970d837596231947bccc656daa"
+        },
+        "date": 1658857569822,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 1142.3600000000001,
+            "range": "± 17.5186",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
