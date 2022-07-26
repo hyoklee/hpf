@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658857572821,
+  "lastUpdate": 1658858913633,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -4182,6 +4182,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 1142.3600000000001,
             "range": "± 17.5186",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "7e0c2242b0d66f42c2c2162dca6511cfcc47af64",
+          "message": "Add MathWorks target.",
+          "timestamp": "2022-07-26T13:02:52-05:00",
+          "tree_id": "b3a4818226022be4a81b998c774a2262119ae46b",
+          "url": "https://github.com/hyoklee/hpf/commit/7e0c2242b0d66f42c2c2162dca6511cfcc47af64"
+        },
+        "date": 1658858912996,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 794.06,
+            "range": "± 6.91555",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
