@@ -46,6 +46,15 @@ set_property(TARGET cmpd_subset
        APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
+set(many_dsets_srcs src/many_dsets.cpp)
+add_executable(many_dsets ${many_dsets_srcs})
+target_link_libraries(many_dsets ${LINK_LIBS} Catch2::Catch2)
+target_include_directories(many_dsets PUBLIC ${MPI_C_INCLUDE_DIRS})
+set_property(TARGET many_dsets
+      APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
+)
+
+
 set(TEST_nprocs 2)
 
 add_test(
