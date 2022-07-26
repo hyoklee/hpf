@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1658859693845,
+  "lastUpdate": 1658861796056,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -4244,6 +4244,37 @@ window.BENCHMARK_DATA = {
             "name": "efc_no 100",
             "value": 1109.57,
             "range": "± 45.1046",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "7c9012ac50a710aeefac3047e44fc0b168a041e5",
+          "message": "Add benchmark.",
+          "timestamp": "2022-07-26T13:48:02-05:00",
+          "tree_id": "209a8dd9ac580c57f16af41a56435245645d17ed",
+          "url": "https://github.com/hyoklee/hpf/commit/7c9012ac50a710aeefac3047e44fc0b168a041e5"
+        },
+        "date": 1658861795581,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 801.569,
+            "range": "± 11.9707",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
