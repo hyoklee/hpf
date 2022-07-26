@@ -46,7 +46,7 @@ set_property(TARGET cmpd_subset
        APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
-set(TEST_nprocs 6)
+set(TEST_nprocs 2)
 
 add_test(
    NAME CLEAR_efc_no
@@ -61,6 +61,21 @@ add_test(NAME TEST_efc_no COMMAND "${CMAKE_COMMAND}"
     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
 set_tests_properties(TEST_efc_no PROPERTIES DEPENDS CLEAR_efc_no)
+
+add_test(
+   NAME CLEAR_many_dsets
+   COMMAND ${CMAKE_COMMAND} -E remove *.h5
+)
+add_test(NAME TEST_many_dsets COMMAND "${CMAKE_COMMAND}"
+    -D "TEST_PROGRAM=$<TARGET_FILE:many_dsets>"
+    -D "TEST_EXPECT=0"
+    -D "TEST_SKIP_COMPARE:BOOL=true"
+    -D "TEST_OUTPUT=many_dsets.out"
+    -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
+    -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
+)
+set_tests_properties(TEST_many_dsets PROPERTIES DEPENDS CLEAR_many_dsets)
+
 #[[
 add_test(
    NAME CLEAR_cmpd_subset
