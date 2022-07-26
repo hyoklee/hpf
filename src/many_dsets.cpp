@@ -1,3 +1,6 @@
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
+
 #include "hdf5.h"
 #include <string>
 #include <iostream>
@@ -12,7 +15,9 @@ static const int dsetsAndNumElemsMap[3][2] { { 23792, 1 }, { 35285, 50 }, { 2173
 static const std::string GRP_NAME_BASE {"group_"};
 static const std::string DSET_NAME_BASE{ "dset_" };
 
-int main(int argc, char* argv[])
+int
+test (void)
+// int main(int argc, char* argv[])
 {
     hsize_t dsetDims[2];
     hid_t fcpl;
@@ -72,4 +77,11 @@ int main(int argc, char* argv[])
     H5Pclose(fcpl);
     H5Fclose(fileID);
     return 0;
+}
+
+TEST_CASE("many_dsets") {
+  // now let's benchmark:
+  BENCHMARK("many_dsets 100") {
+      test();
+  };
 }
