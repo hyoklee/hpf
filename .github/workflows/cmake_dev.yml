@@ -42,7 +42,7 @@ jobs:
         make
         ./efc_no | tee ../output.txt
         #./cmpd_subset | tee ../output.txt
-        ./many_dsets | tee ../output.txt
+        ./many_dsets | tee -a ../output.txt
         cd ..
         pwd
         ls
