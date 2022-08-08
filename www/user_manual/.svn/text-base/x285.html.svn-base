@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>6.2 Version Change</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="HPF Maintenance "
+HREF="c271.html"><LINK
+REL="PREVIOUS"
+TITLE="HPF Maintenance "
+HREF="c271.html"><LINK
+REL="NEXT"
+TITLE="6.3 Journal Entry"
+HREF="x315.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>HDF5 Performance Framework User Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c271.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>HPF Maintenance</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x315.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN285"
+>6.2 Version Change</A
+></H1
+>
+<P
+>In case there is a version change in HDF5 library, perform the following steps:</P
+>
+<P
+></P
+><UL
+><LI
+><P
+>update the back-end shell script.
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>  # HDF5 version - either 1.8.0 or 1.6.6
+  # VERSION="1.6.6"
+  VERSION="1.6.7"</PRE
+></TD
+></TR
+></TABLE
+></P
+></LI
+><LI
+><P
+>rename the temporary directory for environment variables defined in the back-end script.
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   mv /tmp/chicago_1.6.6 /tmp/chiago_1.6.7</PRE
+></TD
+></TR
+></TABLE
+></P
+></LI
+><LI
+><P
+>update entries in tables if the version change was not planned in advance.
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>  %php replace_subversion.php</PRE
+></TD
+></TR
+></TABLE
+></P
+></LI
+><LI
+><P
+>update entries in the <VAR
+CLASS="VARNAME"
+>TestInstanceBest</VAR
+> and <VAR
+CLASS="VARNAME"
+>TestInstance</VAR
+> table using the <TT
+CLASS="FILENAME"
+>replace_version.php</TT
+> script. Please modify <TT
+CLASS="FILENAME"
+>replace_version.php</TT
+> and then execute.
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   %php replace_version.php</PRE
+></TD
+></TR
+></TABLE
+></P
+></LI
+><LI
+><P
+>fill in the missing record for each host.
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   %php record_manually.php hdfdap 1.6.7
+   %php record_manually.php kagiso 1.6.7
+   %...</PRE
+></TD
+></TR
+></TABLE
+></P
+></LI
+><LI
+><P
+>update <TT
+CLASS="FILENAME"
+>index.html</TT
+>, <TT
+CLASS="FILENAME"
+>mailer.php</TT
+>, <TT
+CLASS="FILENAME"
+>today.php</TT
+> for 1.9.x, 
+<TT
+CLASS="FILENAME"
+>today2.php</TT
+> for 1.6.x, and <TT
+CLASS="FILENAME"
+>today3.php</TT
+> for 1.8.x.
+For each file, look for the lines that have version numbers.</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c271.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x315.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>HPF Maintenance</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c271.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>6.3 Journal Entry</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Introduction to HPF</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="PREVIOUS"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="NEXT"
+TITLE="1.2 On what systems does HPF run?"
+HREF="x23.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>HDF5 Performance Framework User Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="book1.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x23.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN14"
+></A
+>Introduction to HPF</H1
+>
+<P
+>This HDF5 Performance Framework (HPF) user manual was created to help users quickly learn how to test HDF5 library performance.
+It covers the basic concept and usage of HPF.</P
+>
+<DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN17"
+>1.1 What is HDF5 Performance Framework(HPF)?</A
+></H1
+>
+<P
+>HPF is a free performance testing system for HDF5 library and its applications.
+Although this project is aimed for HDF5, HPF is a very general-purpose benchmarking tool and can be applied to any applications.</P
+>
+<P
+>It measures the time that custom benchmark programs took via <TT
+CLASS="FUNCTION"
+>gettimeofday()</TT
+> function call.
+It doesn't measure any disk or memory space usage yet.
+And it has a web-based graphical user interface for analysis of the measured time data.</P
+>
+<P
+>The HPF testing model is to run benchmark programs daily.
+Any changes in HDF5 library may or may not affect the daily performance of the existing benchmark programs and the goal of HPF is to monitor the long term performance of HDF5 library.
+Also, since HDF has different versions of libraries and runs on different platforms, 
+we made HPF allow testing multiple versions on multiple platforms.</P
+>
+&#13;</DIV
+>
+
+
+
+
+
+
+
+&#13;</DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x23.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>HDF5 Performance Framework User Manual</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>1.2 On what systems does HPF run?</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

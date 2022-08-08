@@ -1,0 +1,347 @@
+
+HDF5 Performance Framework User Manual
+
+Hyo-Kyung Lee
+
+   The HDF Group
+
+   Copyright © 2008 The HDF Group
+     _________________________________________________________
+
+   Table of Contents
+   Introduction to HPF
+
+        1.1 What is HDF5 Performance Framework(HPF)?
+        1.2 On what systems does HPF run?
+        1.3 Why might I want to use HPF?
+        1.4 What is included with HPF?
+
+   Getting to know HPF
+
+        2.1 Web Pages
+        2.2 Reporting Bugs
+
+   HPF Installation Guide
+
+        3.1 Pre-installation checklist
+        3.2 Creating Database and Tables
+        3.3 Modification of Source Codes
+        3.4 Customization of Shell Scripts
+        3.5 Cron Job Installation
+        3.6 Web Page Installation
+
+   Writing Custom Benchmark Program
+   Testing HPF
+
+        5.1 Testing Back-end
+        5.2 Testing Front-end
+
+   HPF Maintenance
+
+        6.1 Recording Missing Data
+        6.2 Version Change
+     _________________________________________________________
+
+Introduction to HPF
+
+   This HDF5 Performance Framework (HPF) user manual was created to
+   help users quickly learn how to test HDF5 library performance. It
+   covers the basic concept and usage of HPF.
+     _________________________________________________________
+
+1.1 What is HDF5 Performance Framework(HPF)?
+
+   HPF is a free performance testing system for HDF5 library and its
+   applications. The HPF testing model is to run benchmark programs
+   daily. Any changes in HDF5 library may affect the daily performance
+   of  the existing benchmark programs and the goal of HPDF is to
+   monitor the long term performance of HDF5 library.
+     _________________________________________________________
+
+1.2 On what systems does HPF run?
+
+   As of January 2008, HPF runs on the following platforms:
+
+     * linux: hdfdap, kagiso
+     * solaris: linew
+     * 64-bit linux: smirom
+
+   In general, it can run on any UNIX platform that supports HDF5
+   library.
+     _________________________________________________________
+
+1.3 Why might I want to use HPF?
+
+   HPF can provide a quick way of identifying not only HDF library
+   compilation  problems  on  many  platforms  but also potential
+   performance issues of the library. HPF generates a daily warning
+   report if there's a compilation error or a test instance takes
+   longer than 20% or more. User can quickly locate the problem by
+   looking at the daily graph. HPF also records the subversion revision
+   number used in the library so the library developers can compare the
+   source code differences that caused the performance degradation.
+     _________________________________________________________
+
+1.4 What is included with HPF?
+
+   HPF requires a number of third-party software products, including:
+
+     * Apache
+     * jpgraph
+     * MySQL
+     * php
+     * gd
+     * subversion
+     * bash
+
+   The jpgraph is included in the HPF distribution.
+     _________________________________________________________
+
+Getting to know HPF
+     _________________________________________________________
+
+2.1 Web Pages
+
+   The  official  website  for  the  HPF  project  is located at:
+   http://hdfdap.hdfgroup.uiuc.edu/h5perf/index.html.
+     _________________________________________________________
+
+2.2 Reporting Bugs
+
+   Before crying "Bug!", please make sure that the problem is really
+   relevant to HPF. Especially, the bug in the HDF library itself
+   should be directly sent to <help@hdfgroup.org>. We cannot fix bugs
+   that belong to third-party software products like MySQL and php.
+   Also, please try to run "svn update" on your source tree to see if
+   the bug is already fixed.
+
+   Proper bug reporting is one of the most important responsibilities
+   of end users. Very detailed information is required to diagnose most
+   serious bugs and please identify and include the subversion revision
+   number when you send a bug report to: <hdf5cig@hdfgroup.org> HPF
+   bugzilla is also available. Its URL is
+   http://hdfdap.hdfgroup.uiuc.edu/bugzilla/.
+     _________________________________________________________
+
+HPF Installation Guide
+     _________________________________________________________
+
+3.1 Pre-installation checklist
+
+   Before installing HPF, you need to make sure that the following
+   programs are already installed:
+
+     * svn
+     * mysql database
+     * php enabled web server with gd library
+
+   Of course, you need HDF5 library build tools like automake, gmake,
+   and gcc/g++.
+
+   The first step of using HPF is to get the HPF source codes from
+   subversion repository.
+    %svn co http://svn.hdfgroup.uiuc.edu/hdf5perf
+     _________________________________________________________
+
+3.2 Creating Database and Tables
+
+   HPF uses a MySQL database as a storage option for HDF5 performance
+   measurement  results  and  system  environment  variables. The
+   "hdf5perf/hdf5perflib/lib/cpp/DB.sql" file contains a set of SQL
+   commands that create necessary tables.
+
+   Issuing a command like
+  %mysql -u root -p < hdf5perf/hdf5perflib/lib/cpp/DB.sql
+  # Replace 'root' with your DB admin username
+
+   and entering your database password will create a new database
+   called "hdf5perfsimple" and all 9 tables necessary for HPF under the
+   new database.
+     _________________________________________________________
+
+3.3 Modification of Source Codes
+
+   HPF distribution comes with a default database username 'root' and
+   no password in all its source codes and it is necessary to change
+   them if you use a different username/password pair on your MySQL
+   database.
+
+   Here is the list of files that you need to modify:
+
+     * hdf5perf/hdf5perflib/libtest/db.h
+     * hdf5perf/hdf5perflib/examples/db.h
+     * hdf5perf/hdf5perflib/raw-data/db.h
+     * hdf5perf/hdf5perfphp/hdf/includes/data.inc.php
+     _________________________________________________________
+
+3.4 Customization of Shell Scripts
+
+   Two shell scripts need customization to ensure that they can perform
+   daily tests successfully on time. Here are the two shell scripts you
+   need to modify:
+
+     * hdf5perf/hdf5perfphp/run_1.6.6.sh
+     * hdf5perf/hdf5perfphp/run_1.8.0.sh
+
+   Please pay attention to the choice of compiler, compiler options and
+   paths. Different operating systems may use different command line
+   options for the same command.
+
+   In HPF, all cron jobs are expected to finish within a day before
+   0:00am so that analysis and report PHP scripts can run in sync. They
+   look for the data that have a timestamp of specific range in MySQL
+   DB. Although you can submit a cron job that starts early to ensure
+   the job to be completed on time, it's also possible to save some
+   time by adjusting the "INTERVAL" variable within the shell script.
+
+   Please look for the lines that say:
+# This script will run tests 3 times to record the best performance.
+# Please set the interval in seconds between trials.
+# 600 seconds = 10 minutes
+INTERVAL="600"
+
+   and make it shorter if necessary.
+
+   Finally,  it  is not recommended to modify the lines below the
+   following comments:
+#######################################################################
+########
+# Please DO NOT edit lines below.
+#######################################################################
+########
+
+   .
+
+   It is also a very good idea to test the customized script at the
+   command prompt before it's submitted for cron job.
+     _________________________________________________________
+
+3.5 Cron Job Installation
+
+   Once all DB creation, modification and customization is done, you
+   are ready to submit cron jobs for three scripts:
+
+     * hdf5perf/hdf5perfphp/run_1.6.6.sh
+     * hdf5perf/hdf5perfphp/run_1.8.0.sh
+     * php hdf5perf/hdf5perfphp/hdf/mailer.php
+
+   Here's an example cron job table listing on hdfdap.hdfgroup.uiuc.edu
+   machine:
+    00 20 * * * /hdf5perf/hdf5perfphp/run_1.6.6.sh
+    00 22 * * * /hdf5perf/hdf5perfphp/run_1.8.0.sh
+    55 01 * * * /usr/bin/php /hdf5perf/hdf5perfphp/hdf/mailer.php
+
+   HDF5 version 1.6.6 library testing starts at 8:00pm and HDF5 version
+   1.8.0 at 10:00pm. The mailer.php script sends an e-mail notification
+   to subscribers if there is a significant increase in performance.
+     _________________________________________________________
+
+3.6 Web Page Installation
+
+   Simply   points   your   web   server's   document   root   to
+   "hdf5perf/hdf5perfphp/hdf/".
+     _________________________________________________________
+
+Writing Custom Benchmark Program
+
+     * Create a directory "mytest" under hdf5perflib source tree.
+     * Copy example files under "examples/c/*" into "mytest".
+     * Review write2.c or write.c and make your own program.
+     * Make  sure  that  your  functions  are  wrapped around the
+       H5Perf_startTimer(& start) and the H5Perf_endTimer().
+     * Update  Makefile.am  to  include your source codes and run
+       "automake".
+     * Run "cd .." , add your directory "mytest" into Makefile.am and
+       run automake.
+     _________________________________________________________
+
+Testing HPF
+     _________________________________________________________
+
+5.1 Testing Back-end
+
+   HPF  testing  can  be  done  by running a back-end script like
+   run_1.8.0.sh or run_1.6.6.sh. It's a good idea to set INTERVAL="0"
+   in the script to get a quick result of your test.
+
+   If your script exits without any error, it's important to examine
+   database tables. To examine your data, issue a command:
+   %mysql -u root -p hdf5perfsmiple
+
+   and then press enter. No password is required by default.
+
+   You can inspect newly recorded data from database by issuing an SQL
+   query like:
+    mysql>SELECT * from TestInstance WHERE TestInstance_Date > 20080101
+;
+
+   In the above example, it's important to change the date 20080101 to
+   today's date. After all your testing is done, you can clean up
+   today(=20080101)'s data:
+    mysql>DELETE FROM subversion WHERE checkout_date > 20080101;
+    mysql>DELETE FROM TestInstance WHERE TestInstance_Date > 20080101;
+    mysql>DELETE FROM TestInstanceBest WHERE TestInstance_Date > 200801
+01;
+    mysql>DELETE FROM environment WHERE env_date > 20080101;
+
+   Please don't forget to set INTERVAL=600 back in your test script.
+   Finally, submit your script as a cron job.
+     _________________________________________________________
+
+5.2 Testing Front-end
+
+   After two days of your cron job installation, it is possible to
+   visualize  your performance data. The reason is that any graph
+   rendering by jpgraph requires two or more data points.
+     _________________________________________________________
+
+HPF Maintenance
+
+   HPF requires a periodic maintenance like manual data entry and
+   version change.
+     _________________________________________________________
+
+6.1 Recording Missing Data
+
+   Sometimes, the current HPF fails to record the best instance from
+   the three trials. In that case, one can inspect the TestInstance
+   table and import the best record into TestInstanceBest table.This
+   can be done using a utility script called 'record_manually.php'.
+      %php record_manually.php <hostname> <version>
+
+   This will fill in the missing records in TestInstanceBest from
+   TestInstance.
+
+   Check the graph to see if it's recorded properly:
+      %firefox http://hdfdap.hdfgroup.uiuc.edu/h5perf/today.php
+
+   Finally, it's good to add a journal entry.
+     _________________________________________________________
+
+6.2 Version Change
+
+   In case there is a version change in HDF5 library, perform the
+   following steps:
+
+     * update the back-end shell script.
+
+  # HDF5 version - either 1.8.0 or 1.6.6
+  # VERSION="1.6.6"
+     VERSION="1.6.7"
+     * copy the temp directory for environment variables.
+
+          mv /tmp/chicago_1.6.6 /tmp/chiago_1.6.7
+     * update entries in tables if the version change was not planned
+       in advance.
+
+         %php replace_subversion.php
+     * update  entries  in  the  TestInstanceBest table using the
+       'replace_version.php'      script.      Please      modify
+       'replace_version.php' and then execute
+
+          %php replace_version.php
+     * fill in the missing record for each host.
+
+   %php record_manually.php hdfdap 1.6.7
+   %php record_manually.php kagiso 1.6.7
+      %...

@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Writing Custom Benchmark Program</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="PREVIOUS"
+TITLE="3.6 Web Page Installation"
+HREF="x127.html"><LINK
+REL="NEXT"
+TITLE="4.2 Creating Custom Routine, Action and Instance Name"
+HREF="x158.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>HDF5 Performance Framework User Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x127.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x158.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN137"
+></A
+>Writing Custom Benchmark Program</H1
+>
+<P
+>In this chapter, we provide a detailed instruction about creating a custom benchmark program.
+Writing a custom benchmark program requires some knowledge about HPF C-API.</P
+>
+<DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN140"
+>4.1 Overview</A
+></H1
+>
+<P
+>To write a custom benchmark program, the following steps are needed:</P
+>
+<P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>Create a directory "mytest" under hdf5perflib source tree.</P
+></LI
+><LI
+><P
+>Copy files under "examples/*" into "mytest" using "cp -r examples/* mytest".</P
+></LI
+><LI
+><P
+>Review "mytest/c/write.c" and make your own program by modifying benchmark names.</P
+></LI
+><LI
+><P
+>Make sure that your functions are wrapped around the H5Perf_startTimer(&#38; start)
+  and the H5Perf_endTimer() in your program.</P
+></LI
+><LI
+><P
+>If you've renamed "write.c" or created another file, 
+please update "mytest/c/Makefile.am" file to include your source codes.</P
+></LI
+><LI
+><P
+>Modify "configure.ac" to include "mytest/Makefile"  and "mytest/c/Makefile" and run "autoreconf".</P
+></LI
+></OL
+></P
+>
+<P
+>You may skip step 1, 2, 5, and 6 if you are in a real hurry and minimize the hassle of modifying several makefiles. In that case, you need to modify "examples/c/write.c" file directly. In the next two subsections, we'll focus on step 3 and 4 only since the rest of steps are more relevant to GNU autoconf/automake topic.&#13;</P
+></DIV
+>
+
+
+
+
+&#13;</DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x127.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x158.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>3.6 Web Page Installation</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>4.2 Creating Custom Routine, Action and Instance Name</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

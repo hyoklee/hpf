@@ -1,0 +1,3573 @@
+%!PS-Adobe-2.0
+%%Creator: dvips(k) 5.92b Copyright 2002 Radical Eye Software
+%%Title: book.dvi
+%%Pages: 18
+%%PageOrder: Ascend
+%%BoundingBox: 0 0 596 842
+%%DocumentFonts: Helvetica-Bold Palatino-Roman Palatino-Bold Times-Bold
+%%+ Palatino-Italic Courier
+%%EndComments
+%DVIPSWebPage: (www.radicaleye.com)
+%DVIPSCommandLine: dvips book.dvi -o book.ps
+%DVIPSParameters: dpi=600, compressed
+%DVIPSSource:  TeX output 2008.02.14:1413
+%%BeginProcSet: texc.pro
+%!
+/TeXDict 300 dict def TeXDict begin/N{def}def/B{bind def}N/S{exch}N/X{S
+N}B/A{dup}B/TR{translate}N/isls false N/vsize 11 72 mul N/hsize 8.5 72
+mul N/landplus90{false}def/@rigin{isls{[0 landplus90{1 -1}{-1 1}ifelse 0
+0 0]concat}if 72 Resolution div 72 VResolution div neg scale isls{
+landplus90{VResolution 72 div vsize mul 0 exch}{Resolution -72 div hsize
+mul 0}ifelse TR}if Resolution VResolution vsize -72 div 1 add mul TR[
+matrix currentmatrix{A A round sub abs 0.00001 lt{round}if}forall round
+exch round exch]setmatrix}N/@landscape{/isls true N}B/@manualfeed{
+statusdict/manualfeed true put}B/@copies{/#copies X}B/FMat[1 0 0 -1 0 0]
+N/FBB[0 0 0 0]N/nn 0 N/IEn 0 N/ctr 0 N/df-tail{/nn 8 dict N nn begin
+/FontType 3 N/FontMatrix fntrx N/FontBBox FBB N string/base X array
+/BitMaps X/BuildChar{CharBuilder}N/Encoding IEn N end A{/foo setfont}2
+array copy cvx N load 0 nn put/ctr 0 N[}B/sf 0 N/df{/sf 1 N/fntrx FMat N
+df-tail}B/dfs{div/sf X/fntrx[sf 0 0 sf neg 0 0]N df-tail}B/E{pop nn A
+definefont setfont}B/Cw{Cd A length 5 sub get}B/Ch{Cd A length 4 sub get
+}B/Cx{128 Cd A length 3 sub get sub}B/Cy{Cd A length 2 sub get 127 sub}
+B/Cdx{Cd A length 1 sub get}B/Ci{Cd A type/stringtype ne{ctr get/ctr ctr
+1 add N}if}B/id 0 N/rw 0 N/rc 0 N/gp 0 N/cp 0 N/G 0 N/CharBuilder{save 3
+1 roll S A/base get 2 index get S/BitMaps get S get/Cd X pop/ctr 0 N Cdx
+0 Cx Cy Ch sub Cx Cw add Cy setcachedevice Cw Ch true[1 0 0 -1 -.1 Cx
+sub Cy .1 sub]/id Ci N/rw Cw 7 add 8 idiv string N/rc 0 N/gp 0 N/cp 0 N{
+rc 0 ne{rc 1 sub/rc X rw}{G}ifelse}imagemask restore}B/G{{id gp get/gp
+gp 1 add N A 18 mod S 18 idiv pl S get exec}loop}B/adv{cp add/cp X}B
+/chg{rw cp id gp 4 index getinterval putinterval A gp add/gp X adv}B/nd{
+/cp 0 N rw exit}B/lsh{rw cp 2 copy get A 0 eq{pop 1}{A 255 eq{pop 254}{
+A A add 255 and S 1 and or}ifelse}ifelse put 1 adv}B/rsh{rw cp 2 copy
+get A 0 eq{pop 128}{A 255 eq{pop 127}{A 2 idiv S 128 and or}ifelse}
+ifelse put 1 adv}B/clr{rw cp 2 index string putinterval adv}B/set{rw cp
+fillstr 0 4 index getinterval putinterval adv}B/fillstr 18 string 0 1 17
+{2 copy 255 put pop}for N/pl[{adv 1 chg}{adv 1 chg nd}{1 add chg}{1 add
+chg nd}{adv lsh}{adv lsh nd}{adv rsh}{adv rsh nd}{1 add adv}{/rc X nd}{
+1 add set}{1 add clr}{adv 2 chg}{adv 2 chg nd}{pop nd}]A{bind pop}
+forall N/D{/cc X A type/stringtype ne{]}if nn/base get cc ctr put nn
+/BitMaps get S ctr S sf 1 ne{A A length 1 sub A 2 index S get sf div put
+}if put/ctr ctr 1 add N}B/I{cc 1 add D}B/bop{userdict/bop-hook known{
+bop-hook}if/SI save N @rigin 0 0 moveto/V matrix currentmatrix A 1 get A
+mul exch 0 get A mul add .99 lt{/QV}{/RV}ifelse load def pop pop}N/eop{
+SI restore userdict/eop-hook known{eop-hook}if showpage}N/@start{
+userdict/start-hook known{start-hook}if pop/VResolution X/Resolution X
+1000 div/DVImag X/IEn 256 array N 2 string 0 1 255{IEn S A 360 add 36 4
+index cvrs cvn put}for pop 65781.76 div/vsize X 65781.76 div/hsize X}N
+/p{show}N/RMat[1 0 0 -1 0 0]N/BDot 260 string N/Rx 0 N/Ry 0 N/V{}B/RV/v{
+/Ry X/Rx X V}B statusdict begin/product where{pop false[(Display)(NeXT)
+(LaserWriter 16/600)]{A length product length le{A length product exch 0
+exch getinterval eq{pop true exit}if}{pop}ifelse}forall}{false}ifelse
+end{{gsave TR -.1 .1 TR 1 1 scale Rx Ry false RMat{BDot}imagemask
+grestore}}{{gsave TR -.1 .1 TR Rx Ry scale 1 1 false RMat{BDot}
+imagemask grestore}}ifelse B/QV{gsave newpath transform round exch round
+exch itransform moveto Rx 0 rlineto 0 Ry neg rlineto Rx neg 0 rlineto
+fill grestore}B/a{moveto}B/delta 0 N/tail{A/delta X 0 rmoveto}B/M{S p
+delta add tail}B/b{S p tail}B/c{-4 M}B/d{-3 M}B/e{-2 M}B/f{-1 M}B/g{0 M}
+B/h{1 M}B/i{2 M}B/j{3 M}B/k{4 M}B/w{0 rmoveto}B/l{p -4 w}B/m{p -3 w}B/n{
+p -2 w}B/o{p -1 w}B/q{p 1 w}B/r{p 2 w}B/s{p 3 w}B/t{p 4 w}B/x{0 S
+rmoveto}B/y{3 2 roll p a}B/bos{/SS save N}B/eos{SS restore}B end
+
+%%EndProcSet
+%%BeginProcSet: 8r.enc
+% File  8r.enc as of 2002-03-12 for PSNFSS 9
+%
+% This is the encoding vector for Type1 and TrueType fonts to be used
+% with TeX.  This file is part of the PSNFSS bundle, version 9
+% 
+% Authors: S. Rahtz, P. MacKay, Alan Jeffrey, B. Horn, K. Berry, W. Schmidt
+%
+% Idea is to have all the characters normally included in Type 1 fonts
+% available for typesetting. This is effectively the characters in Adobe
+% Standard Encoding + ISO Latin 1 + extra characters from Lucida + Euro.
+% 
+% Character code assignments were made as follows:
+% 
+% (1) the Windows ANSI characters are almost all in their Windows ANSI
+% positions, because some Windows users cannot easily reencode the
+% fonts, and it makes no difference on other systems. The only Windows
+% ANSI characters not available are those that make no sense for
+% typesetting -- rubout (127 decimal), nobreakspace (160), softhyphen
+% (173). quotesingle and grave are moved just because it's such an
+% irritation not having them in TeX positions.
+% 
+% (2) Remaining characters are assigned arbitrarily to the lower part
+% of the range, avoiding 0, 10 and 13 in case we meet dumb software.
+% 
+% (3) Y&Y Lucida Bright includes some extra text characters; in the
+% hopes that other PostScript fonts, perhaps created for public
+% consumption, will include them, they are included starting at 0x12.
+% 
+% (4) Remaining positions left undefined are for use in (hopefully)
+% upward-compatible revisions, if someday more characters are generally
+% available.
+% 
+% (5) hyphen appears twice for compatibility with both ASCII and Windows.
+%
+% (6) /Euro is assigned to 128, as in Windows ANSI
+% 
+/TeXBase1Encoding [
+% 0x00 (encoded characters from Adobe Standard not in Windows 3.1)
+  /.notdef /dotaccent /fi /fl
+  /fraction /hungarumlaut /Lslash /lslash
+  /ogonek /ring /.notdef
+  /breve /minus /.notdef 
+% These are the only two remaining unencoded characters, so may as
+% well include them.
+  /Zcaron /zcaron 
+% 0x10
+ /caron /dotlessi 
+% (unusual TeX characters available in, e.g., Lucida Bright)
+ /dotlessj /ff /ffi /ffl 
+ /.notdef /.notdef /.notdef /.notdef
+ /.notdef /.notdef /.notdef /.notdef
+ % very contentious; it's so painful not having quoteleft and quoteright
+ % at 96 and 145 that we move the things normally found there down to here.
+ /grave /quotesingle 
+% 0x20 (ASCII begins)
+ /space /exclam /quotedbl /numbersign
+ /dollar /percent /ampersand /quoteright
+ /parenleft /parenright /asterisk /plus /comma /hyphen /period /slash
+% 0x30
+ /zero /one /two /three /four /five /six /seven
+ /eight /nine /colon /semicolon /less /equal /greater /question
+% 0x40
+ /at /A /B /C /D /E /F /G /H /I /J /K /L /M /N /O
+% 0x50
+ /P /Q /R /S /T /U /V /W
+ /X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore
+% 0x60
+ /quoteleft /a /b /c /d /e /f /g /h /i /j /k /l /m /n /o
+% 0x70
+ /p /q /r /s /t /u /v /w
+ /x /y /z /braceleft /bar /braceright /asciitilde
+ /.notdef % rubout; ASCII ends
+% 0x80
+ /Euro /.notdef /quotesinglbase /florin
+ /quotedblbase /ellipsis /dagger /daggerdbl
+ /circumflex /perthousand /Scaron /guilsinglleft
+ /OE /.notdef /.notdef /.notdef
+% 0x90
+ /.notdef /.notdef /.notdef /quotedblleft
+ /quotedblright /bullet /endash /emdash
+ /tilde /trademark /scaron /guilsinglright
+ /oe /.notdef /.notdef /Ydieresis
+% 0xA0
+ /.notdef % nobreakspace
+ /exclamdown /cent /sterling
+ /currency /yen /brokenbar /section
+ /dieresis /copyright /ordfeminine /guillemotleft
+ /logicalnot
+ /hyphen % Y&Y (also at 45); Windows' softhyphen
+ /registered
+ /macron
+% 0xD0
+ /degree /plusminus /twosuperior /threesuperior
+ /acute /mu /paragraph /periodcentered
+ /cedilla /onesuperior /ordmasculine /guillemotright
+ /onequarter /onehalf /threequarters /questiondown
+% 0xC0
+ /Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla
+ /Egrave /Eacute /Ecircumflex /Edieresis
+ /Igrave /Iacute /Icircumflex /Idieresis
+% 0xD0
+ /Eth /Ntilde /Ograve /Oacute
+ /Ocircumflex /Otilde /Odieresis /multiply
+ /Oslash /Ugrave /Uacute /Ucircumflex
+ /Udieresis /Yacute /Thorn /germandbls
+% 0xE0
+ /agrave /aacute /acircumflex /atilde
+ /adieresis /aring /ae /ccedilla
+ /egrave /eacute /ecircumflex /edieresis
+ /igrave /iacute /icircumflex /idieresis
+% 0xF0
+ /eth /ntilde /ograve /oacute
+ /ocircumflex /otilde /odieresis /divide
+ /oslash /ugrave /uacute /ucircumflex
+ /udieresis /yacute /thorn /ydieresis
+] def
+
+%%EndProcSet
+%%BeginProcSet: texps.pro
+%!
+TeXDict begin/rf{findfont dup length 1 add dict begin{1 index/FID ne 2
+index/UniqueID ne and{def}{pop pop}ifelse}forall[1 index 0 6 -1 roll
+exec 0 exch 5 -1 roll VResolution Resolution div mul neg 0 0]FontType 0
+ne{/Metrics exch def dict begin Encoding{exch dup type/integertype ne{
+pop pop 1 sub dup 0 le{pop}{[}ifelse}{FontMatrix 0 get div Metrics 0 get
+div def}ifelse}forall Metrics/Metrics currentdict end def}{{1 index type
+/nametype eq{exit}if exch pop}loop}ifelse[2 index currentdict end
+definefont 3 -1 roll makefont/setfont cvx]cvx def}def/ObliqueSlant{dup
+sin S cos div neg}B/SlantFont{4 index mul add}def/ExtendFont{3 -1 roll
+mul exch}def/ReEncodeFont{CharStrings rcheck{/Encoding false def dup[
+exch{dup CharStrings exch known not{pop/.notdef/Encoding true def}if}
+forall Encoding{]exch pop}{cleartomark}ifelse}if/Encoding exch def}def
+end
+
+%%EndProcSet
+%%BeginProcSet: special.pro
+%!
+TeXDict begin/SDict 200 dict N SDict begin/@SpecialDefaults{/hs 612 N
+/vs 792 N/ho 0 N/vo 0 N/hsc 1 N/vsc 1 N/ang 0 N/CLIP 0 N/rwiSeen false N
+/rhiSeen false N/letter{}N/note{}N/a4{}N/legal{}N}B/@scaleunit 100 N
+/@hscale{@scaleunit div/hsc X}B/@vscale{@scaleunit div/vsc X}B/@hsize{
+/hs X/CLIP 1 N}B/@vsize{/vs X/CLIP 1 N}B/@clip{/CLIP 2 N}B/@hoffset{/ho
+X}B/@voffset{/vo X}B/@angle{/ang X}B/@rwi{10 div/rwi X/rwiSeen true N}B
+/@rhi{10 div/rhi X/rhiSeen true N}B/@llx{/llx X}B/@lly{/lly X}B/@urx{
+/urx X}B/@ury{/ury X}B/magscale true def end/@MacSetUp{userdict/md known
+{userdict/md get type/dicttype eq{userdict begin md length 10 add md
+maxlength ge{/md md dup length 20 add dict copy def}if end md begin
+/letter{}N/note{}N/legal{}N/od{txpose 1 0 mtx defaultmatrix dtransform S
+atan/pa X newpath clippath mark{transform{itransform moveto}}{transform{
+itransform lineto}}{6 -2 roll transform 6 -2 roll transform 6 -2 roll
+transform{itransform 6 2 roll itransform 6 2 roll itransform 6 2 roll
+curveto}}{{closepath}}pathforall newpath counttomark array astore/gc xdf
+pop ct 39 0 put 10 fz 0 fs 2 F/|______Courier fnt invertflag{PaintBlack}
+if}N/txpose{pxs pys scale ppr aload pop por{noflips{pop S neg S TR pop 1
+-1 scale}if xflip yflip and{pop S neg S TR 180 rotate 1 -1 scale ppr 3
+get ppr 1 get neg sub neg ppr 2 get ppr 0 get neg sub neg TR}if xflip
+yflip not and{pop S neg S TR pop 180 rotate ppr 3 get ppr 1 get neg sub
+neg 0 TR}if yflip xflip not and{ppr 1 get neg ppr 0 get neg TR}if}{
+noflips{TR pop pop 270 rotate 1 -1 scale}if xflip yflip and{TR pop pop
+90 rotate 1 -1 scale ppr 3 get ppr 1 get neg sub neg ppr 2 get ppr 0 get
+neg sub neg TR}if xflip yflip not and{TR pop pop 90 rotate ppr 3 get ppr
+1 get neg sub neg 0 TR}if yflip xflip not and{TR pop pop 270 rotate ppr
+2 get ppr 0 get neg sub neg 0 S TR}if}ifelse scaleby96{ppr aload pop 4
+-1 roll add 2 div 3 1 roll add 2 div 2 copy TR .96 dup scale neg S neg S
+TR}if}N/cp{pop pop showpage pm restore}N end}if}if}N/normalscale{
+Resolution 72 div VResolution 72 div neg scale magscale{DVImag dup scale
+}if 0 setgray}N/psfts{S 65781.76 div N}N/startTexFig{/psf$SavedState
+save N userdict maxlength dict begin/magscale true def normalscale
+currentpoint TR/psf$ury psfts/psf$urx psfts/psf$lly psfts/psf$llx psfts
+/psf$y psfts/psf$x psfts currentpoint/psf$cy X/psf$cx X/psf$sx psf$x
+psf$urx psf$llx sub div N/psf$sy psf$y psf$ury psf$lly sub div N psf$sx
+psf$sy scale psf$cx psf$sx div psf$llx sub psf$cy psf$sy div psf$ury sub
+TR/showpage{}N/erasepage{}N/setpagedevice{pop}N/copypage{}N/p 3 def
+@MacSetUp}N/doclip{psf$llx psf$lly psf$urx psf$ury currentpoint 6 2 roll
+newpath 4 copy 4 2 roll moveto 6 -1 roll S lineto S lineto S lineto
+closepath clip newpath moveto}N/endTexFig{end psf$SavedState restore}N
+/@beginspecial{SDict begin/SpecialSave save N gsave normalscale
+currentpoint TR @SpecialDefaults count/ocount X/dcount countdictstack N}
+N/@setspecial{CLIP 1 eq{newpath 0 0 moveto hs 0 rlineto 0 vs rlineto hs
+neg 0 rlineto closepath clip}if ho vo TR hsc vsc scale ang rotate
+rwiSeen{rwi urx llx sub div rhiSeen{rhi ury lly sub div}{dup}ifelse
+scale llx neg lly neg TR}{rhiSeen{rhi ury lly sub div dup scale llx neg
+lly neg TR}if}ifelse CLIP 2 eq{newpath llx lly moveto urx lly lineto urx
+ury lineto llx ury lineto closepath clip}if/showpage{}N/erasepage{}N
+/setpagedevice{pop}N/copypage{}N newpath}N/@endspecial{count ocount sub{
+pop}repeat countdictstack dcount sub{end}repeat grestore SpecialSave
+restore end}N/@defspecial{SDict begin}N/@fedspecial{end}B/li{lineto}B
+/rl{rlineto}B/rc{rcurveto}B/np{/SaveX currentpoint/SaveY X N 1
+setlinecap newpath}N/st{stroke SaveX SaveY moveto}N/fil{fill SaveX SaveY
+moveto}N/ellipse{/endangle X/startangle X/yrad X/xrad X/savematrix
+matrix currentmatrix N TR xrad yrad scale 0 0 1 startangle endangle arc
+savematrix setmatrix}N end
+
+%%EndProcSet
+%%BeginProcSet: color.pro
+%!
+TeXDict begin/setcmykcolor where{pop}{/setcmykcolor{dup 10 eq{pop
+setrgbcolor}{1 sub 4 1 roll 3{3 index add neg dup 0 lt{pop 0}if 3 1 roll
+}repeat setrgbcolor pop}ifelse}B}ifelse/TeXcolorcmyk{setcmykcolor}def
+/TeXcolorrgb{setrgbcolor}def/TeXcolorgrey{setgray}def/TeXcolorgray{
+setgray}def/TeXcolorhsb{sethsbcolor}def/currentcmykcolor where{pop}{
+/currentcmykcolor{currentrgbcolor 10}B}ifelse/DC{exch dup userdict exch
+known{pop pop}{X}ifelse}B/GreenYellow{0.15 0 0.69 0 setcmykcolor}DC
+/Yellow{0 0 1 0 setcmykcolor}DC/Goldenrod{0 0.10 0.84 0 setcmykcolor}DC
+/Dandelion{0 0.29 0.84 0 setcmykcolor}DC/Apricot{0 0.32 0.52 0
+setcmykcolor}DC/Peach{0 0.50 0.70 0 setcmykcolor}DC/Melon{0 0.46 0.50 0
+setcmykcolor}DC/YellowOrange{0 0.42 1 0 setcmykcolor}DC/Orange{0 0.61
+0.87 0 setcmykcolor}DC/BurntOrange{0 0.51 1 0 setcmykcolor}DC
+/Bittersweet{0 0.75 1 0.24 setcmykcolor}DC/RedOrange{0 0.77 0.87 0
+setcmykcolor}DC/Mahogany{0 0.85 0.87 0.35 setcmykcolor}DC/Maroon{0 0.87
+0.68 0.32 setcmykcolor}DC/BrickRed{0 0.89 0.94 0.28 setcmykcolor}DC/Red{
+0 1 1 0 setcmykcolor}DC/OrangeRed{0 1 0.50 0 setcmykcolor}DC/RubineRed{
+0 1 0.13 0 setcmykcolor}DC/WildStrawberry{0 0.96 0.39 0 setcmykcolor}DC
+/Salmon{0 0.53 0.38 0 setcmykcolor}DC/CarnationPink{0 0.63 0 0
+setcmykcolor}DC/Magenta{0 1 0 0 setcmykcolor}DC/VioletRed{0 0.81 0 0
+setcmykcolor}DC/Rhodamine{0 0.82 0 0 setcmykcolor}DC/Mulberry{0.34 0.90
+0 0.02 setcmykcolor}DC/RedViolet{0.07 0.90 0 0.34 setcmykcolor}DC
+/Fuchsia{0.47 0.91 0 0.08 setcmykcolor}DC/Lavender{0 0.48 0 0
+setcmykcolor}DC/Thistle{0.12 0.59 0 0 setcmykcolor}DC/Orchid{0.32 0.64 0
+0 setcmykcolor}DC/DarkOrchid{0.40 0.80 0.20 0 setcmykcolor}DC/Purple{
+0.45 0.86 0 0 setcmykcolor}DC/Plum{0.50 1 0 0 setcmykcolor}DC/Violet{
+0.79 0.88 0 0 setcmykcolor}DC/RoyalPurple{0.75 0.90 0 0 setcmykcolor}DC
+/BlueViolet{0.86 0.91 0 0.04 setcmykcolor}DC/Periwinkle{0.57 0.55 0 0
+setcmykcolor}DC/CadetBlue{0.62 0.57 0.23 0 setcmykcolor}DC
+/CornflowerBlue{0.65 0.13 0 0 setcmykcolor}DC/MidnightBlue{0.98 0.13 0
+0.43 setcmykcolor}DC/NavyBlue{0.94 0.54 0 0 setcmykcolor}DC/RoyalBlue{1
+0.50 0 0 setcmykcolor}DC/Blue{1 1 0 0 setcmykcolor}DC/Cerulean{0.94 0.11
+0 0 setcmykcolor}DC/Cyan{1 0 0 0 setcmykcolor}DC/ProcessBlue{0.96 0 0 0
+setcmykcolor}DC/SkyBlue{0.62 0 0.12 0 setcmykcolor}DC/Turquoise{0.85 0
+0.20 0 setcmykcolor}DC/TealBlue{0.86 0 0.34 0.02 setcmykcolor}DC
+/Aquamarine{0.82 0 0.30 0 setcmykcolor}DC/BlueGreen{0.85 0 0.33 0
+setcmykcolor}DC/Emerald{1 0 0.50 0 setcmykcolor}DC/JungleGreen{0.99 0
+0.52 0 setcmykcolor}DC/SeaGreen{0.69 0 0.50 0 setcmykcolor}DC/Green{1 0
+1 0 setcmykcolor}DC/ForestGreen{0.91 0 0.88 0.12 setcmykcolor}DC
+/PineGreen{0.92 0 0.59 0.25 setcmykcolor}DC/LimeGreen{0.50 0 1 0
+setcmykcolor}DC/YellowGreen{0.44 0 0.74 0 setcmykcolor}DC/SpringGreen{
+0.26 0 0.76 0 setcmykcolor}DC/OliveGreen{0.64 0 0.95 0.40 setcmykcolor}
+DC/RawSienna{0 0.72 1 0.45 setcmykcolor}DC/Sepia{0 0.83 1 0.70
+setcmykcolor}DC/Brown{0 0.81 1 0.60 setcmykcolor}DC/Tan{0.14 0.42 0.56 0
+setcmykcolor}DC/Gray{0 0 0 0.50 setcmykcolor}DC/Black{0 0 0 1
+setcmykcolor}DC/White{0 0 0 0 setcmykcolor}DC end
+
+%%EndProcSet
+TeXDict begin @defspecial
+
+ /DvipsToPDF { 72.27 mul Resolution div } def /PDFToDvips { 72.27 div
+Resolution mul } def /HyperBorder { 1 PDFToDvips } def /H.V {pdf@hoff
+pdf@voff null} def /H.B {/Rect[pdf@llx pdf@lly pdf@urx pdf@ury]} def
+/H.S { currentpoint HyperBorder add /pdf@lly exch def dup DvipsToPDF
+/pdf@hoff exch def HyperBorder sub /pdf@llx exch def } def /H.L { 2
+sub dup /HyperBasePt exch def PDFToDvips /HyperBaseDvips exch def currentpoint
+HyperBaseDvips sub /pdf@ury exch def /pdf@urx exch def } def /H.A {
+H.L currentpoint exch pop vsize 72 sub exch DvipsToPDF HyperBasePt
+sub sub /pdf@voff exch def } def /H.R { currentpoint HyperBorder sub
+/pdf@ury exch def HyperBorder add /pdf@urx exch def currentpoint exch
+pop vsize 72 sub exch DvipsToPDF sub /pdf@voff exch def } def systemdict
+/pdfmark known not {userdict /pdfmark systemdict /cleartomark get put}
+if
+ 
+@fedspecial end TeXDict begin
+39158280 55380996 1000 600 600 (book.dvi) @start /Fa
+134[45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 1[45
+45 45 45 45 45 45 45 45 1[45 7[45 45 1[45 45 45 1[45
+45 45 45 45 2[45 45 1[45 45 45 45 45 45 45 1[45 45 45
+45 45 1[45 45 45 45 1[45 45 45 45 45 45 45 2[45 2[45
+1[45 1[45 45 34[{ TeXBase1Encoding ReEncodeFont }65 74.7198
+/Courier rf /Fb 106[40 149[{ TeXBase1Encoding ReEncodeFont }1
+66.4176 /Palatino-Roman rf /Fc 136[60 42 46 28 32 32
+1[42 37 46 65 23 37 1[23 42 42 1[32 42 34 1[37 9[78 2[51
+3[51 2[78 3[28 65 60 46 2[55 51 8[42 42 42 42 42 42 42
+42 42 42 1[21 46[{ TeXBase1Encoding ReEncodeFont }40
+83.022 /Palatino-Italic rf /Fd 192[42 63[{
+ TeXBase1Encoding ReEncodeFont }1 83.022 /Times-Bold
+rf /Fe 135[42 69 1[51 28 37 32 1[51 46 51 74 28 51 1[28
+51 46 1[42 51 37 51 42 9[83 2[55 3[51 2[83 3[32 69 69
+46 2[60 55 65 10[42 42 42 42 42 42 2[21 28 45[{
+ TeXBase1Encoding ReEncodeFont }39 83.022 /Palatino-Bold
+rf /Ff 136[95 1[74 40 68 47 1[74 74 74 108 34 68 1[34
+74 74 40 68 74 68 74 68 9[115 2[74 3[81 2[101 3[34 88
+95 74 2[88 88 11[68 68 68 68 68 68 2[34 46[{
+ TeXBase1Encoding ReEncodeFont }37 121.553 /Helvetica-Bold
+rf /Fg 86[62 46[42 46 43 69 47 50 27 35 33 46 50 45 48
+73 24 46 19 24 48 46 28 40 51 37 46 42 1[42 5[55 55 83
+60 65 51 44 55 65 50 65 69 79 51 60 28 28 69 63 46 51
+64 59 51 65 1[37 50 50 50 1[21 42 42 1[42 42 42 42 42
+42 42 50 21 28 21 50 32 28 28 23 65 70 2[31 23 29[50
+50 2[{ TeXBase1Encoding ReEncodeFont }82 83.022 /Palatino-Roman
+rf /Fh 136[65 1[51 1[46 32 2[51 51 74 23 46 4[28 46 1[46
+1[46 11[60 4[55 2[69 4[60 1[51 1[60 14[46 53[{
+ TeXBase1Encoding ReEncodeFont }20 83.022 /Helvetica-Bold
+rf /Fi 138[56 2[36 1[56 56 6[56 2[51 16[56 11[66 71 56
+1[66 68[{ TeXBase1Encoding ReEncodeFont }11 91.3242 /Helvetica-Bold
+rf /Fj 133[55 61 1[86 61 68 37 61 43 1[68 68 68 98 31
+61 31 31 68 68 37 61 68 61 68 61 9[104 74 1[68 74 80
+1[74 86 80 92 68 80 61 31 80 1[68 1[80 80 80 80 1[68
+8[61 61 61 61 61 61 2[31 37 31 2[37 37 37[68 2[{
+ TeXBase1Encoding ReEncodeFont }56 110.502 /Helvetica-Bold
+rf /Fk 136[104 1[82 1[74 52 2[82 82 119 37 74 4[45 74
+1[74 1[74 11[97 4[89 2[111 4[97 1[82 1[97 14[74 53[{
+ TeXBase1Encoding ReEncodeFont }20 133.707 /Helvetica-Bold
+rf end
+%%EndProlog
+%%BeginSetup
+%%Feature: *Resolution 600dpi
+TeXDict begin
+%%PaperSize: A4
+ end
+%%EndSetup
+%%Page: 1 1
+TeXDict begin 1 0 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a -600 -600
+a
+SDict begin [ /Title () /Subject () /Creator (LaTeX with hyperref package)
+/Author () /Producer (dvips + Distiller) /Keywords () /DOCINFO pdfmark
+end
+ -600 -600 a Black 0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102
+a 0 TeXcolorgray 0 TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a
+197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.1) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black 197 6 a
+SDict begin [ /Page 1 /View [ /Fit ] /PageMode /UseOutlines  /DOCVIEW
+pdfmark end
+ 197 6 a 197
+6 a
+SDict begin [ {Catalog} << /ViewerPreferences << >> >> /PUT pdfmark
+end
+ 197 6 a 197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 12 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (Doc-Start) cvn H.B /DEST pdfmark
+end
+ 197
+6 a 197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 12 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (0) cvn H.B /DEST pdfmark end
+ 197 6 a 554
+104 a Fk(HDF5)36 b(P)l(erf)m(ormance)i(Frame)n(w)m(ork)g(User)f(Man)o
+(ual)3327 104 y
+SDict begin H.S end
+ 3327 104 a 3327 104 a
+SDict begin 17.716 H.A end
+ 3327 104 a 3327
+104 a
+SDict begin [ /View [/XYZ H.V] /Dest (1.0) cvn H.B /DEST pdfmark end
+ 3327 104 a 1539 851 a Fj(Hy)m(o-K)l(yung)29 b(Lee)p
+1  0  0 TeXcolorrgb 363 943 a Fi(The)c(HDF)g(Gr)n(oup)p
+Black Black Black eop end
+%%Page: 2 2
+TeXDict begin 2 1 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.2) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+191 x Fh(HDF5)23 b(P)n(erf)n(ormance)g(Frame)o(w)n(ork)g(User)h(Man)o
+(ual)197 180 y Fg(by)d(Hyo-Kyung)h(Lee)197 363 y(Copyright)g(\251)197
+546 y(HDF5)f(Performance)f(Framework)h(User)f(Manual)g(Draft)g(Edition)
+197 637 y(Published)h(2008)197 728 y(2008)40 b(The)20
+b(HDF)i(Gr)o(oup)p Black Black eop end
+%%Page: 3 3
+TeXDict begin 3 2 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.3) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+197 x Ff(T)-10 b(ab)o(le)33 b(of)i(Contents)1212 95 y
+SDict begin H.S end
+
+1212 95 a 1212 95 a
+SDict begin 16.105 H.A end
+ 1212 95 a 1212 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (2.0) cvn H.B /DEST pdfmark end
+ 1212 95 a 0 TeXcolorgray
+596 247 a
+SDict begin H.S end
+ 596 247 a Fe(1.)20 b(Introduction)f(to)h(HPF)1439
+247 y
+SDict begin 11 H.L end
+ 1439 247 a 1439 247 a
+SDict begin [ /Subtype /Link /Dest (13) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1439 247 a Black Black 3
+w Fe(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 247 a
+SDict begin H.S end
+ 3601 247 a
+Fd(??)3684 247 y
+SDict begin 11 H.L end
+ 3684 247 a 3684 247 a
+SDict begin [ /Subtype /Link /Dest (13) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 247 a Black
+0 TeXcolorgray 795 358 a
+SDict begin H.S end
+ 795 358 a Fg(1.1)f(What)i(is)g(HDF5)g
+(Performance)f(Framework\(HPF\)?)2636 358 y
+SDict begin 11 H.L end
+ 2636 358
+a 2636 358 a
+SDict begin [ /Subtype /Link /Dest (16) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2636 358 a Black Black 10 w Fg(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black 0 TeXcolorgray 3601 358 a
+SDict begin H.S end
+ 3601
+358 a Fd(??)3684 358 y
+SDict begin 11 H.L end
+ 3684 358 a 3684 358 a
+SDict begin [ /Subtype /Link /Dest (16) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 358
+a Black 0 TeXcolorgray 795 449 a
+SDict begin H.S end
+ 795 449 a Fg(1.2)f(On)j(what)f
+(systems)g(does)g(HPF)g(r)o(un?)2118 449 y
+SDict begin 11 H.L end
+ 2118 449 a
+2118 449 a
+SDict begin [ /Subtype /Link /Dest (19) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2118 449 a Black Black 9 w Fg(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 449 a
+SDict begin H.S end
+ 3601 449 a
+Fd(??)3684 449 y
+SDict begin 11 H.L end
+ 3684 449 a 3684 449 a
+SDict begin [ /Subtype /Link /Dest (19) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 449 a Black
+0 TeXcolorgray 795 541 a
+SDict begin H.S end
+ 795 541 a Fg(1.3)e(Why)j(might)f(I)g(want)g
+(to)g(use)g(HPF?)2054 541 y
+SDict begin 11 H.L end
+ 2054 541 a 2054 541 a
+SDict begin [ /Subtype /Link /Dest (30) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2054
+541 a Black Black 11 w Fg(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+0 TeXcolorgray 3601 541 a
+SDict begin H.S end
+ 3601 541 a Fd(??)3684 541 y
+SDict begin 11 H.L end
+
+3684 541 a 3684 541 a
+SDict begin [ /Subtype /Link /Dest (30) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 541 a Black 0 TeXcolorgray
+795 632 a
+SDict begin H.S end
+ 795 632 a Fg(1.4)e(What)i(is)g(included)g(with)g(HPF?)1957
+632 y
+SDict begin 11 H.L end
+ 1957 632 a 1957 632 a
+SDict begin [ /Subtype /Link /Dest (33) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1957 632 a Black Black 4
+w Fg(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 632 a
+SDict begin H.S end
+ 3601 632 a
+Fd(??)3684 632 y
+SDict begin 11 H.L end
+ 3684 632 a 3684 632 a
+SDict begin [ /Subtype /Link /Dest (33) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 632 a Black
+0 TeXcolorgray 596 743 a
+SDict begin H.S end
+ 596 743 a Fe(2.)f(Getting)f(to)h(know)h(HPF)
+1488 743 y
+SDict begin 11 H.L end
+ 1488 743 a 1488 743 a
+SDict begin [ /Subtype /Link /Dest (52) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1488 743 a Black Black
+17 w Fe(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black 0 TeXcolorgray 3601 743 a
+SDict begin H.S end
+ 3601
+743 a Fd(??)3684 743 y
+SDict begin 11 H.L end
+ 3684 743 a 3684 743 a
+SDict begin [ /Subtype /Link /Dest (52) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 743
+a Black 0 TeXcolorgray 795 855 a
+SDict begin H.S end
+ 795 855 a Fg(2.1)e(W)-8
+b(eb)21 b(Pages)1314 855 y
+SDict begin 11 H.L end
+ 1314 855 a 1314 855 a
+SDict begin [ /Subtype /Link /Dest (54) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1314
+855 a Black Black 4 w Fg(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601 855
+a
+SDict begin H.S end
+ 3601 855 a Fd(??)3684 855 y
+SDict begin 11 H.L end
+ 3684 855 a 3684 855 a
+SDict begin [ /Subtype /Link /Dest (54) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684
+855 a Black 0 TeXcolorgray 795 946 a
+SDict begin H.S end
+ 795 946 a Fg(2.2)e(Reporting)j
+(Bugs)1491 946 y
+SDict begin 11 H.L end
+ 1491 946 a 1491 946 a
+SDict begin [ /Subtype /Link /Dest (58) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1491 946 a Black
+Black 14 w Fg(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601 946
+a
+SDict begin H.S end
+ 3601 946 a Fd(??)3684 946 y
+SDict begin 11 H.L end
+ 3684 946 a 3684 946 a
+SDict begin [ /Subtype /Link /Dest (58) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684
+946 a Black 0 TeXcolorgray 596 1057 a
+SDict begin H.S end
+ 596 1057 a Fe(3.)e(HPF)g
+(Installation)e(Guide)1565 1057 y
+SDict begin 11 H.L end
+ 1565 1057 a 1565 1057
+a
+SDict begin [ /Subtype /Link /Dest (65) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1565 1057 a Black Black 2 w Fe(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+0 TeXcolorgray 3601 1057 a
+SDict begin H.S end
+ 3601 1057 a Fd(??)3684 1057
+y
+SDict begin 11 H.L end
+ 3684 1057 a 3684 1057 a
+SDict begin [ /Subtype /Link /Dest (65) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 1057 a Black 0 TeXcolorgray
+795 1168 a
+SDict begin H.S end
+ 795 1168 a Fg(3.1)h(Pr)o(e-installation)i(checklist)1818
+1168 y
+SDict begin 11 H.L end
+ 1818 1168 a 1818 1168 a
+SDict begin [ /Subtype /Link /Dest (67) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 1818 1168 a Black Black
+19 w Fg(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 1168 a
+SDict begin H.S end
+ 3601 1168
+a Fd(??)3684 1168 y
+SDict begin 11 H.L end
+ 3684 1168 a 3684 1168 a
+SDict begin [ /Subtype /Link /Dest (67) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 1168
+a Black 0 TeXcolorgray 795 1260 a
+SDict begin H.S end
+ 795 1260 a Fg(3.2)e(Cr)o(eating)h
+(Database)g(and)g(T)-8 b(ables)2006 1260 y
+SDict begin 11 H.L end
+ 2006 1260
+a 2006 1260 a
+SDict begin [ /Subtype /Link /Dest (80) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2006 1260 a Black Black 17 w Fg(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+0 TeXcolorgray 3601 1260 a
+SDict begin H.S end
+ 3601 1260 a Fd(??)3684 1260
+y
+SDict begin 11 H.L end
+ 3684 1260 a 3684 1260 a
+SDict begin [ /Subtype /Link /Dest (80) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 1260 a Black 0 TeXcolorgray
+795 1351 a
+SDict begin H.S end
+ 795 1351 a Fg(3.3)19 b(Modi\002cation)i(of)g(Sour)o(ce)f
+(Codes)2004 1351 y
+SDict begin 11 H.L end
+ 2004 1351 a 2004 1351 a
+SDict begin [ /Subtype /Link /Dest (85) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2004 1351
+a Black Black 19 w Fg(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601 1351
+a
+SDict begin H.S end
+ 3601 1351 a Fd(??)3684 1351 y
+SDict begin 11 H.L end
+ 3684 1351 a 3684 1351
+a
+SDict begin [ /Subtype /Link /Dest (85) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 1351 a Black 0 TeXcolorgray 795 1442 a
+SDict begin H.S end
+ 795 1442
+a Fg(3.4)f(Customization)j(of)f(Shell)f(Scripts)2026
+1442 y
+SDict begin 11 H.L end
+ 2026 1442 a 2026 1442 a
+SDict begin [ /Subtype /Link /Dest (98) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 2026 1442 a Black Black
+18 w Fg(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+0 TeXcolorgray 3601 1442 a
+SDict begin H.S end
+ 3601 1442 a Fd(??)3684 1442
+y
+SDict begin 11 H.L end
+ 3684 1442 a 3684 1442 a
+SDict begin [ /Subtype /Link /Dest (98) cvn /H /I /Border [0 0 0] /Color
+[1 0 0] H.B /ANN pdfmark end
+ 3684 1442 a Black 0 TeXcolorgray
+795 1534 a
+SDict begin H.S end
+ 795 1534 a Fg(3.5)f(Cr)o(on)i(Job)g(Installation)1678
+1534 y
+SDict begin 11 H.L end
+ 1678 1534 a 1678 1534 a
+SDict begin [ /Subtype /Link /Dest (113) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1678 1534 a Black Black
+13 w Fg(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black 0 TeXcolorgray 3601 1534 a
+SDict begin H.S end
+ 3601
+1534 a Fd(??)3684 1534 y
+SDict begin 11 H.L end
+ 3684 1534 a 3684 1534 a
+SDict begin [ /Subtype /Link /Dest (113) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684
+1534 a Black 0 TeXcolorgray 795 1625 a
+SDict begin H.S end
+ 795 1625 a Fg(3.6)e(W)-8
+b(eb)21 b(Page)f(Installation)1713 1625 y
+SDict begin 11 H.L end
+ 1713 1625 a
+1713 1625 a
+SDict begin [ /Subtype /Link /Dest (126) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1713 1625 a Black Black 20 w Fg(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601 1625
+a
+SDict begin H.S end
+ 3601 1625 a Fd(??)3684 1625 y
+SDict begin 11 H.L end
+ 3684 1625 a 3684 1625
+a
+SDict begin [ /Subtype /Link /Dest (126) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 1625 a Black 0 TeXcolorgray 596 1736 a
+SDict begin H.S end
+ 596 1736
+a Fe(4.)g(W)-6 b(riting)19 b(Custom)h(Benchmark)f(Program)2081
+1736 y
+SDict begin 11 H.L end
+ 2081 1736 a 2081 1736 a
+SDict begin [ /Subtype /Link /Dest (129) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 2081 1736 a Black Black
+5 w Fe(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black 0 TeXcolorgray 3601 1736 a
+SDict begin H.S end
+ 3601
+1736 a Fd(??)3684 1736 y
+SDict begin 11 H.L end
+ 3684 1736 a 3684 1736 a
+SDict begin [ /Subtype /Link /Dest (129) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684
+1736 a Black 0 TeXcolorgray 795 1848 a
+SDict begin H.S end
+ 795 1848 a Fg(4.1)g(Overview)
+1284 1848 y
+SDict begin 11 H.L end
+ 1284 1848 a 1284 1848 a
+SDict begin [ /Subtype /Link /Dest (132) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1284 1848 a Black
+Black 13 w Fg(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601
+1848 a
+SDict begin H.S end
+ 3601 1848 a Fd(??)3684 1848 y
+SDict begin 11 H.L end
+ 3684 1848 a 3684
+1848 a
+SDict begin [ /Subtype /Link /Dest (132) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 1848 a Black 0 TeXcolorgray 795 1939 a
+SDict begin H.S end
+ 795
+1939 a Fg(4.2)g(Cr)o(eating)h(Custom)i(Routine,)f(Action)h(and)e
+(Instance)h(Name)2878 1939 y
+SDict begin 11 H.L end
+ 2878 1939 a 2878 1939 a
+SDict begin [ /Subtype /Link /Dest (148) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+
+2878 1939 a Black Black 17 w Fg(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 1939 a
+SDict begin H.S end
+ 3601 1939
+a Fd(??)3684 1939 y
+SDict begin 11 H.L end
+ 3684 1939 a 3684 1939 a
+SDict begin [ /Subtype /Link /Dest (148) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 1939
+a Black 0 TeXcolorgray 795 2030 a
+SDict begin H.S end
+ 795 2030 a Fg(4.3)e(Injecting)j
+(Custom)g(Benchmark)e(Pr)o(ogram)2328 2030 y
+SDict begin 11 H.L end
+ 2328 2030
+a 2328 2030 a
+SDict begin [ /Subtype /Link /Dest (157) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 2328 2030 a Black Black 7 w Fg(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 2030 a
+SDict begin H.S end
+ 3601 2030
+a Fd(??)3684 2030 y
+SDict begin 11 H.L end
+ 3684 2030 a 3684 2030 a
+SDict begin [ /Subtype /Link /Dest (157) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2030
+a Black 0 TeXcolorgray 596 2141 a
+SDict begin H.S end
+ 596 2141 a Fe(5.)g(T)-9
+b(esting)19 b(HPF)1142 2141 y
+SDict begin 11 H.L end
+ 1142 2141 a 1142 2141 a
+SDict begin [ /Subtype /Link /Dest (160) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+
+1142 2141 a Black Black 10 w Fe(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 2141 a
+SDict begin H.S end
+ 3601 2141
+a Fd(??)3684 2141 y
+SDict begin 11 H.L end
+ 3684 2141 a 3684 2141 a
+SDict begin [ /Subtype /Link /Dest (160) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2141
+a Black 0 TeXcolorgray 795 2253 a
+SDict begin H.S end
+ 795 2253 a Fg(5.1)g(T)-8
+b(esting)22 b(Back-end)1547 2253 y
+SDict begin 11 H.L end
+ 1547 2253 a 1547 2253
+a
+SDict begin [ /Subtype /Link /Dest (162) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1547 2253 a Black Black -1 w Fg(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 2253 a
+SDict begin H.S end
+ 3601 2253
+a Fd(??)3684 2253 y
+SDict begin 11 H.L end
+ 3684 2253 a 3684 2253 a
+SDict begin [ /Subtype /Link /Dest (162) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2253
+a Black 0 TeXcolorgray 795 2344 a
+SDict begin H.S end
+ 795 2344 a Fg(5.2)d(T)-8
+b(esting)22 b(Fr)o(ont-end)1569 2344 y
+SDict begin 11 H.L end
+ 1569 2344 a 1569
+2344 a
+SDict begin [ /Subtype /Link /Dest (172) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1569 2344 a Black Black 19 w Fg(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black 0 TeXcolorgray 3601
+2344 a
+SDict begin H.S end
+ 3601 2344 a Fd(??)3684 2344 y
+SDict begin 11 H.L end
+ 3684 2344 a 3684
+2344 a
+SDict begin [ /Subtype /Link /Dest (172) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2344 a Black 0 TeXcolorgray 596 2455 a
+SDict begin H.S end
+ 596
+2455 a Fe(6.)e(HPF)g(Maintenance)1362 2455 y
+SDict begin 11 H.L end
+ 1362 2455
+a 1362 2455 a
+SDict begin [ /Subtype /Link /Dest (175) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1362 2455 a Black Black -3 w Fe(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black 0 TeXcolorgray 3601 2455 a
+SDict begin H.S end
+ 3601 2455
+a Fd(??)3684 2455 y
+SDict begin 11 H.L end
+ 3684 2455 a 3684 2455 a
+SDict begin [ /Subtype /Link /Dest (175) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2455
+a Black 0 TeXcolorgray 795 2566 a
+SDict begin H.S end
+ 795 2566 a Fg(6.1)f(Recor)o(ding)i
+(Missing)h(Data)1806 2566 y
+SDict begin 11 H.L end
+ 1806 2566 a 1806 2566 a
+SDict begin [ /Subtype /Link /Dest (178) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1806
+2566 a Black Black 10 w Fg(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+0 TeXcolorgray 3601 2566 a
+SDict begin H.S end
+ 3601 2566 a Fd(??)3684 2566
+y
+SDict begin 11 H.L end
+ 3684 2566 a 3684 2566 a
+SDict begin [ /Subtype /Link /Dest (178) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684 2566 a Black 0 TeXcolorgray
+795 2658 a
+SDict begin H.S end
+ 795 2658 a Fg(6.2)d(V)-9 b(ersion)21 b(Change)1499
+2658 y
+SDict begin 11 H.L end
+ 1499 2658 a 1499 2658 a
+SDict begin [ /Subtype /Link /Dest (186) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 1499 2658 a Black Black
+6 w Fg(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black(.)p Black
+Black -1 w(.)p Black Black(.)p Black Black(.)p Black
+Black(.)p Black Black -1 w(.)p Black Black(.)p Black
+Black(.)p Black Black(.)p Black Black -1 w(.)p Black
+Black(.)p Black Black(.)p Black Black(.)p Black Black
+-1 w(.)p Black Black(.)p Black Black(.)p Black Black(.)p
+Black Black -1 w(.)p Black Black(.)p Black Black(.)p
+Black Black(.)p Black Black -1 w(.)p Black Black(.)p
+Black Black(.)p Black Black(.)p Black Black -1 w(.)p
+Black Black(.)p Black 0 TeXcolorgray 3601 2658 a
+SDict begin H.S end
+ 3601
+2658 a Fd(??)3684 2658 y
+SDict begin 11 H.L end
+ 3684 2658 a 3684 2658 a
+SDict begin [ /Subtype /Link /Dest (186) cvn /H /I /Border [0 0 0]
+/Color [1 0 0] H.B /ANN pdfmark end
+ 3684
+2658 a Black Black 3615 5585 a Fc(iii)p Black eop end
+%%Page: 4 4
+TeXDict begin 4 3 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.4) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+Black 5687 x Fc(iv)p Black eop end
+%%Page: 1 5
+TeXDict begin 1 4 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.1) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (13) cvn H.B /DEST pdfmark end
+ 197 6 a 89 x
+Ff(Chapter)34 b(1.)f(Intr)n(oduction)j(to)e(HPF)1957
+95 y
+SDict begin H.S end
+ 1957 95 a 1957 95 a
+SDict begin 16.105 H.A end
+ 1957 95 a 1957 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (3.0) cvn H.B /DEST pdfmark end
+ 1957 95
+a 197 222 a
+SDict begin H.S end
+ 197 222 a 197 222 a
+SDict begin 11 H.A end
+ 197 222 a 197 222 a
+SDict begin [ /View [/XYZ H.V] /Dest (15) cvn H.B /DEST pdfmark end
+ 197
+222 a 596 288 a Fg(This)29 b(HDF5)f(Performance)g(Framework)h(\(HPF\))g
+(user)f(manual)h(was)f(cr)o(eated)f(to)i(help)g(users)596
+380 y(quickly)23 b(learn)f(how)h(to)g(test)f(HDF5)h(library)f
+(performance.)f(It)h(covers)g(the)h(basic)f(concept)g(and)596
+471 y(usage)e(of)h(HPF)-8 b(.)197 494 y
+SDict begin H.S end
+ 197 494 a 197
+494 a
+SDict begin 11 H.A end
+ 197 494 a 197 494 a
+SDict begin [ /View [/XYZ H.V] /Dest (16) cvn H.B /DEST pdfmark end
+ 197 494 a 264 x Fj(1.1)31 b(What)g(is)g(HDF5)
+f(P)m(erf)n(ormance)h(Frame)n(w)n(ork\(HPF\)?)2774 758
+y
+SDict begin H.S end
+ 2774 758 a 2774 758 a
+SDict begin 14.641 H.A end
+ 2774 758 a 2774 758 a
+SDict begin [ /View [/XYZ H.V] /Dest (3.1.1) cvn H.B /DEST pdfmark
+end
+ 2774 758
+a 197 837 a
+SDict begin H.S end
+ 197 837 a 197 837 a
+SDict begin 11 H.A end
+ 197 837 a 197 837 a
+SDict begin [ /View [/XYZ H.V] /Dest (18) cvn H.B /DEST pdfmark end
+ 197
+837 a 596 905 a Fg(HPF)23 b(is)h(a)f(fr)o(ee)e(performance)h(testing)i
+(system)g(for)f(HDF5)h(library)e(and)h(its)h(applications.)f(The)596
+996 y(HPF)17 b(testing)g(model)g(is)g(to)g(r)o(un)g(benchmark)g(pr)o
+(ograms)f(daily)-9 b(.)16 b(Any)h(changes)g(in)g(HDF5)f(library)596
+1088 y(may)25 b(af)o(fect)e(the)i(daily)g(performance)f(of)h(the)g
+(existing)h(benchmark)f(pr)o(ograms)g(and)g(the)g(goal)596
+1179 y(of)20 b(HPDF)i(is)f(to)g(monitor)h(the)f(long)h(term)e
+(performance)g(of)h(HDF5)g(library)-9 b(.)197 1244 y
+SDict begin H.S end
+
+197 1244 a 197 1244 a
+SDict begin 11 H.A end
+ 197 1244 a 197 1244 a
+SDict begin [ /View [/XYZ H.V] /Dest (19) cvn H.B /DEST pdfmark end
+ 197 1244
+a 264 x Fj(1.2)31 b(On)g(what)f(systems)j(does)e(HPF)e(run?)2108
+1508 y
+SDict begin H.S end
+ 2108 1508 a 2108 1508 a
+SDict begin 14.641 H.A end
+ 2108 1508 a 2108 1508
+a
+SDict begin [ /View [/XYZ H.V] /Dest (3.2.1) cvn H.B /DEST pdfmark
+end
+ 2108 1508 a 197 1586 a
+SDict begin H.S end
+ 197 1586 a 197 1586 a
+SDict begin 11 H.A end
+ 197 1586
+a 197 1586 a
+SDict begin [ /View [/XYZ H.V] /Dest (21) cvn H.B /DEST pdfmark end
+ 197 1586 a 596 1655 a Fg(As)20 b(of)h(January)f(2008,)e
+(HPF)j(r)o(uns)h(on)f(the)g(following)h(platforms:)197
+1678 y
+SDict begin H.S end
+ 197 1678 a 197 1678 a
+SDict begin 11 H.A end
+ 197 1678 a 197 1678 a
+SDict begin [ /View [/XYZ H.V] /Dest (22) cvn H.B /DEST pdfmark end
+ 197
+1678 a 197 1720 a
+SDict begin H.S end
+ 197 1720 a 197 1720 a
+SDict begin 11 H.A end
+ 197 1720 a 197
+1720 a
+SDict begin [ /View [/XYZ H.V] /Dest (23) cvn H.B /DEST pdfmark end
+ 197 1720 a Black 596 1870 a Fb(\225)p Black 679
+1870 a
+SDict begin H.S end
+ 679 1870 a 679 1870 a
+SDict begin 11 H.A end
+ 679 1870 a 679 1870 a
+SDict begin [ /View [/XYZ H.V] /Dest (24) cvn H.B /DEST pdfmark end
+ 679
+1870 a Fg(linux:)f(hdfdap,)e(kagiso)197 1894 y
+SDict begin H.S end
+ 197 1894
+a 197 1894 a
+SDict begin 11 H.A end
+ 197 1894 a 197 1894 a
+SDict begin [ /View [/XYZ H.V] /Dest (25) cvn H.B /DEST pdfmark end
+ 197 1894 a Black 596
+2003 a Fb(\225)p Black 679 2003 a
+SDict begin H.S end
+ 679 2003 a 679 2003
+a
+SDict begin 11 H.A end
+ 679 2003 a 679 2003 a
+SDict begin [ /View [/XYZ H.V] /Dest (26) cvn H.B /DEST pdfmark end
+ 679 2003 a Fg(solaris:)h(linew)197
+2005 y
+SDict begin H.S end
+ 197 2005 a 197 2005 a
+SDict begin 11 H.A end
+ 197 2005 a 197 2005 a
+SDict begin [ /View [/XYZ H.V] /Dest (27) cvn H.B /DEST pdfmark end
+ 197
+2005 a Black 596 2136 a Fb(\225)p Black 679 2136 a
+SDict begin H.S end
+ 679
+2136 a 679 2136 a
+SDict begin 11 H.A end
+ 679 2136 a 679 2136 a
+SDict begin [ /View [/XYZ H.V] /Dest (28) cvn H.B /DEST pdfmark end
+ 679 2136 a Fg(64-bit)f(linux:)i
+(smir)o(om)197 2179 y
+SDict begin H.S end
+ 197 2179 a 197 2179 a
+SDict begin 11 H.A end
+ 197 2179
+a 197 2179 a
+SDict begin [ /View [/XYZ H.V] /Dest (29) cvn H.B /DEST pdfmark end
+ 197 2179 a 596 2269 a Fg(In)g(general,)f(it)h(can)f(r)o
+(un)h(on)h(any)e(UNIX)h(platform)g(that)f(supports)h(HDF5)g(library)-9
+b(.)197 2334 y
+SDict begin H.S end
+ 197 2334 a 197 2334 a
+SDict begin 11 H.A end
+ 197 2334 a 197 2334
+a
+SDict begin [ /View [/XYZ H.V] /Dest (30) cvn H.B /DEST pdfmark end
+ 197 2334 a 264 x Fj(1.3)31 b(Wh)n(y)g(might)f(I)g(want)g(to)h(use)g
+(HPF?)1965 2598 y
+SDict begin H.S end
+ 1965 2598 a 1965 2598 a
+SDict begin 14.641 H.A end
+ 1965 2598 a
+1965 2598 a
+SDict begin [ /View [/XYZ H.V] /Dest (3.3.1) cvn H.B /DEST pdfmark
+end
+ 1965 2598 a 197 2678 a
+SDict begin H.S end
+ 197 2678 a 197 2678
+a
+SDict begin 11 H.A end
+ 197 2678 a 197 2678 a
+SDict begin [ /View [/XYZ H.V] /Dest (32) cvn H.B /DEST pdfmark end
+ 197 2678 a 596 2745 a Fg(HPF)21
+b(can)g(pr)o(ovide)f(a)h(quick)h(way)f(of)g(identifying)g(not)h(only)g
+(HDF)g(library)f(compilation)h(pr)o(ob-)596 2836 y(lems)30
+b(on)h(many)f(platforms)g(but)g(also)g(potential)g(performance)f
+(issues)i(of)e(the)i(library)-9 b(.)29 b(HPF)596 2927
+y(generates)18 b(a)h(daily)h(warning)g(r)o(eport)e(if)i(ther)o(e's)f(a)
+g(compilation)i(err)o(or)d(or)i(a)f(test)g(instance)h(takes)596
+3019 y(longer)f(than)h(20\045)e(or)i(mor)o(e.)e(User)h(can)g(quickly)i
+(locate)e(the)g(pr)o(oblem)g(by)h(looking)h(at)e(the)g(daily)596
+3110 y(graph.)26 b(HPF)i(also)g(r)o(ecor)o(ds)e(the)h(subversion)h(r)o
+(evision)g(number)f(used)h(in)f(the)h(library)f(so)h(the)596
+3201 y(library)e(developers)h(can)f(compar)o(e)g(the)i(sour)o(ce)e
+(code)h(dif)o(fer)o(ences)e(that)i(caused)f(the)i(perfor)o(-)596
+3293 y(mance)20 b(degradation.)197 3358 y
+SDict begin H.S end
+ 197 3358 a
+197 3358 a
+SDict begin 11 H.A end
+ 197 3358 a 197 3358 a
+SDict begin [ /View [/XYZ H.V] /Dest (33) cvn H.B /DEST pdfmark end
+ 197 3358 a 264 x Fj(1.4)31
+b(What)g(is)g(inc)n(luded)e(with)h(HPF?)1830 3622 y
+SDict begin H.S end
+ 1830
+3622 a 1830 3622 a
+SDict begin 14.641 H.A end
+ 1830 3622 a 1830 3622 a
+SDict begin [ /View [/XYZ H.V] /Dest (3.4.1) cvn H.B /DEST pdfmark
+end
+ 1830 3622
+a 197 3678 a
+SDict begin H.S end
+ 197 3678 a 197 3678 a
+SDict begin 11 H.A end
+ 197 3678 a 197 3678
+a
+SDict begin [ /View [/XYZ H.V] /Dest (35) cvn H.B /DEST pdfmark end
+ 197 3678 a 596 3768 a Fg(HPF)21 b(r)o(equir)o(es)e(a)i(number)g(of)f
+(thir)o(d-party)g(softwar)o(e)g(pr)o(oducts,)g(including:)197
+3792 y
+SDict begin H.S end
+ 197 3792 a 197 3792 a
+SDict begin 11 H.A end
+ 197 3792 a 197 3792 a
+SDict begin [ /View [/XYZ H.V] /Dest (36) cvn H.B /DEST pdfmark end
+ 197
+3792 a 197 3833 a
+SDict begin H.S end
+ 197 3833 a 197 3833 a
+SDict begin 11 H.A end
+ 197 3833 a 197
+3833 a
+SDict begin [ /View [/XYZ H.V] /Dest (37) cvn H.B /DEST pdfmark end
+ 197 3833 a Black 596 3984 a Fb(\225)p Black 679
+3984 a
+SDict begin H.S end
+ 679 3984 a 679 3984 a
+SDict begin 11 H.A end
+ 679 3984 a 679 3984 a
+SDict begin [ /View [/XYZ H.V] /Dest (38) cvn H.B /DEST pdfmark end
+ 679
+3984 a Fg(Apache)197 4008 y
+SDict begin H.S end
+ 197 4008 a 197 4008 a
+SDict begin 11 H.A end
+ 197
+4008 a 197 4008 a
+SDict begin [ /View [/XYZ H.V] /Dest (39) cvn H.B /DEST pdfmark end
+ 197 4008 a Black 596 4117 a Fb(\225)p
+Black 679 4117 a
+SDict begin H.S end
+ 679 4117 a 679 4117 a
+SDict begin 11 H.A end
+ 679 4117 a 679
+4117 a
+SDict begin [ /View [/XYZ H.V] /Dest (40) cvn H.B /DEST pdfmark end
+ 679 4117 a Fg(jpgraph)197 4140 y
+SDict begin H.S end
+ 197 4140 a 197
+4140 a
+SDict begin 11 H.A end
+ 197 4140 a 197 4140 a
+SDict begin [ /View [/XYZ H.V] /Dest (41) cvn H.B /DEST pdfmark end
+ 197 4140 a Black 596 4250
+a Fb(\225)p Black 679 4250 a
+SDict begin H.S end
+ 679 4250 a 679 4250 a
+SDict begin 11 H.A end
+ 679
+4250 a 679 4250 a
+SDict begin [ /View [/XYZ H.V] /Dest (42) cvn H.B /DEST pdfmark end
+ 679 4250 a Fg(MySQL)197 4273 y
+SDict begin H.S end
+ 197
+4273 a 197 4273 a
+SDict begin 11 H.A end
+ 197 4273 a 197 4273 a
+SDict begin [ /View [/XYZ H.V] /Dest (43) cvn H.B /DEST pdfmark end
+ 197 4273 a Black
+596 4383 a Fb(\225)p Black 679 4383 a
+SDict begin H.S end
+ 679 4383 a 679
+4383 a
+SDict begin 11 H.A end
+ 679 4383 a 679 4383 a
+SDict begin [ /View [/XYZ H.V] /Dest (44) cvn H.B /DEST pdfmark end
+ 679 4383 a Fg(php)197 4406
+y
+SDict begin H.S end
+ 197 4406 a 197 4406 a
+SDict begin 11 H.A end
+ 197 4406 a 197 4406 a
+SDict begin [ /View [/XYZ H.V] /Dest (45) cvn H.B /DEST pdfmark end
+ 197 4406
+a Black 596 4515 a Fb(\225)p Black 679 4515 a
+SDict begin H.S end
+ 679 4515
+a 679 4515 a
+SDict begin 11 H.A end
+ 679 4515 a 679 4515 a
+SDict begin [ /View [/XYZ H.V] /Dest (46) cvn H.B /DEST pdfmark end
+ 679 4515 a Fg(gd)197
+4539 y
+SDict begin H.S end
+ 197 4539 a 197 4539 a
+SDict begin 11 H.A end
+ 197 4539 a 197 4539 a
+SDict begin [ /View [/XYZ H.V] /Dest (47) cvn H.B /DEST pdfmark end
+ 197
+4539 a Black 596 4648 a Fb(\225)p Black 679 4648 a
+SDict begin H.S end
+ 679
+4648 a 679 4648 a
+SDict begin 11 H.A end
+ 679 4648 a 679 4648 a
+SDict begin [ /View [/XYZ H.V] /Dest (48) cvn H.B /DEST pdfmark end
+ 679 4648 a Fg(subversion)197
+4650 y
+SDict begin H.S end
+ 197 4650 a 197 4650 a
+SDict begin 11 H.A end
+ 197 4650 a 197 4650 a
+SDict begin [ /View [/XYZ H.V] /Dest (49) cvn H.B /DEST pdfmark end
+ 197
+4650 a Black 596 4781 a Fb(\225)p Black 679 4781 a
+SDict begin H.S end
+ 679
+4781 a 679 4781 a
+SDict begin 11 H.A end
+ 679 4781 a 679 4781 a
+SDict begin [ /View [/XYZ H.V] /Dest (50) cvn H.B /DEST pdfmark end
+ 679 4781 a Fg(bash)197
+4824 y
+SDict begin H.S end
+ 197 4824 a 197 4824 a
+SDict begin 11 H.A end
+ 197 4824 a 197 4824 a
+SDict begin [ /View [/XYZ H.V] /Dest (51) cvn H.B /DEST pdfmark end
+ 197
+4824 a 596 4914 a Fg(The)g(jpgraph)h(is)g(included)g(in)g(the)g(HPF)g
+(distribution.)p Black 3642 5585 a Fc(1)p Black eop end
+%%Page: 2 6
+TeXDict begin 2 5 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.2) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black -30
+x Fc(Chapter)20 b(1.)g(Intr)o(oduction)f(to)i(HPF)p Black
+Black 197 5585 a(2)p Black eop end
+%%Page: 3 7
+TeXDict begin 3 6 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.3) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (52) cvn H.B /DEST pdfmark end
+ 197 6 a 89 x
+Ff(Chapter)34 b(2.)f(Getting)h(to)h(kno)n(w)f(HPF)2019
+95 y
+SDict begin H.S end
+ 2019 95 a 2019 95 a
+SDict begin 16.105 H.A end
+ 2019 95 a 2019 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (4.0) cvn H.B /DEST pdfmark end
+ 2019 95
+a 197 163 a
+SDict begin H.S end
+ 197 163 a 197 163 a
+SDict begin 11 H.A end
+ 197 163 a 197 163 a
+SDict begin [ /View [/XYZ H.V] /Dest (54) cvn H.B /DEST pdfmark end
+ 197
+163 a 261 x Fj(2.1)d(W)l(eb)g(P)m(a)o(g)q(es)963 424
+y
+SDict begin H.S end
+ 963 424 a 963 424 a
+SDict begin 14.641 H.A end
+ 963 424 a 963 424 a
+SDict begin [ /View [/XYZ H.V] /Dest (4.5.1) cvn H.B /DEST pdfmark
+end
+ 963 424 a 197
+503 a
+SDict begin H.S end
+ 197 503 a 197 503 a
+SDict begin 11 H.A end
+ 197 503 a 197 503 a
+SDict begin [ /View [/XYZ H.V] /Dest (56) cvn H.B /DEST pdfmark end
+ 197 503
+a 596 570 a Fg(The)152 b(of)o(\002cial)f(website)i(for)f(the)g(HPF)h
+(pr)o(oject)e(is)i(located)f(at:)p 1  0  0 TeXcolorrgb
+596 662 a
+SDict begin H.S end
+ 596 662 a 596 662 a
+SDict begin 11 H.A end
+ 596 662 a 596 662 a
+SDict begin [ /View [/XYZ H.V] /Dest (57) cvn H.B /DEST pdfmark end
+ 596
+662 a Fg(http://hdfdap.hdfgr)o(oup.uiuc.edu/h5perf/index.html)p
+Black(.)197 726 y
+SDict begin H.S end
+ 197 726 a 197 726 a
+SDict begin 11 H.A end
+ 197 726 a 197 726
+a
+SDict begin [ /View [/XYZ H.V] /Dest (58) cvn H.B /DEST pdfmark end
+ 197 726 a 265 x Fj(2.2)31 b(Repor)r(ting)e(Bugs)1213
+991 y
+SDict begin H.S end
+ 1213 991 a 1213 991 a
+SDict begin 14.641 H.A end
+ 1213 991 a 1213 991 a
+SDict begin [ /View [/XYZ H.V] /Dest (4.6.1) cvn H.B /DEST pdfmark
+end
+ 1213
+991 a 197 1070 a
+SDict begin H.S end
+ 197 1070 a 197 1070 a
+SDict begin 11 H.A end
+ 197 1070 a 197
+1070 a
+SDict begin [ /View [/XYZ H.V] /Dest (60) cvn H.B /DEST pdfmark end
+ 197 1070 a 596 1137 a Fg(Befor)o(e)46 b(crying)i("Bug!",)f
+(please)g(make)h(sur)o(e)f(that)h(the)g(pr)o(oblem)f(is)h(r)o(eally)f
+(r)o(elevant)g(to)596 1229 y(HPF)-8 b(.)49 b(Especially)-9
+b(,)48 b(the)g(bug)h(in)h(the)e(HDF)i(library)e(itself)h(should)g(be)g
+(dir)o(ectly)e(sent)j(to)596 1320 y
+SDict begin H.S end
+ 596 1320 a 596 1320
+a
+SDict begin 11 H.A end
+ 596 1320 a 596 1320 a
+SDict begin [ /View [/XYZ H.V] /Dest (61) cvn H.B /DEST pdfmark end
+ 596 1320 a Fg(<)p Fa(help@hdfgroup.org)p
+Fg(>.)40 b(W)-8 b(e)42 b(cannot)h(\002x)g(bugs)f(that)h(belong)g(to)g
+(thir)o(d-party)e(softwar)o(e)596 1411 y(pr)o(oducts)24
+b(like)h(MySQL)f(and)g(php.)h(Also,)g(please)f(try)h(to)g(r)o(un)g
+("svn)g(update")f(on)h(your)g(sour)o(ce)596 1503 y(tr)o(ee)19
+b(to)i(see)g(if)f(the)h(bug)g(is)g(alr)o(eady)e(\002xed.)197
+1567 y
+SDict begin H.S end
+ 197 1567 a 197 1567 a
+SDict begin 11 H.A end
+ 197 1567 a 197 1567 a
+SDict begin [ /View [/XYZ H.V] /Dest (62) cvn H.B /DEST pdfmark end
+ 197
+1567 a 596 1635 a Fg(Pr)o(oper)36 b(bug)g(r)o(eporting)h(is)g(one)g(of)
+g(the)g(most)h(important)f(r)o(esponsibilities)h(of)f(end)f(users.)596
+1727 y(V)-9 b(ery)37 b(detailed)f(information)j(is)f(r)o(equir)o(ed)e
+(to)i(diagnose)g(most)h(serious)f(bugs)g(and)g(please)596
+1818 y(identify)52 b(and)g(include)g(the)h(subversion)g(r)o(evision)g
+(number)f(when)h(you)g(send)g(a)f(bug)596 1909 y(r)o(eport)42
+b(to:)1001 1909 y
+SDict begin H.S end
+ 1001 1909 a 1001 1909 a
+SDict begin 11 H.A end
+ 1001 1909 a
+1001 1909 a
+SDict begin [ /View [/XYZ H.V] /Dest (63) cvn H.B /DEST pdfmark end
+ 1001 1909 a Fg(<)p Fa(hdf5cig@hdfgroup.org)p
+Fg(>)f(HPF)i(bugzilla)g(is)h(also)f(available.)f(Its)i(URL)f(is)p
+1  0  0 TeXcolorrgb 596 2001 a
+SDict begin H.S end
+ 596 2001 a 596 2001 a
+SDict begin 11 H.A end
+
+596 2001 a 596 2001 a
+SDict begin [ /View [/XYZ H.V] /Dest (64) cvn H.B /DEST pdfmark end
+ 596 2001 a Fg(http://hdfdap.hdfgr)o
+(oup.uiuc.edu/bugzilla/)p Black(.)p Black 3642 5585 a
+Fc(3)p Black eop end
+%%Page: 4 8
+TeXDict begin 4 7 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.4) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black -30
+x Fc(Chapter)20 b(2.)g(Getting)g(to)h(know)f(HPF)p Black
+Black 197 5585 a(4)p Black eop end
+%%Page: 5 9
+TeXDict begin 5 8 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.5) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black Black
+197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (65) cvn H.B /DEST pdfmark end
+ 197 6 a 89 x
+Ff(Chapter)34 b(3.)f(HPF)h(Installation)g(Guide)2123
+95 y
+SDict begin H.S end
+ 2123 95 a 2123 95 a
+SDict begin 16.105 H.A end
+ 2123 95 a 2123 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.0) cvn H.B /DEST pdfmark end
+ 2123 95
+a 197 161 a
+SDict begin H.S end
+ 197 161 a 197 161 a
+SDict begin 11 H.A end
+ 197 161 a 197 161 a
+SDict begin [ /View [/XYZ H.V] /Dest (67) cvn H.B /DEST pdfmark end
+ 197
+161 a 263 x Fj(3.1)d(Pre-installation)e(c)o(hec)n(klist)1679
+424 y
+SDict begin H.S end
+ 1679 424 a 1679 424 a
+SDict begin 14.641 H.A end
+ 1679 424 a 1679 424 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.7.1) cvn H.B /DEST pdfmark
+end
+ 1679
+424 a 197 480 a
+SDict begin H.S end
+ 197 480 a 197 480 a
+SDict begin 11 H.A end
+ 197 480 a 197 480
+a
+SDict begin [ /View [/XYZ H.V] /Dest (69) cvn H.B /DEST pdfmark end
+ 197 480 a 596 570 a Fg(Befor)o(e)15 b(installing)k(HPF)-8
+b(,)18 b(you)g(need)f(to)g(make)h(sur)o(e)e(that)i(the)f(following)i
+(pr)o(ograms)e(ar)o(e)f(alr)o(eady)596 662 y(installed:)197
+664 y
+SDict begin H.S end
+ 197 664 a 197 664 a
+SDict begin 11 H.A end
+ 197 664 a 197 664 a
+SDict begin [ /View [/XYZ H.V] /Dest (70) cvn H.B /DEST pdfmark end
+ 197 664
+a 197 705 a
+SDict begin H.S end
+ 197 705 a 197 705 a
+SDict begin 11 H.A end
+ 197 705 a 197 705 a
+SDict begin [ /View [/XYZ H.V] /Dest (71) cvn H.B /DEST pdfmark end
+ 197
+705 a Black 596 877 a Fb(\225)p Black 679 877 a
+SDict begin H.S end
+ 679 877
+a 679 877 a
+SDict begin 11 H.A end
+ 679 877 a 679 877 a
+SDict begin [ /View [/XYZ H.V] /Dest (72) cvn H.B /DEST pdfmark end
+ 679 877 a Fg(svn)197
+879 y
+SDict begin H.S end
+ 197 879 a 197 879 a
+SDict begin 11 H.A end
+ 197 879 a 197 879 a
+SDict begin [ /View [/XYZ H.V] /Dest (73) cvn H.B /DEST pdfmark end
+ 197 879
+a Black 596 1010 a Fb(\225)p Black 679 1010 a
+SDict begin H.S end
+ 679 1010
+a 679 1010 a
+SDict begin 11 H.A end
+ 679 1010 a 679 1010 a
+SDict begin [ /View [/XYZ H.V] /Dest (74) cvn H.B /DEST pdfmark end
+ 679 1010 a Fg(mysql)22
+b(database)197 1034 y
+SDict begin H.S end
+ 197 1034 a 197 1034 a
+SDict begin 11 H.A end
+ 197 1034
+a 197 1034 a
+SDict begin [ /View [/XYZ H.V] /Dest (75) cvn H.B /DEST pdfmark end
+ 197 1034 a Black 596 1143 a Fb(\225)p Black
+679 1143 a
+SDict begin H.S end
+ 679 1143 a 679 1143 a
+SDict begin 11 H.A end
+ 679 1143 a 679 1143
+a
+SDict begin [ /View [/XYZ H.V] /Dest (76) cvn H.B /DEST pdfmark end
+ 679 1143 a Fg(php)e(enabled)g(web)h(server)f(with)i(gd)e(library)197
+1208 y
+SDict begin H.S end
+ 197 1208 a 197 1208 a
+SDict begin 11 H.A end
+ 197 1208 a 197 1208 a
+SDict begin [ /View [/XYZ H.V] /Dest (77) cvn H.B /DEST pdfmark end
+ 197
+1208 a 596 1276 a Fg(Of)g(course,)h(you)g(need)f(HDF5)h(library)f
+(build)h(tools)h(like)f(automake,)f(gmake,)h(and)f(gcc/g++.)197
+1341 y
+SDict begin H.S end
+ 197 1341 a 197 1341 a
+SDict begin 11 H.A end
+ 197 1341 a 197 1341 a
+SDict begin [ /View [/XYZ H.V] /Dest (78) cvn H.B /DEST pdfmark end
+ 197
+1341 a 596 1409 a Fg(The)d(\002rst)i(step)e(of)h(using)h(HPF)f(is)h(to)
+f(get)g(the)g(HPF)g(sour)o(ce)g(codes)f(fr)o(om)h(subversion)g(r)o
+(epository)-9 b(.)197 1515 y
+SDict begin H.S end
+ 197 1515 a 197 1515 a
+SDict begin 9.9 H.A end
+ 197
+1515 a 197 1515 a
+SDict begin [ /View [/XYZ H.V] /Dest (79) cvn H.B /DEST pdfmark end
+ 197 1515 a 640 1574 a Fa(\045svn)45
+b(co)f(http://svn.hdfgroup.uiuc.edu/hdf5perf)197 1790
+y
+SDict begin H.S end
+ 197 1790 a 197 1790 a
+SDict begin 11 H.A end
+ 197 1790 a 197 1790 a
+SDict begin [ /View [/XYZ H.V] /Dest (80) cvn H.B /DEST pdfmark end
+ 197 1790
+a 287 x Fj(3.2)31 b(Creating)f(Database)i(and)e(T)-9
+b(ab)o(les)1949 2077 y
+SDict begin H.S end
+ 1949 2077 a 1949 2077 a
+SDict begin 14.641 H.A end
+ 1949 2077
+a 1949 2077 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.8.1) cvn H.B /DEST pdfmark
+end
+ 1949 2077 a 197 2157 a
+SDict begin H.S end
+ 197 2157 a 197 2157
+a
+SDict begin 11 H.A end
+ 197 2157 a 197 2157 a
+SDict begin [ /View [/XYZ H.V] /Dest (82) cvn H.B /DEST pdfmark end
+ 197 2157 a 596 2224 a Fg(HPF)63
+b(uses)g(a)g(MySQL)f(database)f(as)i(a)f(storage)h(option)h(for)f(HDF5)
+g(performance)596 2315 y(measur)o(ement)163 b(r)o(esults)h(and)g
+(system)g(envir)o(onment)h(variables.)e(The)596 2407
+y("hdf5perf/hdf5per\003ib/lib/cpp/DB.sql")33 b(\002le)i(contains)h(a)e
+(set)h(of)f(SQL)h(commands)g(that)596 2498 y(cr)o(eate)19
+b(necessary)h(tables.)197 2563 y
+SDict begin H.S end
+ 197 2563 a 197 2563
+a
+SDict begin 11 H.A end
+ 197 2563 a 197 2563 a
+SDict begin [ /View [/XYZ H.V] /Dest (83) cvn H.B /DEST pdfmark end
+ 197 2563 a 596 2631 a Fg(Issuing)h(a)g(command)
+g(like)197 2737 y
+SDict begin H.S end
+ 197 2737 a 197 2737 a
+SDict begin 9.9 H.A end
+ 197 2737 a 197
+2737 a
+SDict begin [ /View [/XYZ H.V] /Dest (84) cvn H.B /DEST pdfmark end
+ 197 2737 a 685 2796 a Fa(\045mysql)44 b(-u)g(root)h(-p)f(<)h
+(hdf5perf/hdf5perflib/lib/cpp/DB.sql)685 2878 y(#)g(Replace)e('root')h
+(with)g(your)h(DB)f(admin)g(username)596 3053 y Fg(and)68
+b(entering)h(your)g(database)e(passwor)o(d)i(will)g(cr)o(eate)e(a)i
+(new)g(database)e(called)596 3144 y("hdf5perfsimple")19
+b(and)h(all)h(9)f(tables)g(necessary)h(for)f(HPF)h(under)g(the)g(new)g
+(database.)197 3209 y
+SDict begin H.S end
+ 197 3209 a 197 3209 a
+SDict begin 11 H.A end
+ 197 3209
+a 197 3209 a
+SDict begin [ /View [/XYZ H.V] /Dest (85) cvn H.B /DEST pdfmark end
+ 197 3209 a 264 x Fj(3.3)31 b(Modi\002cation)e(of)h(Sour)n
+(ce)g(Codes)1939 3473 y
+SDict begin H.S end
+ 1939 3473 a 1939 3473 a
+SDict begin 14.641 H.A end
+ 1939
+3473 a 1939 3473 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.9.1) cvn H.B /DEST pdfmark
+end
+ 1939 3473 a 197 3530 a
+SDict begin H.S end
+ 197 3530 a
+197 3530 a
+SDict begin 11 H.A end
+ 197 3530 a 197 3530 a
+SDict begin [ /View [/XYZ H.V] /Dest (87) cvn H.B /DEST pdfmark end
+ 197 3530 a 596 3620
+a Fg(HPF)e(distribution)i(comes)f(with)h(a)e(default)f(database)g
+(username)h('r)o(oot')h(and)f(no)i(passwor)o(d)596 3711
+y(in)24 b(all)g(its)g(sour)o(ce)f(codes)h(and)g(it)g(is)g(necessary)f
+(to)i(change)e(them)i(if)e(you)i(use)f(a)f(dif)o(fer)o(ent)f(user)o(-)
+596 3802 y(name/passwor)o(d)e(pair)g(on)h(your)h(MySQL)e(database.)197
+3867 y
+SDict begin H.S end
+ 197 3867 a 197 3867 a
+SDict begin 11 H.A end
+ 197 3867 a 197 3867 a
+SDict begin [ /View [/XYZ H.V] /Dest (88) cvn H.B /DEST pdfmark end
+ 197
+3867 a 596 3935 a Fg(Her)o(e)f(is)i(the)g(list)h(of)e(\002les)h(that)g
+(you)g(need)g(to)g(modify:)2356 3935 y
+SDict begin H.S end
+ 2356 3935 a 2356
+3935 a
+SDict begin 11 H.A end
+ 2356 3935 a 2356 3935 a
+SDict begin [ /View [/XYZ H.V] /Dest (89) cvn H.B /DEST pdfmark end
+ 2356 3935 a 197 4000 a
+SDict begin H.S end
+
+197 4000 a 197 4000 a
+SDict begin 11 H.A end
+ 197 4000 a 197 4000 a
+SDict begin [ /View [/XYZ H.V] /Dest (90) cvn H.B /DEST pdfmark end
+ 197 4000
+a Black 596 4151 a Fb(\225)p Black 679 4151 a
+SDict begin H.S end
+ 679 4151
+a 679 4151 a
+SDict begin 11 H.A end
+ 679 4151 a 679 4151 a
+SDict begin [ /View [/XYZ H.V] /Dest (91) cvn H.B /DEST pdfmark end
+ 679 4151 a Fg
+(hdf5perf/hdf5per\003ib/libtest/db.h)197 4174 y
+SDict begin H.S end
+ 197 4174
+a 197 4174 a
+SDict begin 11 H.A end
+ 197 4174 a 197 4174 a
+SDict begin [ /View [/XYZ H.V] /Dest (92) cvn H.B /DEST pdfmark end
+ 197 4174 a Black 596
+4284 a Fb(\225)p Black 679 4284 a
+SDict begin H.S end
+ 679 4284 a 679 4284
+a
+SDict begin 11 H.A end
+ 679 4284 a 679 4284 a
+SDict begin [ /View [/XYZ H.V] /Dest (93) cvn H.B /DEST pdfmark end
+ 679 4284 a Fg
+(hdf5perf/hdf5per\003ib/examples/db.h)197 4307 y
+SDict begin H.S end
+ 197
+4307 a 197 4307 a
+SDict begin 11 H.A end
+ 197 4307 a 197 4307 a
+SDict begin [ /View [/XYZ H.V] /Dest (94) cvn H.B /DEST pdfmark end
+ 197 4307 a Black
+596 4417 a Fb(\225)p Black 679 4417 a
+SDict begin H.S end
+ 679 4417 a 679
+4417 a
+SDict begin 11 H.A end
+ 679 4417 a 679 4417 a
+SDict begin [ /View [/XYZ H.V] /Dest (95) cvn H.B /DEST pdfmark end
+ 679 4417 a Fg
+(hdf5perf/hdf5per\003ib/raw-data/db.h)197 4440 y
+SDict begin H.S end
+ 197
+4440 a 197 4440 a
+SDict begin 11 H.A end
+ 197 4440 a 197 4440 a
+SDict begin [ /View [/XYZ H.V] /Dest (96) cvn H.B /DEST pdfmark end
+ 197 4440 a Black
+596 4549 a Fb(\225)p Black 679 4549 a
+SDict begin H.S end
+ 679 4549 a 679
+4549 a
+SDict begin 11 H.A end
+ 679 4549 a 679 4549 a
+SDict begin [ /View [/XYZ H.V] /Dest (97) cvn H.B /DEST pdfmark end
+ 679 4549 a Fg
+(hdf5perf/hdf5perfphp/hdf/includes/data.inc.php)197 4724
+y
+SDict begin H.S end
+ 197 4724 a 197 4724 a
+SDict begin 11 H.A end
+ 197 4724 a 197 4724 a
+SDict begin [ /View [/XYZ H.V] /Dest (98) cvn H.B /DEST pdfmark end
+ 197 4724
+a Black 3642 5585 a Fc(5)p Black eop end
+%%Page: 6 10
+TeXDict begin 6 9 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black 0
+TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0 TeXcolorgray
+197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.6) cvn H.B /DEST pdfmark
+end
+ 197 -102 a Black -30
+x Fc(Chapter)20 b(3.)g(HPF)h(Installation)f(Guide)p Black
+197 89 a Fj(3.4)31 b(Customization)e(of)h(Shell)g(Scripts)1978
+89 y
+SDict begin H.S end
+ 1978 89 a 1978 89 a
+SDict begin 14.641 H.A end
+ 1978 89 a 1978 89 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.10.1) cvn H.B /DEST pdfmark
+end
+ 1978 89
+a 197 167 a
+SDict begin H.S end
+ 197 167 a 197 167 a
+SDict begin 11 H.A end
+ 197 167 a 197 167 a
+SDict begin [ /View [/XYZ H.V] /Dest (100) cvn H.B /DEST pdfmark end
+ 197
+167 a 596 236 a Fg(T)-7 b(wo)20 b(shell)h(scripts)g(need)f
+(customization)i(to)f(ensur)o(e)f(that)h(they)f(can)h(perform)f(daily)g
+(tests)h(suc-)596 327 y(cessfully)f(on)i(time.)f(Her)o(e)e(ar)o(e)h
+(the)h(two)g(shell)g(scripts)g(you)h(need)e(to)h(modify:)3127
+327 y
+SDict begin H.S end
+ 3127 327 a 3127 327 a
+SDict begin 11 H.A end
+ 3127 327 a 3127 327 a
+SDict begin [ /View [/XYZ H.V] /Dest (101) cvn H.B /DEST pdfmark end
+ 3127
+327 a 197 406 a
+SDict begin H.S end
+ 197 406 a 197 406 a
+SDict begin 11 H.A end
+ 197 406 a 197 406
+a
+SDict begin [ /View [/XYZ H.V] /Dest (102) cvn H.B /DEST pdfmark end
+ 197 406 a Black 596 584 a Fb(\225)p Black 679 584 a
+SDict begin H.S end
+
+679 584 a 679 584 a
+SDict begin 11 H.A end
+ 679 584 a 679 584 a
+SDict begin [ /View [/XYZ H.V] /Dest (103) cvn H.B /DEST pdfmark end
+ 679 584 a Fg
+(hdf5perf/hdf5perfphp/r)o(un_1.6.6.sh)197 607 y
+SDict begin H.S end
+ 197 607
+a 197 607 a
+SDict begin 11 H.A end
+ 197 607 a 197 607 a
+SDict begin [ /View [/XYZ H.V] /Dest (104) cvn H.B /DEST pdfmark end
+ 197 607 a Black 596 717
+a Fb(\225)p Black 679 717 a
+SDict begin H.S end
+ 679 717 a 679 717 a
+SDict begin 11 H.A end
+ 679 717
+a 679 717 a
+SDict begin [ /View [/XYZ H.V] /Dest (105) cvn H.B /DEST pdfmark end
+ 679 717 a Fg(hdf5perf/hdf5perfphp/r)o(un_1.8.0.sh)197
+891 y
+SDict begin H.S end
+ 197 891 a 197 891 a
+SDict begin 11 H.A end
+ 197 891 a 197 891 a
+SDict begin [ /View [/XYZ H.V] /Dest (106) cvn H.B /DEST pdfmark end
+ 197 891
+a 596 983 a Fg(Please)g(pay)h(attention)h(to)f(the)g(choice)h(of)f
+(compiler)-6 b(,)22 b(compiler)g(options)i(and)e(paths.)g(Dif)o(fer)o
+(ent)596 1074 y(operating)e(systems)i(may)f(use)f(dif)o(fer)o(ent)f
+(command)i(line)g(options)h(for)f(the)g(same)f(command.)197
+1139 y
+SDict begin H.S end
+ 197 1139 a 197 1139 a
+SDict begin 11 H.A end
+ 197 1139 a 197 1139 a
+SDict begin [ /View [/XYZ H.V] /Dest (107) cvn H.B /DEST pdfmark end
+ 197
+1139 a 596 1207 a Fg(In)e(HPF)-8 b(,)18 b(all)g(cr)o(on)g(jobs)g(ar)o
+(e)f(expected)f(to)j(\002nish)g(within)g(a)e(day)h(befor)o(e)e(0:00am)g
+(so)j(that)f(analysis)596 1298 y(and)h(r)o(eport)f(PHP)i(scripts)g(can)
+f(r)o(un)h(in)g(sync.)g(They)g(look)h(for)e(the)h(data)e(that)i(have)f
+(a)g(timestamp)596 1389 y(of)i(speci\002c)g(range)g(in)h(MySQL)f(DB.)g
+(Although)i(you)f(can)f(submit)h(a)f(cr)o(on)h(job)g(that)f(starts)h
+(early)596 1481 y(to)30 b(ensur)o(e)f(the)i(job)f(to)h(be)f(completed)g
+(on)g(time,)g(it's)h(also)f(possible)h(to)f(save)g(some)h(time)f(by)596
+1572 y(adjusting)21 b(the)g("INTER)-5 b(V)c(AL")20 b(variable)f(within)
+j(the)f(shell)g(script.)197 1637 y
+SDict begin H.S end
+ 197 1637 a 197 1637
+a
+SDict begin 11 H.A end
+ 197 1637 a 197 1637 a
+SDict begin [ /View [/XYZ H.V] /Dest (108) cvn H.B /DEST pdfmark end
+ 197 1637 a 596 1705 a Fg(Please)f(look)i(for)e
+(the)h(lines)g(that)g(say:)197 1811 y
+SDict begin H.S end
+ 197 1811 a 197
+1811 a
+SDict begin 9.9 H.A end
+ 197 1811 a 197 1811 a
+SDict begin [ /View [/XYZ H.V] /Dest (109) cvn H.B /DEST pdfmark end
+ 197 1811 a 596 1870 a Fa(#)44
+b(This)g(script)g(will)g(run)h(tests)f(3)g(times)g(to)h(record)f(the)g
+(best)g(performance.)596 1952 y(#)g(Please)g(set)g(the)h(interval)e(in)
+i(seconds)e(between)h(trials.)596 2034 y(#)g(600)h(seconds)e(=)i(10)f
+(minutes)596 2117 y(INTERVAL="600")596 2291 y Fg(and)20
+b(make)g(it)h(shorter)g(if)g(necessary)-9 b(.)197 2356
+y
+SDict begin H.S end
+ 197 2356 a 197 2356 a
+SDict begin 11 H.A end
+ 197 2356 a 197 2356 a
+SDict begin [ /View [/XYZ H.V] /Dest (110) cvn H.B /DEST pdfmark end
+ 197 2356
+a 596 2424 a Fg(Finally)g(,)20 b(it)h(is)h(not)f(r)o(ecommended)f(to)h
+(modify)g(the)g(lines)g(below)h(the)e(following)j(comments:)197
+2530 y
+SDict begin H.S end
+ 197 2530 a 197 2530 a
+SDict begin 9.9 H.A end
+ 197 2530 a 197 2530 a
+SDict begin [ /View [/XYZ H.V] /Dest (111) cvn H.B /DEST pdfmark end
+ 197
+2530 a 596 2589 a Fa(####################################)o(######)o
+(######)o(######)o(######)o(######)o(######)o(######)o(#)596
+2671 y(#)44 b(Please)g(DO)g(NOT)h(edit)f(lines)g(below.)596
+2753 y(####################################)o(######)o(######)o(######)
+o(######)o(######)o(######)o(######)o(#)596 2928 y Fg(.)197
+2970 y
+SDict begin H.S end
+ 197 2970 a 197 2970 a
+SDict begin 11 H.A end
+ 197 2970 a 197 2970 a
+SDict begin [ /View [/XYZ H.V] /Dest (112) cvn H.B /DEST pdfmark end
+ 197
+2970 a 596 3061 a Fg(It)16 b(is)i(also)f(a)f(very)h(good)g(idea)f(to)i
+(test)f(the)g(customized)g(script)g(at)f(the)h(command)h(pr)o(ompt)e
+(befor)o(e)596 3152 y(it's)21 b(submitted)g(for)f(cr)o(on)h(job.)197
+3217 y
+SDict begin H.S end
+ 197 3217 a 197 3217 a
+SDict begin 11 H.A end
+ 197 3217 a 197 3217 a
+SDict begin [ /View [/XYZ H.V] /Dest (113) cvn H.B /DEST pdfmark end
+ 197
+3217 a 264 x Fj(3.5)31 b(Cr)n(on)f(Job)g(Installation)1480
+3481 y
+SDict begin H.S end
+ 1480 3481 a 1480 3481 a
+SDict begin 14.641 H.A end
+ 1480 3481 a 1480 3481
+a
+SDict begin [ /View [/XYZ H.V] /Dest (5.11.1) cvn H.B /DEST pdfmark
+end
+ 1480 3481 a 197 3538 a
+SDict begin H.S end
+ 197 3538 a 197 3538 a
+SDict begin 11 H.A end
+ 197 3538
+a 197 3538 a
+SDict begin [ /View [/XYZ H.V] /Dest (115) cvn H.B /DEST pdfmark end
+ 197 3538 a 596 3628 a Fg(Once)22 b(all)g(DB)h(cr)o
+(eation,)e(modi\002cation)j(and)e(customization)h(is)g(done,)f(you)h
+(ar)o(e)e(r)o(eady)g(to)i(sub-)596 3719 y(mit)e(cr)o(on)f(jobs)i(for)f
+(thr)o(ee)e(scripts:)1727 3719 y
+SDict begin H.S end
+ 1727 3719 a 1727 3719
+a
+SDict begin 11 H.A end
+ 1727 3719 a 1727 3719 a
+SDict begin [ /View [/XYZ H.V] /Dest (116) cvn H.B /DEST pdfmark end
+ 1727 3719 a 197 3798 a
+SDict begin H.S end
+ 197
+3798 a 197 3798 a
+SDict begin 11 H.A end
+ 197 3798 a 197 3798 a
+SDict begin [ /View [/XYZ H.V] /Dest (117) cvn H.B /DEST pdfmark end
+ 197 3798 a Black
+596 3976 a Fb(\225)p Black 679 3976 a
+SDict begin H.S end
+ 679 3976 a 679
+3976 a
+SDict begin 11 H.A end
+ 679 3976 a 679 3976 a
+SDict begin [ /View [/XYZ H.V] /Dest (118) cvn H.B /DEST pdfmark end
+ 679 3976 a Fg(hdf5perf/hdf5perfphp/r)o
+(un_1.6.6.sh)197 3999 y
+SDict begin H.S end
+ 197 3999 a 197 3999 a
+SDict begin 11 H.A end
+ 197 3999
+a 197 3999 a
+SDict begin [ /View [/XYZ H.V] /Dest (119) cvn H.B /DEST pdfmark end
+ 197 3999 a Black 596 4109 a Fb(\225)p Black
+679 4109 a
+SDict begin H.S end
+ 679 4109 a 679 4109 a
+SDict begin 11 H.A end
+ 679 4109 a 679 4109
+a
+SDict begin [ /View [/XYZ H.V] /Dest (120) cvn H.B /DEST pdfmark end
+ 679 4109 a Fg(hdf5perf/hdf5perfphp/r)o(un_1.8.0.sh)197
+4132 y
+SDict begin H.S end
+ 197 4132 a 197 4132 a
+SDict begin 11 H.A end
+ 197 4132 a 197 4132 a
+SDict begin [ /View [/XYZ H.V] /Dest (121) cvn H.B /DEST pdfmark end
+ 197
+4132 a Black 596 4242 a Fb(\225)p Black 679 4242 a
+SDict begin H.S end
+ 679
+4242 a 679 4242 a
+SDict begin 11 H.A end
+ 679 4242 a 679 4242 a
+SDict begin [ /View [/XYZ H.V] /Dest (122) cvn H.B /DEST pdfmark end
+ 679 4242 a Fg(php)h
+(hdf5perf/hdf5perfphp/hdf/mailer)-6 b(.php)197 4416 y
+SDict begin H.S end
+
+197 4416 a 197 4416 a
+SDict begin 11 H.A end
+ 197 4416 a 197 4416 a
+SDict begin [ /View [/XYZ H.V] /Dest (123) cvn H.B /DEST pdfmark end
+ 197 4416
+a 596 4507 a Fg(Her)o(e's)19 b(an)i(example)f(cr)o(on)h(job)g(table)f
+(listing)i(on)g(hdfdap.hdfgr)o(oup.uiuc.edu)c(machine:)197
+4614 y
+SDict begin H.S end
+ 197 4614 a 197 4614 a
+SDict begin 9.9 H.A end
+ 197 4614 a 197 4614 a
+SDict begin [ /View [/XYZ H.V] /Dest (124) cvn H.B /DEST pdfmark end
+ 197
+4614 a 775 4673 a Fa(00)44 b(20)h(*)f(*)h(*)g
+(/hdf5perf/hdf5perfphp/run_1.6.6.sh)775 4755 y(00)f(22)h(*)f(*)h(*)g
+(/hdf5perf/hdf5perfphp/run_1.8.0.sh)775 4837 y(55)f(01)h(*)f(*)h(*)g
+(/usr/bin/php)e(/hdf5perf/hdf5perfphp/hdf/mailer.php)197
+5053 y
+SDict begin H.S end
+ 197 5053 a 197 5053 a
+SDict begin 11 H.A end
+ 197 5053 a 197 5053 a
+SDict begin [ /View [/XYZ H.V] /Dest (125) cvn H.B /DEST pdfmark end
+ 197
+5053 a 596 5144 a Fg(HDF5)h(version)g(1.6.6)e(library)i(testing)h
+(starts)f(at)f(8:00pm)g(and)h(HDF5)g(version)g(1.8.0)e(at)596
+5235 y(10:00pm.)21 b(The)i(mailer)-6 b(.php)23 b(script)h(sends)g(an)f
+(e-mail)g(noti\002cation)i(to)f(subscribers)f(if)h(ther)o(e)f(is)596
+5327 y(a)d(signi\002cant)i(incr)o(ease)d(in)i(performance.)197
+5392 y
+SDict begin H.S end
+ 197 5392 a 197 5392 a
+SDict begin 11 H.A end
+ 197 5392 a 197 5392 a
+SDict begin [ /View [/XYZ H.V] /Dest (126) cvn H.B /DEST pdfmark end
+ 197
+5392 a Black 193 x Fc(6)p Black eop end
+%%Page: 7 11
+TeXDict begin 7 10 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.7) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black 2519 -132 a Fc(Chapter)21 b(3.)f(HPF)g(Installation)g(Guide)p
+Black 197 89 a Fj(3.6)31 b(W)l(eb)g(P)m(a)o(g)q(e)g(Installation)1518
+89 y
+SDict begin H.S end
+ 1518 89 a 1518 89 a
+SDict begin 14.641 H.A end
+ 1518 89 a 1518 89 a
+SDict begin [ /View [/XYZ H.V] /Dest (5.12.1) cvn H.B /DEST pdfmark
+end
+ 1518 89
+a 197 169 a
+SDict begin H.S end
+ 197 169 a 197 169 a
+SDict begin 11 H.A end
+ 197 169 a 197 169 a
+SDict begin [ /View [/XYZ H.V] /Dest (128) cvn H.B /DEST pdfmark end
+ 197
+169 a 596 236 a Fg(Simply)21 b(points)g(your)g(web)g(server)6
+b('s)20 b(document)i(r)o(oot)e(to)i("hdf5perf/hdf5perfphp/hdf/".)p
+Black 3642 5585 a Fc(7)p Black eop end
+%%Page: 8 12
+TeXDict begin 8 11 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.8) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black -30 x Fc(Chapter)20 b(3.)g(HPF)h(Installation)f(Guide)p
+Black Black 197 5585 a(8)p Black eop end
+%%Page: 9 13
+TeXDict begin 9 12 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.9) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black Black 197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (129) cvn H.B /DEST pdfmark end
+
+197 6 a 89 x Ff(Chapter)34 b(4.)f(Writing)i(Custom)f(Benc)o(hmark)e(Pr)
+n(ogram)2955 95 y
+SDict begin H.S end
+ 2955 95 a 2955 95 a
+SDict begin 16.105 H.A end
+ 2955 95 a 2955
+95 a
+SDict begin [ /View [/XYZ H.V] /Dest (6.0) cvn H.B /DEST pdfmark end
+ 2955 95 a 197 224 a
+SDict begin H.S end
+ 197 224 a 197 224 a
+SDict begin 11 H.A end
+ 197 224
+a 197 224 a
+SDict begin [ /View [/XYZ H.V] /Dest (131) cvn H.B /DEST pdfmark end
+ 197 224 a 596 288 a Fg(In)54 b(this)h(cahpater)-6
+b(,)52 b(we)i(pr)o(ovide)g(a)f(detailed)g(instr)o(uction)j(about)e(cr)o
+(eating)f(a)h(custom)596 380 y(benchmark)65 b(pr)o(ogram.)f(W)-6
+b(riting)65 b(a)g(custom)h(benchmark)f(pr)o(ogram)f(r)o(equir)o(es)g
+(some)596 471 y(knowledge)21 b(about)g(HPF)g(C-API.)197
+494 y
+SDict begin H.S end
+ 197 494 a 197 494 a
+SDict begin 11 H.A end
+ 197 494 a 197 494 a
+SDict begin [ /View [/XYZ H.V] /Dest (132) cvn H.B /DEST pdfmark end
+ 197 494
+a 264 x Fj(4.1)31 b(Over)q(vie)n(w)870 758 y
+SDict begin H.S end
+ 870 758
+a 870 758 a
+SDict begin 14.641 H.A end
+ 870 758 a 870 758 a
+SDict begin [ /View [/XYZ H.V] /Dest (6.13.1) cvn H.B /DEST pdfmark
+end
+ 870 758 a 197 815 a
+SDict begin H.S end
+ 197
+815 a 197 815 a
+SDict begin 11 H.A end
+ 197 815 a 197 815 a
+SDict begin [ /View [/XYZ H.V] /Dest (134) cvn H.B /DEST pdfmark end
+ 197 815 a 197 815
+a
+SDict begin H.S end
+ 197 815 a 197 815 a
+SDict begin 11 H.A end
+ 197 815 a 197 815 a
+SDict begin [ /View [/XYZ H.V] /Dest (135) cvn H.B /DEST pdfmark end
+ 197 815 a 197
+870 a
+SDict begin H.S end
+ 197 870 a 197 870 a
+SDict begin 11 H.A end
+ 197 870 a 197 870 a
+SDict begin [ /View [/XYZ H.V] /Dest (136) cvn H.B /DEST pdfmark end
+ 197 870
+a Black 596 1071 a Fb(\225)p Black 679 1071 a
+SDict begin H.S end
+ 679 1071
+a 679 1071 a
+SDict begin 11 H.A end
+ 679 1071 a 679 1071 a
+SDict begin [ /View [/XYZ H.V] /Dest (137) cvn H.B /DEST pdfmark end
+ 679 1071 a Fg(Cr)o(eate)19
+b(a)h(dir)o(ectory)g("mytest")h(under)f(hdf5per\003ib)g(sour)o(ce)g(tr)
+o(ee.)197 1094 y
+SDict begin H.S end
+ 197 1094 a 197 1094 a
+SDict begin 11 H.A end
+ 197 1094 a 197
+1094 a
+SDict begin [ /View [/XYZ H.V] /Dest (138) cvn H.B /DEST pdfmark end
+ 197 1094 a Black 596 1204 a Fb(\225)p Black 679
+1204 a
+SDict begin H.S end
+ 679 1204 a 679 1204 a
+SDict begin 11 H.A end
+ 679 1204 a 679 1204 a
+SDict begin [ /View [/XYZ H.V] /Dest (139) cvn H.B /DEST pdfmark end
+ 679
+1204 a Fg(Copy)h(example)f(\002les)h(under)f("examples/c/*")h(into)g
+("mytest".)197 1227 y
+SDict begin H.S end
+ 197 1227 a 197 1227 a
+SDict begin 11 H.A end
+ 197 1227
+a 197 1227 a
+SDict begin [ /View [/XYZ H.V] /Dest (140) cvn H.B /DEST pdfmark end
+ 197 1227 a Black 596 1336 a Fb(\225)p Black
+679 1336 a
+SDict begin H.S end
+ 679 1336 a 679 1336 a
+SDict begin 11 H.A end
+ 679 1336 a 679 1336
+a
+SDict begin [ /View [/XYZ H.V] /Dest (141) cvn H.B /DEST pdfmark end
+ 679 1336 a Fg(Review)g(write2.c)e(or)i(write.c)g(and)f(make)h(your)g
+(own)g(pr)o(ogram.)197 1360 y
+SDict begin H.S end
+ 197 1360 a 197 1360 a
+SDict begin 11 H.A end
+ 197
+1360 a 197 1360 a
+SDict begin [ /View [/XYZ H.V] /Dest (142) cvn H.B /DEST pdfmark end
+ 197 1360 a Black 596 1469 a Fb(\225)p
+Black 679 1469 a
+SDict begin H.S end
+ 679 1469 a 679 1469 a
+SDict begin 11 H.A end
+ 679 1469 a 679
+1469 a
+SDict begin [ /View [/XYZ H.V] /Dest (143) cvn H.B /DEST pdfmark end
+ 679 1469 a Fg(Make)c(sur)o(e)h(that)h(your)g(functions)h(ar)o(e)
+d(wrapped)g(ar)o(ound)h(the)h(H5Perf_startT)-5 b(imer\(&)17
+b(start\))679 1561 y(and)j(the)h(H5Perf_endT)-5 b(imer\(\).)197
+1578 y
+SDict begin H.S end
+ 197 1578 a 197 1578 a
+SDict begin 11 H.A end
+ 197 1578 a 197 1578 a
+SDict begin [ /View [/XYZ H.V] /Dest (144) cvn H.B /DEST pdfmark end
+ 197
+1578 a Black 596 1693 a Fb(\225)p Black 679 1693 a
+SDict begin H.S end
+ 679
+1693 a 679 1693 a
+SDict begin 11 H.A end
+ 679 1693 a 679 1693 a
+SDict begin [ /View [/XYZ H.V] /Dest (145) cvn H.B /DEST pdfmark end
+ 679 1693 a Fg(Update)19
+b(Make\002le.am)g(to)i(include)g(your)g(sour)o(ce)g(codes)f(and)h(r)o
+(un)g("automake".)197 1717 y
+SDict begin H.S end
+ 197 1717 a 197 1717 a
+SDict begin 11 H.A end
+ 197
+1717 a 197 1717 a
+SDict begin [ /View [/XYZ H.V] /Dest (146) cvn H.B /DEST pdfmark end
+ 197 1717 a Black 596 1826 a Fb(\225)p
+Black 679 1826 a
+SDict begin H.S end
+ 679 1826 a 679 1826 a
+SDict begin 11 H.A end
+ 679 1826 a 679
+1826 a
+SDict begin [ /View [/XYZ H.V] /Dest (147) cvn H.B /DEST pdfmark end
+ 679 1826 a Fg(Run)g("cd)f(..")g(,)h(add)f(your)h(dir)o(ectory)f
+("mytest")h(into)g(Make\002le.am)f(and)g(r)o(un)h(automake.)197
+2001 y
+SDict begin H.S end
+ 197 2001 a 197 2001 a
+SDict begin 11 H.A end
+ 197 2001 a 197 2001 a
+SDict begin [ /View [/XYZ H.V] /Dest (148) cvn H.B /DEST pdfmark end
+ 197
+2001 a 287 x Fj(4.2)31 b(Creating)f(Custom)g(Routine)q(,)f(Action)h
+(and)g(Instance)h(Name)3157 2288 y
+SDict begin H.S end
+ 3157 2288 a 3157 2288
+a
+SDict begin 14.641 H.A end
+ 3157 2288 a 3157 2288 a
+SDict begin [ /View [/XYZ H.V] /Dest (6.14.1) cvn H.B /DEST pdfmark
+end
+ 3157 2288 a 197 2368 a
+SDict begin H.S end
+ 197
+2368 a 197 2368 a
+SDict begin 11 H.A end
+ 197 2368 a 197 2368 a
+SDict begin [ /View [/XYZ H.V] /Dest (150) cvn H.B /DEST pdfmark end
+ 197 2368 a 596
+2435 a Fg(HPF)24 b(uses)h(a)e(hierar)o(chical)g(model)i(to)f(gr)o(oup)g
+(benchmark)g(pr)o(ograms.)g(The)g(model)g(has)h(thr)o(ee)596
+2526 y(levels)19 b(of)h(abstraction)f(-)h(r)o(outine,)f(action)h(and)f
+(instance.)h(One)g(r)o(outine)g(can)f(have)g(one)h(or)g(mor)o(e)596
+2617 y(actions)33 b(and)f(each)g(action)h(can)g(have)f(one)h(or)g(mor)o
+(e)f(instances.)h(Thus,)g(to)g(write)g(a)f(custom)596
+2709 y(benchmark)20 b(pr)o(ogram,)f(the)i(\002rst)f(thing)h(you'll)h
+(need)d(to)i(do)g(is)f(to)h(decide)e(at)h(least)g(3)g(names)g(for)596
+2800 y(each)g(level.)197 2843 y
+SDict begin H.S end
+ 197 2843 a 197 2843 a
+SDict begin 11 H.A end
+
+197 2843 a 197 2843 a
+SDict begin [ /View [/XYZ H.V] /Dest (151) cvn H.B /DEST pdfmark end
+ 197 2843 a 596 2933 a Fg(For)h(example,)f(if)g
+(you)i(ar)o(e)d(inter)o(ested)h(in)h(measuring)h("write")e
+(performance,)g(you)h(may)g(name)596 3024 y(it)c(as)f(a)h("write")f(r)o
+(outine.)h(Then,)g(you)g(may)g(name)g(two)g(actions)g(like)g("write)g
+(gr)o(oups")g(and)f("write)596 3116 y(datasets")29 b(under)h(the)h
+("write")f(r)o(outine.)h(Finally)-9 b(,)31 b(you)g(can)f(add)g(two)h
+(instances)g(like)g("write)596 3207 y(1,000)e(gr)o(oups")j(under)g(the)
+g("write)g(gr)o(oups")g(action)h(and)e("write)h(100)f(datasets")g
+(under)h(the)596 3298 y("write)20 b(datasets")g(action.)197
+3300 y
+SDict begin H.S end
+ 197 3300 a 197 3300 a
+SDict begin 11 H.A end
+ 197 3300 a 197 3300 a
+SDict begin [ /View [/XYZ H.V] /Dest (152) cvn H.B /DEST pdfmark end
+ 197
+3300 a 197 3466 a
+SDict begin H.S end
+ 197 3466 a 197 3466 a
+SDict begin 11 H.A end
+ 197 3466 a 197
+3466 a
+SDict begin [ /View [/XYZ H.V] /Dest (154) cvn H.B /DEST pdfmark end
+ 197 3466 a 596 4107 a
+ currentpoint currentpoint translate 1 1 scale neg exch neg exch translate
+ 596 4107 a @beginspecial
+0 @llx 0 @lly 72 @urx 72 @ury 720 @rwi @setspecial
+%%BeginDocument: hpf_benchmark_model.png
+âPNG
+
+   
+IHDR     Ÿ   ?ù‘'   	pHYs  M  M“Œ≠N   tEXtSoftware GNU Ghostscript 7.07¨·"˘  
+#IDATxúÌ›—ñ£(–õY˝ˇøúy`çCÉcD˜~Ëï≤åe§Â»U„Î˝~ è˜œ’+ „{Ω^WØ|& àê $Ú Äy @ÚÁÍË⁄®ß]T‘‰¡ºî£ˆõØ◊k‘èÏ¶^4#uó˜òÔ˜{‘°∞õ<(=‰ÿY$ y\"»… "‰A·!≈"Äö<  B ê» "‰ â<  B ê» "‰ â<  B êx˛på‚Î˜}ıãÔåπêÒpò˜æ}„î%¬‡BÚ Ëë/c?üzp§∫œß§√ˇTöûJõ^Lß!B1h®ó√±åÄ√‘eüÈÈ≥+}zzQwÒyÈ…p·∆
+Â˚∆ÏëN±8ì∆›’ù~Ò€ªu;HS∆
+ÂˇwÎ#†Ÿ£°Èµ£!Ó´Ë˜ß◊G˝Ø∂w4"NÂˇ1c´c`1c‚i Ï{k˘råQ/jk}Ä\‘RßˇË≈Èµ|ûñ+?Y˛ÆÖã)[^–àÒ¡ÚÉö¸ıÙoÒ}ön<ú∆¯†9Á–Ä[0>8’“uu[+ M…Éì¨d¿RG?[bhDΩË+Á÷>ûÇ¿9å àê $Ú Äy @" àê $Ú Äy @" àê $Ú Äy @" àê $Ú Äy @" àê $Ú‡/Ô˜€cÎÅgí D»É'{Ω^Ô˜˚Íµ z!JJF¿3…É√G¬Îı28 
+Æ^ÅNÂë0Røô>‘Hü8ä<X4uö#ç$∞D|÷¥-Í6éﬂÅ´»ÉÀÃv˝ÈG© úO\‡cwüß¬˙ú Gëß˙Í¿ø8Å!Ä¶‰¡I~È”ëÄ»ÉÊéÍ«ëÄ¶‰A[áﬂˆ•à4"Zi›_+"«í«;≥èVDé"ét’—∫";ypåN:bE$`7y´;_E$`yìûø5Z	¯ä<ÿÈFù¨"∞Eô≈w;/}Á≥ÈÖN÷gezQD∫|}5}“…˙òn˙¸tå€çtà=“gÈ_œuEò®m2^Ô©à‰¡c˜òÆD&Ú`ÕCÜ˘ÆDB,yfœ®àO&JzCE$x&y?IêSDÇßë∫ºUäHÕÉÈD±nn£ï"“CŒ∫√ûòyË»æ2[Dzøﬂ∂$‡qyêz.√Ç£+ë x÷>úó;D¬QÚÔB±=g	Kn·ü´W‡<y∑ïˆOªËÔä3
+Ø◊kÈ´‹ÄŒ=¢^‰R˙vfø1—·0‹—yy–√acãu∏W«wZ+ú‹‹˜jË”y0v•˛.«¬ZX◊¸¸¡ï˙È‘tœ¥Q€<x»Q[ÁùëV ∂x–ıEMÈåz†‡Ú Äà¶yê2EÁ¥∞ëÒ Ú ÄD ! H‰ Ú ¯›ˆ€>‹ “3y ¸dKÔ;ÜoA ¯˝¿ﬂ–·rèx˛–H˛4Ú|‚Ùz˙ëÈQµı¸ıS4#.!Ä#’∑ƒ◊è◊ŒLœ‘K?÷Q¡ô‘ãÄüLI›◊è
+ÙC ;Mœ’(ûÆ1√JBlôáì…`ø¢[œO‘5¢Èu>O"t√˘`ßº_z]L©_¨Ã√…å à∏v|ê_[V\g6;ä¸ˆ´¸Î∫§„éhºŸãmnÉ√ç\9>®òáú±·‘‘µ’'ªÆÈfèø∑˘ñ”âﬂr˙È´^tÏÆ~Tﬂµ˚Äh7rÒ˘‰Ìáêıùç”Ìé˘<ÎÀ©´≥◊<L”GΩmÚúÕæ¥ÿ‚Ü’Ÿ_ÂKÆW’C@°Ö.∆˘•iıÕäuµgöæÒÿsZBÒ"øz:n†/ñ0“—nÎÕ^»X‘©fˇ÷ÏØ\¿QÆœÉﬂ˜ÌCŒly˚H›–˘õ}˚à$≤+”˜˝-`áÎÛ ˜À—ﬂlUa˚ªF:ˇ÷±õΩ¯m^Ö[ü'ˇqvÊ'∑ú†ó˚—V:£•Æd*dœ^%ôˇjÈΩ≈<ıŸÇ|˛èÎyGáoˆX.ªÂ—[ÑD}èkæÑ˙o9 -4‹ØÜŸi7~ê>?oük’Nüü∑œµÇB_ı" Æ">®+ CÍÂ¸A∑ÛÅá0>  B ê» "‰ â<  B ê» "‰ â<  B ê» "‰ â<  B ê» "öÊAzÚmªÂ≥ÖV 62>  B≈”{†‡mÛ@±¢Zÿ¢˘¯`¯ŒËızıX™Äè˛ú7ÚŒh§=6}®ª|"≠ ¨;#"€]G:JΩ]§Ä'Â¡§≈ﬁ´P≠Û7ó6Ç˛πæÄy @" àê $Ú Äy @" àê $Â}™K∑∞ön˙/”ß_u≤>¶õ~ãÈ'·ÆQ˜æˆÔ·mÙèœ]®! H‰ Ú Ä‰ﬁyêüîÈ;˝G¢ç‡.Óù√?r ⁄Ó‚ﬁy ¿Q…◊w˜OAÁ… ~t˚<p»Ÿ?m∑p˚< ‡É‰Å#–˛i#Ë‹ y ¿è˛?ﬂÙRÒ>Wªá#‚~∂L?k≤[
+Ìîy˛”§üÓOÉ¢üÖF‘ã àê $Ú Äy @" àòΩæ‡£ÈÇ+∞
+√¯ ÿ#≈¿∆0pµÓ-»‡ ª{|Q—ı"‡y©ÓÂß`‘Ö¶bJ˛ﬁbQjSM…‡≥Ωyzë?
+ii∂4•xní—√ô‘ãÄ„M]¸Ï@a«“ícVéÚ 8^:ÃØ{-èMù£HcÖ÷‘ãÄ˝R=€≈◊ΩyQ)öÕÜt¬ _lÒ#Ì»`ßºÉ.N}wÒ€ı_-Ωó÷‘ã àÿ1>òΩ§,aæ•\X/øæ->]ñêOô]·ïy•√¨◊mˆ∑@S_èÍ‚Ïòqv ñ”A≥K®«èß‰Òù˘∏√Î≥ã_%+Œ›Op∏ÍEÌv∞‚öÂtZÈ„îb!Ge¿¿˝»µ-∏Úˆè3 ⁄s>y˚Å[ö≥æŸ‰íó.bõ]ü|=gÔ¢ºı=ìwl¡z„œﬁÔ∫^û*ïœÏ‰«z˘ÎÈﬂŸã.<‚õV©x1](˝±∫]œsÎ‘ΩZ0_ü¢ÃµRèöÌ˙WﬁO∂3~ﬂãÚ.∏[÷'ÔSfoøºÖ€µ‡ˆMTÌRØÍ›õZ8‡¸AqÃıïÌÂ„È(˛„îØ˛D1œˆﬁ·µp˚Â]€ÇÎü:Ó•9_’◊›,µKæ™#5Âß˚—Vvß•x™>/]⁄Xø˝c˝wv ¥Ü+«ÄyïóÄ>˛ïı≈ﬁH?-8˚´¢£/ñ\ü?òŒ+‰K®Wµû
+ààrüˇx»ˆXﬂnôN∂d'´1Ä_∂§V‡‹ü@Ñ<ÿHÖûÔ≥€ƒ`ûÒ Ú ÄD ! H‰ Ú ÄD ! H‰ Ú ÄD ! H‰ Ú ÄD ! Hfûá„)`É—†¿ˇÃªÚR\¨‡    IENDÆB`ÇâPNG
+
+   
+IHDR     Ÿ   ?ù‘'   	pHYs  M  M“Œ≠N   tEXtSoftware GNU Ghostscript 7.07¨·"˘  ‚IDATxúÌ’±
+Ä@ ƒ∞¿˛;?≈
+ˆÈrùs‡˜Ó∑ ¯? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ   ? †¸ ÄÒ ™Ø˙Ø¨ö}√    IENDÆB`Ç
+
+%%EndDocument
+ @endspecial 596 4107 a
+ currentpoint currentpoint translate 1 1 div 1 1 div scale neg exch
+neg exch translate
+ 596 4107 a 133 x Fe(Figure)g(4-1.)f(An)h
+(example)e(HPF)j(hierarchical)d(benchmark)g(model)197
+4345 y
+SDict begin H.S end
+ 197 4345 a 197 4345 a
+SDict begin 11 H.A end
+ 197 4345 a 197 4345 a
+SDict begin [ /View [/XYZ H.V] /Dest (157) cvn H.B /DEST pdfmark end
+ 197
+4345 a 266 x Fj(4.3)31 b(Injecting)e(Custom)h(Benc)o(hmark)i(Pr)n
+(ogram)2393 4611 y
+SDict begin H.S end
+ 2393 4611 a 2393 4611 a
+SDict begin 14.641 H.A end
+ 2393 4611
+a 2393 4611 a
+SDict begin [ /View [/XYZ H.V] /Dest (6.15.1) cvn H.B /DEST pdfmark
+end
+ 2393 4611 a 197 4691 a
+SDict begin H.S end
+ 197 4691 a 197 4691
+a
+SDict begin 11 H.A end
+ 197 4691 a 197 4691 a
+SDict begin [ /View [/XYZ H.V] /Dest (159) cvn H.B /DEST pdfmark end
+ 197 4691 a Black 3642 5585 a
+Fc(9)p Black eop end
+%%Page: 10 14
+TeXDict begin 10 13 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.10) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black -30 x Fc(Chapter)20 b(4.)g(W)n(riting)i(Custom)e(Benchmark)g
+(Pr)o(ogram)p Black Black 197 5585 a(10)p Black eop end
+%%Page: 11 15
+TeXDict begin 11 14 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.11) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black Black 197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (160) cvn H.B /DEST pdfmark end
+
+197 6 a 89 x Ff(Chapter)34 b(5.)f(T)-7 b(esting)34 b(HPF)1561
+95 y
+SDict begin H.S end
+ 1561 95 a 1561 95 a
+SDict begin 16.105 H.A end
+ 1561 95 a 1561 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (7.0) cvn H.B /DEST pdfmark end
+ 1561 95
+a 197 163 a
+SDict begin H.S end
+ 197 163 a 197 163 a
+SDict begin 11 H.A end
+ 197 163 a 197 163 a
+SDict begin [ /View [/XYZ H.V] /Dest (162) cvn H.B /DEST pdfmark end
+ 197
+163 a 261 x Fj(5.1)d(T)-7 b(esting)30 b(Bac)n(k-end)1293
+424 y
+SDict begin H.S end
+ 1293 424 a 1293 424 a
+SDict begin 14.641 H.A end
+ 1293 424 a 1293 424 a
+SDict begin [ /View [/XYZ H.V] /Dest (7.16.1) cvn H.B /DEST pdfmark
+end
+ 1293
+424 a 197 503 a
+SDict begin H.S end
+ 197 503 a 197 503 a
+SDict begin 11 H.A end
+ 197 503 a 197 503
+a
+SDict begin [ /View [/XYZ H.V] /Dest (164) cvn H.B /DEST pdfmark end
+ 197 503 a 596 570 a Fg(HPF)54 b(testing)h(can)f(be)g(done)g(by)g(r)o
+(unning)i(a)e(back-end)f(script)h(like)g(r)o(un_1.8.0.sh)f(or)596
+662 y(r)o(un_1.6.6.sh.)21 b(It's)j(a)f(good)h(idea)e(to)i(set)g(INTER)
+-5 b(V)c(AL="0")22 b(in)i(the)g(script)f(to)h(get)f(a)g(quick)h(r)o
+(esult)596 753 y(of)c(your)h(test.)197 818 y
+SDict begin H.S end
+ 197 818
+a 197 818 a
+SDict begin 11 H.A end
+ 197 818 a 197 818 a
+SDict begin [ /View [/XYZ H.V] /Dest (165) cvn H.B /DEST pdfmark end
+ 197 818 a 596 886 a Fg(If)26
+b(your)i(script)f(exits)g(without)h(any)f(err)o(or)-6
+b(,)26 b(it's)i(important)f(to)h(examine)f(database)e(tables.)h(T)-8
+b(o)596 977 y(examine)20 b(your)h(data,)e(issue)j(a)e(command:)197
+1083 y
+SDict begin H.S end
+ 197 1083 a 197 1083 a
+SDict begin 9.9 H.A end
+ 197 1083 a 197 1083 a
+SDict begin [ /View [/XYZ H.V] /Dest (166) cvn H.B /DEST pdfmark end
+ 197
+1083 a 596 1142 a Fa(\045mysql)43 b(-u)i(root)f(-p)g(hdf5perfsmiple)596
+1317 y Fg(and)20 b(then)h(pr)o(ess)f(enter)-6 b(.)20
+b(No)h(passwor)o(d)f(is)i(r)o(equir)o(ed)d(by)i(default.)197
+1381 y
+SDict begin H.S end
+ 197 1381 a 197 1381 a
+SDict begin 11 H.A end
+ 197 1381 a 197 1381 a
+SDict begin [ /View [/XYZ H.V] /Dest (167) cvn H.B /DEST pdfmark end
+ 197
+1381 a 596 1449 a Fg(Y)-8 b(ou)21 b(can)g(inspect)g(newly)g(r)o(ecor)o
+(ded)e(data)g(fr)o(om)i(database)e(by)h(issuing)j(an)d(SQL)g(query)h
+(like:)197 1556 y
+SDict begin H.S end
+ 197 1556 a 197 1556 a
+SDict begin 9.9 H.A end
+ 197 1556 a 197
+1556 a
+SDict begin [ /View [/XYZ H.V] /Dest (168) cvn H.B /DEST pdfmark end
+ 197 1556 a 775 1615 a Fa(mysql>SELECT)43 b(*)h(from)g
+(TestInstance)f(WHERE)h(TestInstance_Date)e(>)j(20080101;)197
+1830 y
+SDict begin H.S end
+ 197 1830 a 197 1830 a
+SDict begin 11 H.A end
+ 197 1830 a 197 1830 a
+SDict begin [ /View [/XYZ H.V] /Dest (169) cvn H.B /DEST pdfmark end
+ 197
+1830 a 596 1922 a Fg(In)31 b(the)g(above)g(example,)f(it's)i(important)
+g(to)f(change)g(the)h(date)e(20080101)d(to)32 b(today's)f(date.)596
+2013 y(After)19 b(all)i(your)g(testing)g(is)g(done,)g(you)g(can)g
+(clean)f(up)h(today\(=20080101\)'s)16 b(data:)197 2120
+y
+SDict begin H.S end
+ 197 2120 a 197 2120 a
+SDict begin 9.9 H.A end
+ 197 2120 a 197 2120 a
+SDict begin [ /View [/XYZ H.V] /Dest (170) cvn H.B /DEST pdfmark end
+ 197 2120
+a 775 2178 a Fa(mysql>DELETE)43 b(FROM)h(subversion)f(WHERE)h
+(checkout_date)f(>)h(20080101;)775 2261 y(mysql>DELETE)f(FROM)h
+(TestInstance)f(WHERE)h(TestInstance_Date)e(>)i(20080101;)775
+2343 y(mysql>DELETE)f(FROM)h(TestInstanceBest)e(WHERE)i
+(TestInstance_Date)e(>)j(20080101;)775 2425 y(mysql>DELETE)e(FROM)h
+(environment)f(WHERE)h(env_date)f(>)i(20080101;)197 2641
+y
+SDict begin H.S end
+ 197 2641 a 197 2641 a
+SDict begin 11 H.A end
+ 197 2641 a 197 2641 a
+SDict begin [ /View [/XYZ H.V] /Dest (171) cvn H.B /DEST pdfmark end
+ 197 2641
+a 596 2732 a Fg(Please)15 b(don't)i(for)o(get)f(to)g(set)h(INTER)-5
+b(V)c(AL=600)14 b(back)i(in)h(your)g(test)f(script.)g(Finally)-9
+b(,)17 b(submit)g(your)596 2823 y(script)j(as)h(a)f(cr)o(on)h(job.)197
+2888 y
+SDict begin H.S end
+ 197 2888 a 197 2888 a
+SDict begin 11 H.A end
+ 197 2888 a 197 2888 a
+SDict begin [ /View [/XYZ H.V] /Dest (172) cvn H.B /DEST pdfmark end
+ 197
+2888 a 265 x Fj(5.2)31 b(T)-7 b(esting)30 b(Fr)n(ont-end)1314
+3153 y
+SDict begin H.S end
+ 1314 3153 a 1314 3153 a
+SDict begin 14.641 H.A end
+ 1314 3153 a 1314 3153
+a
+SDict begin [ /View [/XYZ H.V] /Dest (7.17.1) cvn H.B /DEST pdfmark
+end
+ 1314 3153 a 197 3232 a
+SDict begin H.S end
+ 197 3232 a 197 3232 a
+SDict begin 11 H.A end
+ 197 3232
+a 197 3232 a
+SDict begin [ /View [/XYZ H.V] /Dest (174) cvn H.B /DEST pdfmark end
+ 197 3232 a 596 3299 a Fg(After)c(two)j(days)e(of)h(your)h
+(cr)o(on)e(job)i(installation,)g(it)f(is)g(possible)h(to)f(visualize)f
+(your)i(perfor)o(-)596 3390 y(mance)19 b(data.)g(The)h(r)o(eason)f(is)i
+(that)e(any)h(graph)g(r)o(endering)f(by)h(jpgraph)g(r)o(equir)o(es)g
+(two)g(or)g(mor)o(e)596 3482 y(data)f(points.)p Black
+3601 5585 a Fc(11)p Black eop end
+%%Page: 12 16
+TeXDict begin 12 15 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.12) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black -30 x Fc(Chapter)20 b(5.)g(T)-9 b(esting)21 b(HPF)p
+Black Black 197 5585 a(12)p Black eop end
+%%Page: 13 17
+TeXDict begin 13 16 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.13) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black Black 197 6 a
+SDict begin H.S end
+ 197 6 a 197 6 a
+SDict begin 11 H.A end
+ 197 6 a 197 6 a
+SDict begin [ /View [/XYZ H.V] /Dest (175) cvn H.B /DEST pdfmark end
+
+197 6 a 89 x Ff(Chapter)34 b(6.)f(HPF)h(Maintenance)1872
+95 y
+SDict begin H.S end
+ 1872 95 a 1872 95 a
+SDict begin 16.105 H.A end
+ 1872 95 a 1872 95 a
+SDict begin [ /View [/XYZ H.V] /Dest (8.0) cvn H.B /DEST pdfmark end
+ 1872 95
+a 197 222 a
+SDict begin H.S end
+ 197 222 a 197 222 a
+SDict begin 11 H.A end
+ 197 222 a 197 222 a
+SDict begin [ /View [/XYZ H.V] /Dest (177) cvn H.B /DEST pdfmark end
+ 197
+222 a 596 288 a Fg(HPF)21 b(r)o(equir)o(es)e(a)i(periodic)f
+(maintenance)h(like)g(manual)f(data)g(entry)h(and)f(version)h(change.)
+197 312 y
+SDict begin H.S end
+ 197 312 a 197 312 a
+SDict begin 11 H.A end
+ 197 312 a 197 312 a
+SDict begin [ /View [/XYZ H.V] /Dest (178) cvn H.B /DEST pdfmark end
+ 197
+312 a 264 x Fj(6.1)31 b(Recor)n(ding)e(Missing)h(Data)1637
+576 y
+SDict begin H.S end
+ 1637 576 a 1637 576 a
+SDict begin 14.641 H.A end
+ 1637 576 a 1637 576 a
+SDict begin [ /View [/XYZ H.V] /Dest (8.18.1) cvn H.B /DEST pdfmark
+end
+ 1637
+576 a 197 656 a
+SDict begin H.S end
+ 197 656 a 197 656 a
+SDict begin 11 H.A end
+ 197 656 a 197 656
+a
+SDict begin [ /View [/XYZ H.V] /Dest (180) cvn H.B /DEST pdfmark end
+ 197 656 a 596 722 a Fg(Sometimes,)51 b(the)h(curr)o(ent)e(HPF)i
+(fails)f(to)g(r)o(ecor)o(d)f(the)i(best)f(instance)g(fr)o(om)g(the)h
+(thr)o(ee)596 814 y(trials.)43 b(In)h(that)f(case,)g(one)h(can)f
+(inspect)h(the)g(T)-8 b(estInstance)44 b(table)f(and)g(import)h(the)g
+(best)596 905 y(r)o(ecor)o(d)c(into)i(T)-8 b(estInstanceBest)42
+b(table.This)g(can)f(be)h(done)f(using)i(a)e(utility)i(script)f(called)
+596 996 y('r)o(ecor)o(d_manually)-9 b(.php'.)197 1103
+y
+SDict begin H.S end
+ 197 1103 a 197 1103 a
+SDict begin 9.9 H.A end
+ 197 1103 a 197 1103 a
+SDict begin [ /View [/XYZ H.V] /Dest (181) cvn H.B /DEST pdfmark end
+ 197 1103
+a 730 1161 a Fa(\045php)44 b(record_manually.php)e(<hostname>)h
+(<version>)197 1377 y
+SDict begin H.S end
+ 197 1377 a 197 1377 a
+SDict begin 11 H.A end
+ 197 1377
+a 197 1377 a
+SDict begin [ /View [/XYZ H.V] /Dest (182) cvn H.B /DEST pdfmark end
+ 197 1377 a 596 1469 a Fg(This)21 b(will)g(\002ll)h(in)f
+(the)g(missing)h(r)o(ecor)o(ds)d(in)i(T)-8 b(estInstanceBest)21
+b(fr)o(om)g(T)-8 b(estInstance.)197 1534 y
+SDict begin H.S end
+ 197 1534 a
+197 1534 a
+SDict begin 11 H.A end
+ 197 1534 a 197 1534 a
+SDict begin [ /View [/XYZ H.V] /Dest (183) cvn H.B /DEST pdfmark end
+ 197 1534 a 596 1602
+a Fg(Check)20 b(the)h(graph)g(to)g(see)f(if)h(it's)g(r)o(ecor)o(ded)e
+(pr)o(operly:)197 1708 y
+SDict begin H.S end
+ 197 1708 a 197 1708 a
+SDict begin 9.9 H.A end
+ 197 1708
+a 197 1708 a
+SDict begin [ /View [/XYZ H.V] /Dest (184) cvn H.B /DEST pdfmark end
+ 197 1708 a 730 1767 a Fa(\045firefox)43
+b(http://hdfdap.hdfgroup.uiuc.edu/h5perf/tod)o(ay.php)197
+1983 y
+SDict begin H.S end
+ 197 1983 a 197 1983 a
+SDict begin 11 H.A end
+ 197 1983 a 197 1983 a
+SDict begin [ /View [/XYZ H.V] /Dest (185) cvn H.B /DEST pdfmark end
+ 197
+1983 a 596 2074 a Fg(Finally)-9 b(,)20 b(it's)i(good)f(to)g(add)f(a)g
+(journal)h(entry)-9 b(.)197 2139 y
+SDict begin H.S end
+ 197 2139 a 197 2139
+a
+SDict begin 11 H.A end
+ 197 2139 a 197 2139 a
+SDict begin [ /View [/XYZ H.V] /Dest (186) cvn H.B /DEST pdfmark end
+ 197 2139 a 264 x Fj(6.2)31 b(V)-6
+b(er)n(sion)31 b(Chang)q(e)1217 2403 y
+SDict begin H.S end
+ 1217 2403 a 1217
+2403 a
+SDict begin 14.641 H.A end
+ 1217 2403 a 1217 2403 a
+SDict begin [ /View [/XYZ H.V] /Dest (8.19.1) cvn H.B /DEST pdfmark
+end
+ 1217 2403 a 197 2483 a
+SDict begin H.S end
+
+197 2483 a 197 2483 a
+SDict begin 11 H.A end
+ 197 2483 a 197 2483 a
+SDict begin [ /View [/XYZ H.V] /Dest (188) cvn H.B /DEST pdfmark end
+ 197 2483
+a 596 2550 a Fg(In)21 b(case)f(ther)o(e)g(is)h(a)f(version)h(change)g
+(in)g(HDF5)g(library)-9 b(,)20 b(perform)g(the)h(following)h(steps:)197
+2573 y
+SDict begin H.S end
+ 197 2573 a 197 2573 a
+SDict begin 11 H.A end
+ 197 2573 a 197 2573 a
+SDict begin [ /View [/XYZ H.V] /Dest (189) cvn H.B /DEST pdfmark end
+ 197
+2573 a 197 2615 a
+SDict begin H.S end
+ 197 2615 a 197 2615 a
+SDict begin 11 H.A end
+ 197 2615 a 197
+2615 a
+SDict begin [ /View [/XYZ H.V] /Dest (190) cvn H.B /DEST pdfmark end
+ 197 2615 a Black 596 2765 a Fb(\225)p Black 679
+2765 a
+SDict begin H.S end
+ 679 2765 a 679 2765 a
+SDict begin 11 H.A end
+ 679 2765 a 679 2765 a
+SDict begin [ /View [/XYZ H.V] /Dest (191) cvn H.B /DEST pdfmark end
+ 679
+2765 a Fg(update)d(the)i(back-end)f(shell)h(script.)197
+2830 y
+SDict begin H.S end
+ 197 2830 a 197 2830 a
+SDict begin 9.9 H.A end
+ 197 2830 a 197 2830 a
+SDict begin [ /View [/XYZ H.V] /Dest (192) cvn H.B /DEST pdfmark end
+ 197
+2830 a 768 2889 a Fa(#)45 b(HDF5)f(version)g(-)g(either)g(1.8.0)g(or)h
+(1.6.6)768 2971 y(#)g(VERSION="1.6.6")768 3054 y(VERSION="1.6.7")197
+3097 y
+SDict begin H.S end
+ 197 3097 a 197 3097 a
+SDict begin 11 H.A end
+ 197 3097 a 197 3097 a
+SDict begin [ /View [/XYZ H.V] /Dest (193) cvn H.B /DEST pdfmark end
+ 197
+3097 a Black 596 3228 a Fb(\225)p Black 679 3228 a
+SDict begin H.S end
+ 679
+3228 a 679 3228 a
+SDict begin 11 H.A end
+ 679 3228 a 679 3228 a
+SDict begin [ /View [/XYZ H.V] /Dest (194) cvn H.B /DEST pdfmark end
+ 679 3228 a Fg(copy)21
+b(the)f(temp)h(dir)o(ectory)f(for)h(envir)o(onment)g(variables.)197
+3293 y
+SDict begin H.S end
+ 197 3293 a 197 3293 a
+SDict begin 9.9 H.A end
+ 197 3293 a 197 3293 a
+SDict begin [ /View [/XYZ H.V] /Dest (195) cvn H.B /DEST pdfmark end
+ 197
+3293 a 813 3352 a Fa(mv)45 b(/tmp/chicago_1.6.6)c(/tmp/chiago_1.6.7)197
+3405 y
+SDict begin H.S end
+ 197 3405 a 197 3405 a
+SDict begin 11 H.A end
+ 197 3405 a 197 3405 a
+SDict begin [ /View [/XYZ H.V] /Dest (196) cvn H.B /DEST pdfmark end
+ 197
+3405 a Black 596 3526 a Fb(\225)p Black 679 3526 a
+SDict begin H.S end
+ 679
+3526 a 679 3526 a
+SDict begin 11 H.A end
+ 679 3526 a 679 3526 a
+SDict begin [ /View [/XYZ H.V] /Dest (197) cvn H.B /DEST pdfmark end
+ 679 3526 a Fg(update)19
+b(entries)i(in)g(tables)g(if)f(the)h(version)g(change)g(was)g(not)g
+(planned)g(in)g(advance.)197 3591 y
+SDict begin H.S end
+ 197 3591 a 197 3591
+a
+SDict begin 9.9 H.A end
+ 197 3591 a 197 3591 a
+SDict begin [ /View [/XYZ H.V] /Dest (198) cvn H.B /DEST pdfmark end
+ 197 3591 a 768 3650 a Fa(\045php)44
+b(replace_subversion.php)197 3703 y
+SDict begin H.S end
+ 197 3703 a 197 3703
+a
+SDict begin 11 H.A end
+ 197 3703 a 197 3703 a
+SDict begin [ /View [/XYZ H.V] /Dest (199) cvn H.B /DEST pdfmark end
+ 197 3703 a Black 596 3824 a Fb(\225)p
+Black 679 3824 a
+SDict begin H.S end
+ 679 3824 a 679 3824 a
+SDict begin 11 H.A end
+ 679 3824 a 679
+3824 a
+SDict begin [ /View [/XYZ H.V] /Dest (200) cvn H.B /DEST pdfmark end
+ 679 3824 a Fg(update)20 b(entries)h(in)h(the)g(T)-8
+b(estInstanceBest)21 b(table)g(using)h(the)g('r)o(eplace_version.php')d
+(script.)679 3915 y(Please)h(modify)h('r)o(eplace_version.php')e(and)h
+(then)h(execute.)197 3980 y
+SDict begin H.S end
+ 197 3980 a 197 3980 a
+SDict begin 9.9 H.A end
+ 197
+3980 a 197 3980 a
+SDict begin [ /View [/XYZ H.V] /Dest (201) cvn H.B /DEST pdfmark end
+ 197 3980 a 813 4039 a Fa(\045php)44
+b(replace_version.php)197 4092 y
+SDict begin H.S end
+ 197 4092 a 197 4092
+a
+SDict begin 11 H.A end
+ 197 4092 a 197 4092 a
+SDict begin [ /View [/XYZ H.V] /Dest (202) cvn H.B /DEST pdfmark end
+ 197 4092 a Black 596 4213 a Fb(\225)p
+Black 679 4213 a
+SDict begin H.S end
+ 679 4213 a 679 4213 a
+SDict begin 11 H.A end
+ 679 4213 a 679
+4213 a
+SDict begin [ /View [/XYZ H.V] /Dest (203) cvn H.B /DEST pdfmark end
+ 679 4213 a Fg(\002ll)21 b(in)g(the)g(missing)h(r)o(ecor)o(d)d
+(for)i(each)f(host.)197 4278 y
+SDict begin H.S end
+ 197 4278 a 197 4278 a
+SDict begin 9.9 H.A end
+
+197 4278 a 197 4278 a
+SDict begin [ /View [/XYZ H.V] /Dest (204) cvn H.B /DEST pdfmark end
+ 197 4278 a 813 4337 a Fa(\045php)44
+b(record_manually.php)e(hdfdap)i(1.6.7)813 4419 y(\045php)g
+(record_manually.php)e(kagiso)i(1.6.7)813 4501 y(\045...)p
+Black 3601 5585 a Fc(13)p Black eop end
+%%Page: 14 18
+TeXDict begin 14 17 bop -600 -600 a
+SDict begin /product where{pop product(Distiller)search{pop pop pop
+version(.)search{exch pop exch pop(3011)eq{gsave newpath 0 0 moveto
+closepath clip/Courier findfont 10 scalefont setfont 72 72 moveto(.)show
+grestore}if}{pop}ifelse}{pop}ifelse}if end
+ -600 -600 a Black
+0 TeXcolorgray 197 -102 a
+SDict begin H.S end
+ 197 -102 a 0 TeXcolorgray 0
+TeXcolorgray 197 -102 a
+SDict begin H.R end
+ 197 -102 a 197 -102 a
+SDict begin [ /View [/XYZ H.V] /Dest (page.14) cvn H.B /DEST pdfmark
+end
+ 197 -102
+a Black -30 x Fc(Chapter)20 b(6.)g(HPF)h(Maintenance)p
+Black Black 197 5585 a(14)p Black eop end
+%%Trailer
+
+userdict /end-hook known{end-hook}if
+%%EOF

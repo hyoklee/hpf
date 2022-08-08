@@ -1,0 +1,25 @@
+This is TeX, Version 3.14159 (Web2C 7.4.5) (format=latex 2007.11.12)  18 FEB 2008 13:45
+**book.tex
+(./book.tex
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+! Undefined control sequence.
+l.1 \FOT
+        {3}\Seq%
+? 
+! Emergency stop.
+l.1 \FOT
+        {3}\Seq%
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 4 strings out of 95847
+ 30 string characters out of 1195947
+ 44507 words of memory out of 1000001
+ 3034 multiletter control sequences out of 10000+50000
+ 3640 words of font info for 14 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 5i,0n,1p,23b,7s stack positions out of 1500i,500n,5000p,200000b,5000s
+No pages of output.

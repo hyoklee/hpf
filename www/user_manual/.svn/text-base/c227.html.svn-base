@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Testing HPF </TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="PREVIOUS"
+TITLE="4.3 Measuring Custom Benchmark Program Performance"
+HREF="x213.html"><LINK
+REL="NEXT"
+TITLE="5.2 Testing Front-end"
+HREF="x245.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>HDF5 Performance Framework User Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x213.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x245.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="AEN227"
+></A
+>Testing HPF </H1
+>
+<DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN229"
+>5.1 Testing Back-end</A
+></H1
+>
+<P
+>HPF testing can be done by running a back-end script like <TT
+CLASS="FILENAME"
+>run_1.8.0.sh</TT
+> or <TT
+CLASS="FILENAME"
+>run_1.6.6.sh</TT
+>.
+It's a good idea to set <VAR
+CLASS="VARNAME"
+>INTERVAL="0"</VAR
+> in the script to get a quick result of your test.</P
+>
+<P
+>If your script exits without any error, it's important to examine database tables.
+To examine your data, issue a command: 
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>    %mysql -u root -p hdf5perfsmiple</PRE
+></TD
+></TR
+></TABLE
+>
+and then press enter. No password is required by default.</P
+>
+<P
+>You can inspect newly recorded data from database by issuing an SQL query like:
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>    mysql&#62;SELECT * from TestInstance WHERE TestInstance_Date &#62; 20080101;</PRE
+></TD
+></TR
+></TABLE
+></P
+>
+<P
+>In the above example, it's important to change the date <VAR
+CLASS="VARNAME"
+>20080101</VAR
+> to today's date.
+  
+After all your testing is done,  you can clean up today(=<VAR
+CLASS="VARNAME"
+>20080101</VAR
+>)'s data:
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>    mysql&#62;DELETE FROM subversion WHERE checkout_date &#62; 20080101;
+    mysql&#62;DELETE FROM TestInstance WHERE TestInstance_Date &#62; 20080101;
+    mysql&#62;DELETE FROM TestInstanceBest WHERE TestInstance_Date &#62; 20080101;
+    mysql&#62;DELETE FROM environment WHERE env_date &#62; 20080101;</PRE
+></TD
+></TR
+></TABLE
+></P
+>
+<P
+>Please don't forget to set <VAR
+CLASS="VARNAME"
+>INTERVAL="600"</VAR
+> back in your test script.
+Finally, submit your script as a cron job.</P
+></DIV
+>
+</DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x213.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x245.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>4.3 Measuring Custom Benchmark Program Performance</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>5.2 Testing Front-end</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

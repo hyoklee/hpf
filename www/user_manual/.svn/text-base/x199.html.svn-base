@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>4.2 Creating Custom Routine, Action and Instance Name</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="HDF5 Performance Framework User Manual"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Writing Custom Benchmark Program"
+HREF="c163.html"><LINK
+REL="PREVIOUS"
+TITLE="Writing Custom Benchmark Program"
+HREF="c163.html"><LINK
+REL="NEXT"
+TITLE="4.3 Measuring Custom Benchmark Program Performance"
+HREF="x218.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>HDF5 Performance Framework User Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c163.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Writing Custom Benchmark Program</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x218.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="AEN199"
+>4.2 Creating Custom Routine, Action and Instance Name</A
+></H1
+>
+
+<P
+>HPF uses a hierarchical model to group benchmark programs. 
+The model has three levels of abstraction - routine, action and instance.
+One routine can have one or more actions and each action can have one or more instances.
+Thus, to write a custom benchmark program, the first thing you'll need to do is to decide at least 3 names for each level.</P
+>
+
+<P
+>For example, if you are interested in measuring "write" performance, you may name it as a "write" routine.
+Then, you may name two actions like "write groups" and "write datasets" under the "write" routine.
+Finally, you can add two instances like "write 1,000 groups" under the "write groups" action and "write 100 datasets" under the "write datasets" action.</P
+>
+
+<DIV
+CLASS="FIGURE"
+><A
+NAME="AEN203"
+></A
+>
+<DIV
+CLASS="MEDIAOBJECT"
+><P
+>      <IMG
+SRC="hpf_benchmark_model.png">
+    </P
+></DIV
+><P
+><B
+>Figure 1. An example HPF hierarchical benchmark model</B
+></P
+></DIV
+>
+<P
+>Once you've decided your names for routine, action and instance, it's time to modify the part of example code with your custom names. 
+At the beginning of <TT
+CLASS="FILENAME"
+>write.c</TT
+> program right below the main() function, there are character array variables dedicated for custom names as shown below:</P
+>
+<TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>int
+main (int argc,char *argv[])
+{
+  /* BEGIN: Modify the following variables with your own names. */
+  /* Names for Test Routine */
+  char TestRoutine_Name[] = "Write";
+  char TestRoutine_Desc[] = "A tutorial benchmark program";
+  char TestRoutine_Version[] = "1.0";
+  /* Names for Test Action */
+  char TestAction_Name[] = "Write Dataset";
+  char TestAction_Desc[] = "H5D Write function test";
+  /* Names for Test Instance */
+  char DatasetName[] = "Write 10000 Data";	/* This must be less than 50 characters. */
+  char DatasetDesc[] = "Writing an array of 10000 integers"; /* This must be less than 250 characters. */
+  /* END  */</PRE
+></TD
+></TR
+></TABLE
+>
+<P
+>You are welcome to modify the content of the variables like <VAR
+CLASS="VARNAME"
+>TestRoutine_Name(Desc)</VAR
+>, <VAR
+CLASS="VARNAME"
+>TestAction_Name(Desc)</VAR
+> and <VAR
+CLASS="VARNAME"
+>DatasetName(Desc)</VAR
+>. The <VAR
+CLASS="VARNAME"
+>TestRoutine_Version</VAR
+> can be anything you want it to be since it does not play any significant role in HPF system.&#13;</P
+> &#13;</DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c163.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x218.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Writing Custom Benchmark Program</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c163.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>4.3 Measuring Custom Benchmark Program Performance</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
