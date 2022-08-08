@@ -1,6 +1,0 @@
-all:
-	docbook2html book.xml
-rtf:
-	docbook2rtf book.xml
-
-
