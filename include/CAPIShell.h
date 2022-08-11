@@ -32,7 +32,10 @@
  *
  *-------------------------------------------------------------------------
  */
+#ifdef __GNUG__
 extern "C" { 
+#endif
+
 int H5Perf_init();
 
 long int H5Perf_createCommandLine(const char* message,const char* version);
@@ -84,5 +87,8 @@ void H5Perf_startUsageTimer();
 void H5Perf_endUsageTimer();
 double H5Perf_getUserTime();
 double H5Perf_getSystemTime();
+#ifdef __GNUG__
 }
+#endif
+
 #endif
