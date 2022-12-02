@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1669057023658,
+  "lastUpdate": 1670016683905,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -7463,6 +7463,44 @@ window.BENCHMARK_DATA = {
             "name": "many_dsets 100",
             "value": 1421.8,
             "range": "± 72.3951",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "131627d6cb4fed96021b7b709cfcaf20e125aa52",
+          "message": "ci: update Catch2 version",
+          "timestamp": "2022-12-02T15:21:16-06:00",
+          "tree_id": "e7eb3ed08fdec9848468cc28a04dc2c785c6e2a1",
+          "url": "https://github.com/hyoklee/hpf/commit/131627d6cb4fed96021b7b709cfcaf20e125aa52"
+        },
+        "date": 1670016683251,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 876.936,
+            "range": "± 15.8555",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1649.78,
+            "range": "± 74.5408",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
