@@ -34,7 +34,7 @@ for($i=0; $i < count($routines); $i++){
     for($l=0; $l < count($instances); $l++){
       $hosts = get_host_names($aid);
       for($k=0; $k < count($hosts); $k++){
-	$query = "SELECT ti.TestResult_Value, DATE_FORMAT(ti.TestInstance_Date,'%m/%d') FROM TestInstanceBest ti WHERE Host='$hosts[$k]' AND DatasetName='$instances[$l]' AND LibraryVersion='1.13' AND TestInstance_Date BETWEEN '$start_date' AND '$end_date' ORDER BY TestInstance_Date DESC";
+	$query = "SELECT ti.TestResult_Value, DATE_FORMAT(ti.TestInstance_Date,'%m/%d') FROM TestInstanceBest ti WHERE Host='$hosts[$k]' AND DatasetName='$instances[$l]' AND LibraryVersion='1.10' AND TestInstance_Date BETWEEN '$start_date' AND '$end_date' ORDER BY TestInstance_Date DESC";
         // echo $query;
         // echo "<br>";
 	$result = mysql_query($query); 
@@ -95,7 +95,7 @@ for($i=0; $i < count($routines); $i++){
       $graph[$i][$j]->xaxis->SetLabelAngle(45);
       $graph[$i][$j]->yaxis->SetColor("red");
       $graph[$i][$j]->SetShadow();
-      $graph[$i][$j]->footer->center->Set("HDF5 1.13");
+      $graph[$i][$j]->footer->center->Set("HDF5 1.10");
       $mgraph->AddMix($graph[$i][$j],$total%2 * 400, $y, 85);
       ++$total;
       if($total % 2 == 0){

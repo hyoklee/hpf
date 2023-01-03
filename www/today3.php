@@ -15,7 +15,7 @@ $mgraph->SetMargin(2,2,2,2);
 $mgraph->SetFrame(true,'darkgray',2);
 
 $routines = get_routine_names();
-$colors = array("orange", "blue", "green", "red");
+$colors = array("orange", "blue", "green", "red", "yellow");
 $total = 0; // Total count of graph
 $y = 0;
 $end_date = date('Ymd', mktime(0,0,0, date("m"), date("d"), date("Y")));
