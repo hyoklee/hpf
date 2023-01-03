@@ -5,7 +5,7 @@
 #
 # Author:   Hyo-Kyung Lee (hyoklee@hdfgroup.org)
 #
-# Copyright (C) 2007 The HDF Group, Inc. All Rights Reserved.
+# Copyright (C) 2007-2017 The HDF Group, Inc. All Rights Reserved.
 ###############################################################################
 
 ###############################################################################
@@ -28,7 +28,7 @@ HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
 HDF5_OPTION="--disable-shared --enable-cxx --enable-production --prefix=$HDF5_PREFIX"
 # Configuration option for performance framework
-PERF_OPTION="--disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
+PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=/usr/hdf/bin/gcc520/g++ --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
 # Path to performance framework source
 PERF_SRC="/scr/hyoklee/chicago/trunk/hdf5perflib"
 # Path to php command
@@ -45,7 +45,7 @@ MAKE="gmake"
 # 600 seconds = 10 minutes
 INTERVAL="600"
 
-SVN_URL="http://svn.hdfgroup.uiuc.edu/hdf5/branches/hdf5_1_6"
+SVN_URL="https://svn.hdfgroup.org/hdf5/branches/hdf5_1_6"
 
 ###############################################################################
 # Please DO NOT edit lines below.
@@ -110,10 +110,12 @@ else
   mkdir $HDF5_PREFIX
 fi
 cd $HDF5_PREFIX
-svn co $SVN_URL svn | grep "Checked out revision" | cut -f4 -d ' ' | cut -f1 -d '.' > $TEMP/svn.log
+# svn co $SVN_URL svn | grep "Checked out revision" | cut -f4 -d ' ' | cut -f1 -d '.' > $TEMP/svn.log
+/scr/hyoklee/bin/git clone --quiet https://github.com/HDFGroup/hdf5.git -b hdf5_1_6 svn
+cd svn
+/scr/hyoklee/bin/git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null
 rm -rf $TEMP/svn.log
-cd svn
 # Get HDF5 compiler option environment
 ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
 $MAKE

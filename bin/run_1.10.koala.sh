@@ -11,22 +11,24 @@
 ###############################################################################
 # Please edit the following parameters before you submit this script into cron.
 ###############################################################################
-# Set and export path  if necessary.
-# PATH=/usr/local/bin:/usr/ucb/bin
-# export PATH
-# HDF5 version
-VERSION="1.8"
+# Set and export path if necessary.
+# Koala's autotool is broken against autogen.sh.
+PATH=/scr/hyoklee/bin:$PATH
+export PATH
+export CC=/usr/hdf/bin/gcc520/gcc
+# HDF5 version - either 1.8.0 or 1.6.6
+VERSION="1.10"
 # Set the directory for temporary files.
 # DO NOT set it under HDF5_PREFIX. It should never be deleted by this script.
 TEMP="/scr/hyoklee/tmp/chicago_$VERSION"
 # cc or gcc version command
-CCV="gcc -v"
+CCV="/usr/hdf/bin/gcc520/gcc -v"
 # CC or g++ version command
 CPPV="g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
-HDF5_OPTION="--disable-shared --enable-cxx --enable-production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
+HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 # Configuration option for performance framework
 PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=/usr/hdf/bin/gcc520/g++ --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
 # Path to performance framework source
@@ -44,8 +46,9 @@ MAKE="gmake"
 # Please set the interval in seconds between trials.
 # 600 seconds = 10 minutes
 INTERVAL="600"
-SVN_URL="https://svn.hdfgroup.org/hdf5/branches/hdf5_1_8"
- 
+
+SVN_URL="https://svn.hdfgroup.org/hdf5/trunk"
+
 ###############################################################################
 # Please DO NOT edit lines below.
 ###############################################################################
@@ -108,13 +111,24 @@ else
 fi
 cd $HDF5_PREFIX
 # svn co $SVN_URL svn | grep "Checked out revision" | cut -f4 -d ' ' | cut -f1 -d '.' > $TEMP/svn.log
-/scr/hyoklee/bin/git clone --quiet https://github.com/HDFGroup/hdf5.git -b hdf5_1_8 svn
+/scr/hyoklee/bin/git clone --quiet https://github.com/HDFGroup/hdf5.git -b hdf5_1_10 svn
+# /scr/hyoklee/bin/git clone --quiet https://github.com/hyoklee/hdf5.git -b patch-5 svn
 cd svn
 /scr/hyoklee/bin/git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` >& /dev/null
 rm -rf $TEMP/svn.log
+
+# export HDF5_AUTOCONF=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/x86_64/bin/autoconf
+# export HDF5_AUTOMAKE=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/x86_64/bin/automake-1.15
+# export HDF5_AUTOHEADER=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/x86_64/bin/autoheader
+# export HDF5_ACLOCAL=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/x86_64/bin/aclocal-1.15
+# export HDF5_LIBTOOL=/mnt/hdf/packages/AUTOTOOLS/libtool/2.4.5/x86_64/bin/libtool
+# export HDF5_M4=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/x86_64/bin/m4
+export HDF5_BISON=/usr/hdf/bin/bison
+export HDF5_FLEX=/usr/hdf/bin/flex
+./autogen.sh
 # Get HDF5 compiler option environment
-./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
+./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on'  >  $TEMP/compiler_options_hdf5.txt
 $MAKE
 $MAKE install
 cd $PERF_SRC
