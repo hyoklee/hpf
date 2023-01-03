@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1671643220283,
+  "lastUpdate": 1672759841666,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -8299,6 +8299,44 @@ window.BENCHMARK_DATA = {
             "name": "many_dsets 100",
             "value": 1595.49,
             "range": "± 66.0523",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "c9533bba7634002ad5b28f0e1e62e880e85600e1",
+          "message": "chore: clean up script/",
+          "timestamp": "2023-01-03T09:22:03-06:00",
+          "tree_id": "b0606637297d9ffe1d687f68d1c4620a923a8fdf",
+          "url": "https://github.com/hyoklee/hpf/commit/c9533bba7634002ad5b28f0e1e62e880e85600e1"
+        },
+        "date": 1672759841064,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 779.572,
+            "range": "± 10.3324",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1512.3200000000002,
+            "range": "± 63.2387",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
