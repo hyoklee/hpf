@@ -3,12 +3,11 @@
 include ("includes/data.inc.php"); 
 include ("includes/connect.inc.php");
 
-date_default_timezone_set('America/Chicago');
 
 function get_library_versions()
 {
   $versions = array();  
-  $query = "select distinct(LibraryVersion) from TestInstanceBest"; 
+  $query = "select distinct(LibraryVersion) from TestInstanceBest WHERE LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\""; 
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
@@ -80,7 +79,11 @@ function get_host_names($aid)
     // Hdfdap is turned off. <hyokyung 2011.08.12. 13:38:01>
     // Amani is turned off.  <hyokyung 2012.07.25. 17:54:08>
     // Linew is turned off. <hyokyung 2013.09.04. 15:49:58>
-    if(!($row[0] == "linew" || $row[0] == "kagiso" || $row[0] == "smirom" || $row[0] == "hdfdap" || $row[0] == "amani" ))	
+    // Emu is turned off. <hyokyung 2021.02.02. 10:16:00>
+    // Hedgehog and Echidna are turned off. <hyokyung 2021.05.26. 11:04:00>
+    $arr_hosts = array("linew", "kagiso",  "smirom", "hdfdap", "amani", "emu", 
+       	               "echidna", "hedgehog");
+    if(!in_array($row[0], $arr_hosts))
       $hosts[] = $row[0];
   }
   return $hosts;  
@@ -89,7 +92,7 @@ function get_host_names($aid)
 function get_hdf_versions($aid, $host)
 {
   $versions = array();
-  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid";
+  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid AND LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\"";
   if($host != "all"){
     $query = $query." AND Host = '$host'";
   }
@@ -158,11 +161,11 @@ function get_test_instances($aid, $host, $version)
 function get_yesterday_revision()
 {
   // Generate svn diff like this:
-  // svn diff --revision '{2007-08-07}:{2007-08-08}' http://svn.ad.hdfgroup.org/hdf5/trunk;
+  // svn diff --revision '{2007-08-07}:{2007-08-08}' http://svn.hdfgroup.uiuc.edu/hdf5/trunk;
   // Since mailer.php cron job is run next day, it's right to subtract one day for today.
   $today = date('Y-m-d', mktime(0,0,0, date("m"), date("d")-1, date("Y")));;
   $yesterday = date('Y-m-d', mktime(0,0,0, date("m"), date("d")-2, date("Y")));;
-  $diff_command = "svn diff -r '{".$yesterday."}:{".$today."}' http://svn.ad.hdfgroup.org/hdf5/trunk";
+  $diff_command = "svn diff -r '{".$yesterday."}:{".$today."}' http://svn.hdfgroup.uiuc.edu/hdf5/trunk";
   $svn_diff = shell_exec($diff_command);
   return $svn_diff;
 }
@@ -184,10 +187,10 @@ function get_svn_revision($host, $version)
 
 function get_last_revision()
 {
-  $curr_revision = shell_exec("/usr/hdf/bin/svn info  http://svn.ad.hdfgroup.org/hdf5/trunk | grep Revision | cut -d' ' -f2"); // Get the latest revision.
+  $curr_revision = shell_exec("/usr/hdf/bin/svn info  http://svn.hdfgroup.uiuc.edu/hdf5/trunk | grep Revision | cut -d' ' -f2"); // Get the latest revision.
   $curr_revision = trim($curr_revision); // Remove newline character.
   $prev_revision = $curr_revision - 1; // Previous revision.
-  $diff_command = "svn diff -r".$prev_revision.":".$curr_revision." http://svn.ad.hdfgroup.org/hdf5/trunk";
+  $diff_command = "svn diff -r".$prev_revision.":".$curr_revision." http://svn.hdfgroup.uiuc.edu/hdf5/trunk";
   $svn_diff = shell_exec($diff_command);
   return $svn_diff;
 }

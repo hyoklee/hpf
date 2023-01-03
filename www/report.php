@@ -26,7 +26,7 @@ $message_1 = '
 <br>Z% <b>Increase in Time</b> means X-day average is increased by Z% against Y-day average.
 <p>
 <table border=1>
- <tr><th>Version</th><th>Host</th><th>Task</th><th>Period</th><th>Increase in Time</th><th>SVN Revision</th></tr>
+ <tr><th>Version</th><th>Host</th><th>Task</th><th>Period</th><th>Increase in Time</th><th>Git Revision</th></tr>
 ';
 $message_3 = '</table>';
 
@@ -58,13 +58,13 @@ for($i=0; $i < count($routines); $i++){
 	  $increase = detect_anomaly($hosts[$k], $instances[$m], $versions[$l],  7, 1);
 	  $pretty = sprintf("%.1f", $increase * 100.0);
 	  $pretty = $pretty."%";
-	  
+	  $git = "<a href=\"https://github.com/HDFGroup/hdf5/commits/".$svn_revision."\" target=_blank>".$svn_revision."</a>";
 	  if((float)$increase > 0.2){
-	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>1 vs 7</td><td bgcolor=#FFCCCC>".$pretty."</td><td>".$svn_revision."</td></tr>\n";
+	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>1 vs 7</td><td bgcolor=#FFCCCC>".$pretty."</td><td>".$git."</td></tr>\n";
 	    $is_detected = true;
 	  }
 	  else if(((float)$increase < -0.2 &&  (float)$increase > -1.0)){
-	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>1 vs 7</td><td bgcolor=#00CCFF>".$pretty."</td><td>".$svn_revision."</td></tr>\n";
+	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>1 vs 7</td><td bgcolor=#00CCFF>".$pretty."</td><td>".$git."</td></tr>\n";
 	    $is_detected = true;
 	  }	  
 	  else if($increase == -2){
@@ -85,11 +85,11 @@ for($i=0; $i < count($routines); $i++){
 
 	  // Give warning if there's 20% of increase or decrease in performance.
 	  if((float)$increase > 0.2){
-	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>7 vs 30</td><td bgcolor=#FF99CC>".$pretty."</td><td>".$svn_revision."</td></tr>\n";
+	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>7 vs 30</td><td bgcolor=#FF99CC>".$pretty."</td><td>".$git."</td></tr>\n";
 	    $is_detected = true;
 	  }
 	  else if(((float)$increase < -0.2 &&  (float)$increase > -1.0)){
-	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>7 vs 30</td><td bgcolor=#0099FF>".$pretty."</td><td>".$svn_revision."</td></tr>\n";
+	    $message_2 = $message_2."<tr><td>".$versions[$l]."</td><td>".$hosts[$k]."</td><td>".$instances[$m]."</td><td align=center>7 vs 30</td><td bgcolor=#0099FF>".$pretty."</td><td>".$git."</td></tr>\n";
 	    $is_detected = true;
 	  }
 	  else if($increase == -2){
