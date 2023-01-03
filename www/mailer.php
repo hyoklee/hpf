@@ -3,12 +3,12 @@
 // File:	mailer.php
 // Description:	This script sends out an e-mail when performance of HDF
 //              is not normal.
-// Update:      2019-10-07
+// Updated:     2023-01-03
 // Created: 	2007-07-27
 //
 // Author:      Hyo-Kyung Lee (hyoklee@hdfgroup.org)
 //
-// Copyright (c) 2007-2019 The HDF Group.  All rights reserved.
+// Copyright (c) 2007-2023 The HDF Group
 //========================================================================
 
 include("analyzer.php");
@@ -23,7 +23,8 @@ $version1= "1.10";
 $version2= "1.6";
 $version3= "1.8";
 $version4= "1.12";
-$version5= "1.13";
+$version5= "1.14";
+$version6= "1.15";
 
 $start_date = date('Ymd', mktime(0,0,0, date("m"), date("d")-7, date("Y")));
 $end_date = date('Ymd', mktime(0,0,0, date("m"), date("d"), date("Y")));
@@ -33,6 +34,7 @@ $url_v2 = $url_base."version=".$version2."&start=".$start_date."&end=".$end_date
 $url_v3 = $url_base."version=".$version3."&start=".$start_date."&end=".$end_date;
 $url_v4 = $url_base."version=".$version4."&start=".$start_date."&end=".$end_date;
 $url_v5 = $url_base."version=".$version5."&start=".$start_date."&end=".$end_date;
+$url_v6 = $url_base."version=".$version6."&start=".$start_date."&end=".$end_date;
 
 // Subject of the e-mail
 $subject = "HDF Performance Warning Report ";
@@ -50,7 +52,7 @@ $message_1 = '
 ';
 $message_3 = '</table>
 
-<p>View today\'s graph for version <a href="'.$url_v5.'">1.13</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
+<p>View today\'s graph for version <a href="'.$url_v6.'">1.15</a>, <a href="'.$url_v5.'">1.14</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
  <a href="'.$url_v2.'">1.6</a>.
 <br>Visit HDF Performance Framework <a href="https://hpf.hdfgroup.org/index.html">website</a>.
 <p><a href="https://hpf.hdfgroup.org/unsubscribe.html">Unsubscribe</a> this alert.';
