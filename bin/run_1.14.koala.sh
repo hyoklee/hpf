@@ -33,7 +33,8 @@ HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
 HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 # Configuration option for performance framework
-PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=/usr/hdf/bin/gcc520/g++ --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
+export CXXFLAGS=-std=c++11
+PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=$HDF5_PREFIX/bin/h5c++ --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
 # Path to performance framework source
 PERF_SRC="/scr/hyoklee/chicago/trunk/hdf5perflib/"
 # Path to php command
