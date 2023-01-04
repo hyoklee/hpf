@@ -17,13 +17,14 @@
 # HDF5 version
 VERSION="1.14"
 export CC=/usr/hdf/bin/gcc520/gcc
+export CXX=/usr/hdf/bin/gcc520/g++
 # Set the directory for temporary files.
 # DO NOT set it under HDF5_PREFIX. It should never be deleted by this script.
 TEMP="/mnt/hdf/hyoklee/tmp/chicago_$VERSION"
 # cc or gcc version command
 CCV="/usr/hdf/bin/gcc520/gcc -v"
 # CC or g++ version command
-CPPV="g++ -v"
+CPPV="/usr/hdf/bin/gcc520/g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/mnt/hdf/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
