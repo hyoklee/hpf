@@ -55,6 +55,7 @@ replace_action_id("group creation", "10000 groups");
 replace_action_id("group creation", "200000 groups");
 replace_action_id("updating data", "add_rec");
 replace_action_id("writing data", "1000000 record");
+replace_action_id("writing data", "many dsets");
 replace_action_id("destination as a subset of source", "destination as a subset of source");
 replace_action_id("source as a subset of destination", "source as a subset of destination");
 replace_action_id("free space for datasets", "free space 85 datasets");
