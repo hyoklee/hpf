@@ -17,6 +17,7 @@
 PATH=/scr/hyoklee/bin:$PATH
 export PATH
 export CC=/usr/hdf/bin/gcc520/gcc
+export CXX=/usr/hdf/bin/gcc520/g++
 # HDF5 version - either 1.8.0 or 1.6.6
 VERSION="1.14"
 # Set the directory for temporary files.
@@ -26,7 +27,7 @@ TEMP="/scr/hyoklee/tmp/chicago_$VERSION"
 CCV="/usr/hdf/bin/gcc520/gcc -v"
 
 # CC or g++ version command
-CPPV="g++ -v"
+CPPV="/usr/hdf/bin/gcc520/g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
