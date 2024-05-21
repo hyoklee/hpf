@@ -29,7 +29,7 @@ HDF5_PREFIX="/mnt/hdf/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
 HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 # Configuration option for performance framework
-PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc --disable-shared --prefix=/mnt/hdf/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/mnt/hdf/hyoklee/mysql"
+PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=/usr/hdf/bin/gcc520/g++  --disable-shared --prefix=/mnt/hdf/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/mnt/hdf/hyoklee/mysql"
 # Path to performance framework source
 PERF_SRC="/mnt/hdf/hyoklee/hdf5perf/trunk/hdf5perflib/"
 # Path to php command
@@ -115,14 +115,11 @@ cd svn
 git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null
 rm -rf $TEMP/svn.log
-export HDF5_AUTOCONF=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/i386/bin/autoconf
-export HDF5_AUTOMAKE=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/i386/bin/automake-1.15
-export HDF5_AUTOHEADER=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/i386/bin/autoheader
-export HDF5_ACLOCAL=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/i386/bin/aclocal-1.15
-export HDF5_LIBTOOL=/mnt/hdf/packages/AUTOTOOLS/libtool/2.4.5/i386/bin/libtool
-export HDF5_M4=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/i386/bin/m4
-export HDF5_BISON=/usr/hdf/bin/bison
-export HDF5_FLEX=/usr/hdf/bin/flex
+export PATH=/mnt/hdf/hyoklee/bin/:$PATH
+export PATH=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/i386/bin/:$PATH
+export PATH=/mnt/hdf/packages/AUTOTOOLS/libtool/2.4.5/i386/bin:$PATH
+export PATH=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/i386/bin:$PATH
+export PATH=$PATH:/usr/hdf/bin
 ./autogen.sh
 # Get HDF5 compiler option environment
 ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
