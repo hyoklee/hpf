@@ -15,7 +15,6 @@
 # Set and export path if necessary.
 # Koala's autotool is broken against autogen.sh.
 PATH=/scr/hyoklee/bin:$PATH
-export PATH
 export CC=/usr/hdf/bin/gcc520/gcc
 export CXX=/usr/hdf/bin/gcc520/g++
 # HDF5 version - either 1.8.0 or 1.6.6
@@ -30,6 +29,7 @@ CCV="/usr/hdf/bin/gcc520/gcc -v"
 CPPV="/usr/hdf/bin/gcc520/g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
+
 # Configuration option for HDF5
 HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 # Configuration option for performance framework
@@ -129,6 +129,10 @@ rm -rf $TEMP/svn.log
 # export HDF5_M4=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/x86_64/bin/m4
 export HDF5_BISON=/usr/hdf/bin/bison
 export HDF5_FLEX=/usr/hdf/bin/flex
+
+# Patch
+cp /scr/hyoklee/src/H5Tinit_float.c /scr/hyoklee/chicago/hdf5-$VERSION/svn/src/
+
 ./autogen.sh
 # Get HDF5 compiler option environment
 ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on'  >  $TEMP/compiler_options_hdf5.txt

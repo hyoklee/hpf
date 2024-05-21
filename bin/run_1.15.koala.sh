@@ -29,6 +29,8 @@ CPPV="/usr/hdf/bin/gcc520/g++ -v"
 # CPPV="g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
+
+
 # Configuration option for HDF5
 HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 # Configuration option for performance framework
@@ -120,13 +122,19 @@ $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` >& /dev/null
 rm -rf $TEMP/svn.log
 
 # export HDF5_AUTOCONF=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/x86_64/bin/autoconf
-# export HDF5_AUTOMAKE=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/x86_64/bin/automake-1.15
+export PATH=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/x86_64/bin:$PATH
 # export HDF5_AUTOHEADER=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/x86_64/bin/autoheader
 # export HDF5_ACLOCAL=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/x86_64/bin/aclocal-1.15
-# export HDF5_LIBTOOL=/mnt/hdf/packages/AUTOTOOLS/libtool/2.4.5/x86_64/bin/libtool
-# export HDF5_M4=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/x86_64/bin/m4
-export HDF5_BISON=/usr/hdf/bin/bison
-export HDF5_FLEX=/usr/hdf/bin/flex
+export PATH=/scr/hyoklee/bin:$PATH
+export PATH=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/x86_64/bin/m4:$PATH
+# export HDF5_BISON=/usr/hdf/bin/bison
+# export HDF5_FLEX=/usr/hdf/bin/flex
+which libtoolize
+libtoolize
+
+# Patch
+cp /scr/hyoklee/src/H5Tinit_float.c /scr/hyoklee/chicago/hdf5-$VERSION/svn/src/
+
 ./autogen.sh
 # Get HDF5 compiler option environment
 ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on'  >  $TEMP/compiler_options_hdf5.txt

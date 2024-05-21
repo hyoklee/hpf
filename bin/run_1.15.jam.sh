@@ -118,7 +118,8 @@ git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null
 rm -rf $TEMP/svn.log
 # export HDF5_AUTOCONF=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/i386/bin/autoconf
-export PATH=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/i386/bin/:$PATH
+# export PATH=/mnt/hdf/packages/AUTOTOOLS/autoconf/2.69/i386/bin/:$PATH
+export PATH=/mnt/hdf/hyoklee/bin/:$PATH
 which autoconf
 # export HDF5_AUTOMAKE=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/i386/bin/automake-1.15
 export PATH=/mnt/hdf/packages/AUTOTOOLS/automake/1.15/i386/bin/:$PATH
