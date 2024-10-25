@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724682946067,
+  "lastUpdate": 1729892275902,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -26349,6 +26349,44 @@ window.BENCHMARK_DATA = {
             "name": "many_dsets 100",
             "value": 1200.51,
             "range": "± 29.51",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "b90053a6fbe97db156b5330924028e2d80ae4b26",
+          "message": "ci(cmake): upload artifact v4",
+          "timestamp": "2024-10-25T16:30:59-05:00",
+          "tree_id": "420f76e138df5bb8fcb7c9042cc9c7b912ff1367",
+          "url": "https://github.com/hyoklee/hpf/commit/b90053a6fbe97db156b5330924028e2d80ae4b26"
+        },
+        "date": 1729892274108,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 665.965,
+            "range": "± 5.62843",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1168.29,
+            "range": "± 26.7253",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
