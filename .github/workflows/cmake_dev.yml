@@ -48,7 +48,7 @@ jobs:
         ls
         
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: git.txt
         path: ${{ runner.workspace }}/hpf/hdf5/git.txt
