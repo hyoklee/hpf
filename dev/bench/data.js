@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1732210505041,
+  "lastUpdate": 1732417286346,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -26919,6 +26919,44 @@ window.BENCHMARK_DATA = {
             "name": "many_dsets 100",
             "value": 1128.3799999999999,
             "range": "± 22.2881",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            "name": "github-actions[bot]",
+            "username": "github-actions[bot]"
+          },
+          "committer": {
+            "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            "name": "github-actions[bot]",
+            "username": "github-actions[bot]"
+          },
+          "distinct": true,
+          "id": "e3cbcd24f87231509c65334dcd43a1c8b40e967d",
+          "message": "Test changes from HDF5 repo.",
+          "timestamp": "2024-11-24T02:54:04Z",
+          "tree_id": "393adde1292d5932379ac83db9e0506723bf1e89",
+          "url": "https://github.com/hyoklee/hpf/commit/e3cbcd24f87231509c65334dcd43a1c8b40e967d"
+        },
+        "date": 1732417285073,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 643.03,
+            "range": "± 8.20013",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1146.34,
+            "range": "± 20.2136",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
