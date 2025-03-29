@@ -131,7 +131,7 @@ export HDF5_BISON=/usr/hdf/bin/bison
 export HDF5_FLEX=/usr/hdf/bin/flex
 
 # Patch
-cp /scr/hyoklee/src/H5Tinit_float.c /scr/hyoklee/chicago/hdf5-$VERSION/svn/src/
+# cp /scr/hyoklee/src/H5Tinit_float.c /scr/hyoklee/chicago/hdf5-$VERSION/svn/src/
 
 ./autogen.sh
 # Get HDF5 compiler option environment

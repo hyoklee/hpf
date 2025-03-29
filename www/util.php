@@ -7,7 +7,7 @@ include ("includes/connect.inc.php");
 function get_library_versions()
 {
   $versions = array();  
-  $query = "select distinct(LibraryVersion) from TestInstanceBest WHERE LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\""; 
+  $query = "select distinct(LibraryVersion) from TestInstanceBest WHERE LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.15\""; 
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
@@ -92,7 +92,7 @@ function get_host_names($aid)
 function get_hdf_versions($aid, $host)
 {
   $versions = array();
-  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid AND LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\"";
+  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid AND LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\" AND LibraryVersion !=\"1.15\"";
   if($host != "all"){
     $query = $query." AND Host = '$host'";
   }

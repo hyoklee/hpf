@@ -15,7 +15,7 @@
 # PATH=/usr/local/bin:/usr/ucb/bin
 export PATH=/usr/hdf/bin/gcc520/:$PATH
 # HDF5 version
-VERSION="1.15"
+VERSION="2.0"
 export CC=/usr/hdf/bin/gcc520/gcc
 export CXX=/usr/hdf/bin/gcc520/g++
 
@@ -30,7 +30,9 @@ CPPV="/usr/hdf/bin/gcc520/g++ -v"
 # HDF5 Installation Directory
 HDF5_PREFIX="/mnt/hdf/hyoklee/chicago/hdf5-$VERSION"
 # Configuration option for HDF5
-HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
+# HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
+HDF5_OPTION="-DHDF5_BUILD_CPP_LIB:BOOL=True -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$HDF5_PREFIX -DHDF5_DEFAULT_API_VERSION:STRING=v16"
+
 # Configuration option for performance framework
 export CXXFLAGS=-std=c++11
 PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=$HDF5_PREFIX/bin/h5c++ --disable-shared --prefix=/mnt/hdf/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/mnt/hdf/hyoklee/mysql"
@@ -135,13 +137,16 @@ export PATH=/mnt/hdf/packages/AUTOTOOLS/m4/1.4.17/i386/bin:$PATH
 # export HDF5_BISON=/usr/hdf/bin/bison
 export PATH=$PATH:/usr/hdf/bin
 # export HDF5_FLEX=/usr/hdf/bin/flex
-which libtoolize
-libtoolize
-./autogen.sh
+# which libtoolize
+# libtoolize
+#./autogen.sh
 # Get HDF5 compiler option environment
-./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
-$MAKE
-$MAKE install
+# ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
+mkdir build
+cd build
+/mnt/scr1/hyoklee/bin/cmake $HDF5_OPTION .. |  grep 'compiler' >  $TEMP/compiler_options_hdf5.txt
+$MAKE -j
+$MAKE -j install
 cd $PERF_SRC
 ./configure $PERF_OPTION
 # Get performance compiler option environment
@@ -216,14 +221,14 @@ else
     y=`expr $y + 1`
 fi
 
-if [ -e $TEMP/compiler_options_hdf5.old.txt ]; then
-    diff -u $TEMP/compiler_options_hdf5.txt $TEMP/compiler_options_hdf5.old.txt > $OUTPUT
-    if [ -s $OUTPUT ] ; then
-	y=`expr $y + 1`
-    fi
-else
-    y=`expr $y + 1`
-fi
+# if [ -e $TEMP/compiler_options_hdf5.old.txt ]; then
+#     diff -u $TEMP/compiler_options_hdf5.txt $TEMP/compiler_options_hdf5.old.txt > $OUTPUT
+#     if [ -s $OUTPUT ] ; then
+# 	y=`expr $y + 1`
+#     fi
+# else
+#     y=`expr $y + 1`
+# fi
 
 
 if [ -e $TEMP/compiler_options_perf.old.txt ]; then
