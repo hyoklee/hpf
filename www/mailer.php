@@ -52,7 +52,7 @@ $message_1 = '
 ';
 $message_3 = '</table>
 
-<p>View today\'s graph for version <a href="'.$url_v6.'">1.15</a>, <a href="'.$url_v5.'">1.14</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
+<p>View today\'s graph for version <a href="'.$url_v6.'">2.0</a>, <a href="'.$url_v5.'">1.14</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
  <a href="'.$url_v2.'">1.6</a>.
 <br>Visit HDF Performance Framework <a href="https://hpf.hdfgroup.org/index.html">website</a>.
 <p><a href="https://hpf.hdfgroup.org/unsubscribe.html">Unsubscribe</a> this alert.';

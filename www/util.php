@@ -3,11 +3,10 @@
 include ("includes/data.inc.php"); 
 include ("includes/connect.inc.php");
 
-
 function get_library_versions()
 {
   $versions = array();  
-  $query = "select distinct(LibraryVersion) from TestInstanceBest WHERE LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.15\""; 
+  $query = "select distinct(LibraryVersion) from TestInstanceBest WHERE LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\" AND LibraryVersion !=\"1.15\""; 
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
@@ -74,15 +73,16 @@ function get_host_names($aid)
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
-    // Kagiso is turned off. <hyokyung 2009.09.22. 12:19:53>
-    // Smirom is turned off. <hyokyung 2009.10.14. 10:54:01>
-    // Hdfdap is turned off. <hyokyung 2011.08.12. 13:38:01>
-    // Amani is turned off.  <hyokyung 2012.07.25. 17:54:08>
-    // Linew is turned off. <hyokyung 2013.09.04. 15:49:58>
-    // Emu is turned off. <hyokyung 2021.02.02. 10:16:00>
-    // Hedgehog and Echidna are turned off. <hyokyung 2021.05.26. 11:04:00>
+    // 2009-09-22: Kagiso is turned off. 
+    // 2009-10-14: Smirom is turned off.
+    // 2011-08-12: Hdfdap is turned off.
+    // 2012-07-25: Amani is turned off.
+    // 2013-09-04: Linew is turned off.
+    // 2021-02-02: Emu is turned off.
+    // 2021-05-26: Hedgehog and Echidna are turned off.
+    // 2025-02-23: Koala is turned off.
     $arr_hosts = array("linew", "kagiso",  "smirom", "hdfdap", "amani", "emu", 
-       	               "echidna", "hedgehog");
+       	               "echidna", "hedgehog", "koala");
     if(!in_array($row[0], $arr_hosts))
       $hosts[] = $row[0];
   }
@@ -109,7 +109,6 @@ function get_test_instances_all()
   $instances = array();
   
   $query = "select distinct(DatasetName) from TestInstanceBest";
-  // echo $query;
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
@@ -125,7 +124,6 @@ function get_test_instances_by_host($host, $version)
   $instances = array();
   
   $query = "select distinct(DatasetName) from TestInstance where Host = '$host' and LibraryVersion = '$version'";
-  // echo $query;
   $result = mysql_query($query);
 
   while ($row = mysql_fetch_array($result, MYSQL_NUM)){
@@ -160,8 +158,6 @@ function get_test_instances($aid, $host, $version)
 
 function get_yesterday_revision()
 {
-  // Generate svn diff like this:
-  // svn diff --revision '{2007-08-07}:{2007-08-08}' http://svn.hdfgroup.uiuc.edu/hdf5/trunk;
   // Since mailer.php cron job is run next day, it's right to subtract one day for today.
   $today = date('Y-m-d', mktime(0,0,0, date("m"), date("d")-1, date("Y")));;
   $yesterday = date('Y-m-d', mktime(0,0,0, date("m"), date("d")-2, date("Y")));;
@@ -250,9 +246,5 @@ function record_best($hostname, $version, $instance, $best)
     die($message);
   }
 }
-
-// $names = get_library_versions();
-
-// print_r($names);
 
 ?>
