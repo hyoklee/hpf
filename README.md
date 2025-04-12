@@ -1,7 +1,7 @@
-# HDF Performance Framework
-[![cmake](https://github.com/hyoklee/hpf/actions/workflows/cmake_dev.yml/badge.svg)](https://github.com/hyoklee/hpf/actions/workflows/cmake_dev.yml)
 
-https://hyoklee.github.io/hpf/dev/bench/
+# HDF Performance Framework
+
+[Dashboard](https://hyoklee.github.io/hpf/dev/bench/)
 
 ## About
 
