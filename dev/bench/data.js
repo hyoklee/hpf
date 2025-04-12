@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1744435062237,
+  "lastUpdate": 1744466903306,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -28553,6 +28553,44 @@ window.BENCHMARK_DATA = {
             "name": "many_dsets 100",
             "value": 964.644,
             "range": "± 28.8744",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bc0bdbbc76ca9d9d99f06ac0933b5395c6e93b9e",
+          "message": "docs: remove ci badge\n\nRemove clutter.",
+          "timestamp": "2025-04-12T09:00:54-05:00",
+          "tree_id": "152a54b6eca67898cbb5c1e3ccb34b9015610cc0",
+          "url": "https://github.com/hyoklee/hpf/commit/bc0bdbbc76ca9d9d99f06ac0933b5395c6e93b9e"
+        },
+        "date": 1744466901842,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 643.852,
+            "range": "± 1.95998",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1005.1699999999998,
+            "range": "± 38.0384",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
