@@ -145,13 +145,14 @@ test(void)
      * Test performance of repeatedly reopening virtual dataset and reading a single point.
      */
 
-    /* test performance of reading from SRC dataset */
+    /* test performance of reading from SRC dataset
     cpu_time_used = benchmark(SRC_DATASET, srcdims);
     printf("SRC time: %f seconds\n", cpu_time_used);
-
+     */
+    
     /* test performance of reading from VDS dataset */
     cpu_time_used = benchmark(VDS_DATASET, vdsdims);
-    printf("VDS time: %f seconds\n", cpu_time_used);
+    /* printf("VDS time: %f seconds\n", cpu_time_used); */
 
     return 0;
 }
