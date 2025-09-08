@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
-project(efc_no)
+# project(efc_no)
+project(hpf)
+enable_testing()
+include(CTest)
+include(${PROJECT_SOURCE_DIR}/CTestConfig.cmake)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -54,6 +58,13 @@ set_property(TARGET many_dsets
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
+set(vds_srcs src/vds.cpp)
+add_executable(vds ${vds_srcs})
+target_link_libraries(vds ${LINK_LIBS} Catch2::Catch2)
+target_include_directories(vds PUBLIC ${MPI_C_INCLUDE_DIRS})
+set_property(TARGET vds
+      APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
+)
 
 set(TEST_nprocs 2)
 
@@ -85,7 +96,7 @@ add_test(NAME TEST_many_dsets COMMAND "${CMAKE_COMMAND}"
 )
 set_tests_properties(TEST_many_dsets PROPERTIES DEPENDS CLEAR_many_dsets)
 
-#[[
+
 add_test(
    NAME CLEAR_cmpd_subset
    COMMAND ${CMAKE_COMMAND} -E remove *.h5
@@ -99,17 +110,30 @@ add_test(NAME TEST_cmpd_subset COMMAND "${CMAKE_COMMAND}"
      -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
 set_tests_properties(TEST_cmpd_subset PROPERTIES DEPENDS CLEAR_cmpd_subset)
-]]
+
+
+add_test(
+   NAME CLEAR_vds
+   COMMAND ${CMAKE_COMMAND} -E remove *.h5
+)
+add_test(NAME TEST_vds COMMAND "${CMAKE_COMMAND}"
+     -D "TEST_PROGRAM=$<TARGET_FILE:vds>"
+     -D "TEST_EXPECT=0"
+     -D "TEST_SKIP_COMPARE:BOOL=true"
+     -D "TEST_OUTPUT=vds.out"
+     -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
+     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
+)
+set_tests_properties(TEST_vds PROPERTIES DEPENDS CLEAR_vds)
+
 set(DART_TESTING_TIMEOUT 1200
     CACHE STRING
     "Timeout in seconds for each test(default 1200=20minutes)"
 )
-enable_testing()
-include(CTest)
-include(${PROJECT_SOURCE_DIR}/CTestConfig.cmake)
 
 target_compile_options(
-  ${PROJECT_NAME}
+#  ${PROJECT_NAME}
+  efc_no
   PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
@@ -124,6 +148,13 @@ target_compile_options(
 
 target_compile_options(
    many_dsets
+   PRIVATE
+     $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
+     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
+)
+
+target_compile_options(
+   vds
    PRIVATE
      $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
      $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>

@@ -5,15 +5,10 @@
 # ENABLE_TESTING()
 # INCLUDE(CTest)
 set (CTEST_NIGHTLY_START_TIME "18:00:00 CST")
-set (CTEST_PROJECT_NAME "HDF5Perf")
-
+set (CTEST_PROJECT_NAME "hpf")
 set (CTEST_DROP_METHOD "http")
-if (CDASH_LOCAL)
-  set (CTEST_DROP_SITE "cdash-internal.hdfgroup.org")
-else ()
-  set (CTEST_DROP_SITE "cdash.hdfgroup.org")
-endif ()
-  set (CTEST_DROP_LOCATION "/submit.php?project=HDF5Perf")
+set (CTEST_DROP_SITE "cdash.hdfgroup.org")
+set (CTEST_DROP_LOCATION "/submit.php?project=HDF5")
 set (CTEST_DROP_SITE_CDASH TRUE)
 
 set (UPDATE_TYPE git)

@@ -1,29 +1,23 @@
 name: cmake
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events for the develop branch
   push:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab    
   workflow_dispatch:
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout HPF
-      uses: actions/checkout@v2
-    - name: Checkout HDF5
-      uses: actions/checkout@v2
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: checkout h5
+      uses: actions/checkout@v4
       with:
         repository: HDFGroup/hdf5
         path: hdf5
 
-    - name: Install dependencies
+    - name: apt
       run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin
-    - name: Install HDF5
+    - name: install h5
       run: |
         mkdir hdf5/build
         cd hdf5/build
@@ -31,8 +25,8 @@ jobs:
         sudo make -j2 install
         cd ..
         git rev-parse HEAD > git.txt
-        
-    - name: Test performance
+
+    - name: perf
       run: |
         pwd
         ls
@@ -43,17 +37,18 @@ jobs:
         ./efc_no | tee ../output.txt
         #./cmpd_subset | tee ../output.txt
         ./many_dsets | tee -a ../output.txt
+        ./vds | tee -a ../output.txt
         cd ..
         pwd
         ls
-        
-    - name: Upload
+
+    - name: upload
       uses: actions/upload-artifact@v4
       with:
         name: git.txt
         path: ${{ runner.workspace }}/hpf/hdf5/git.txt
 
-    - name: Store benchmark result
+    - name: store
       uses: hyoklee/github-action-benchmark@v1
       with:
         name: Catch2 Benchmark
@@ -65,4 +60,4 @@ jobs:
         alert-threshold: "100%"
         comment-on-alert: false
         fail-on-alert: false
-        alert-comment-cc-users: "@hyoklee"         
+        alert-comment-cc-users: "@hyoklee"

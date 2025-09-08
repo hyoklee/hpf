@@ -40,7 +40,9 @@
 
 #include "hdf5.h"
 #include <assert.h>
+#if !defined(_WIN32)
 #include <sys/time.h>
+#endif
 #include <time.h>
 #include <math.h>
 #include <float.h>
@@ -692,7 +694,9 @@ test_hdf5_src_subset(const char *filename, double *time_used)
     hsize_t dims[2] = {NX, NY};
     hsize_t chunk_dims[2] = {NX/10, NY/10};
     unsigned char *orig=NULL, *rew_buf=NULL, *rbuf=NULL;
+#if !defined(_WIN32)    
     struct timeval start;
+#endif    
     int timer = 0;
     
     /* Create the file for this test */
@@ -907,7 +911,9 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
     hsize_t dims[2] = {NX, NY};
     hsize_t chunk_dims[2] = {NX/10, NY/10};
     unsigned char *orig=NULL, *rew_buf=NULL, *rbuf=NULL;
+#if !defined(_WIN32)    
     struct timeval start;
+#endif    
     int timer=0;
     
     /* Create the file for this test */

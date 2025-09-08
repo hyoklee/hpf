@@ -28,7 +28,9 @@
 #include <catch2/catch.hpp>
 
 #include "hdf5.h"
+#if !defined(_WIN32)
 #include <sys/time.h>
+#endif
 #include <time.h>
 
 const char *FILENAME[] = {
