@@ -63,6 +63,9 @@ double benchmark(const char *dataset, hsize_t *dims)
     }
     clock_end = clock();
     cpu_time_used = ((double) (clock_end - clock_start)) / CLOCKS_PER_SEC;
+
+    status = H5Fclose(file);
+
     return cpu_time_used;
 }
 
