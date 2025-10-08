@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759866421164,
+  "lastUpdate": 1759952297740,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -31009,6 +31009,51 @@ window.BENCHMARK_DATA = {
             "name": "vds 100",
             "value": 1652.67,
             "range": "± 42.5905",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "90437d4253931bb3c76605faaa55cfd0ca1be0a1",
+          "message": "fix: close file",
+          "timestamp": "2025-10-08T14:26:57-05:00",
+          "tree_id": "9a4ef3ab13cb102a161e68f8fc4b6ac7f9a1a244",
+          "url": "https://github.com/hyoklee/hpf/commit/90437d4253931bb3c76605faaa55cfd0ca1be0a1"
+        },
+        "date": 1759952296128,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 618.699,
+            "range": "± 2.08318",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1018.53,
+            "range": "± 14.7773",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 1539.81,
+            "range": "± 16.8171",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
