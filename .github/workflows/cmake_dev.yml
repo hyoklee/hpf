@@ -35,9 +35,9 @@ jobs:
         cmake ..
         make
         ./efc_no | tee ../output.txt
-        #./cmpd_subset | tee ../output.txt
         ./many_dsets | tee -a ../output.txt
         ./vds | tee -a ../output.txt
+        ./cmpd_subset | tee ../output.txt
         cd ..
         pwd
         ls
