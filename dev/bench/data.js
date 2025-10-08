@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1759952297740,
+  "lastUpdate": 1759959678280,
   "entries": {
     "Catch2 Benchmark": [
       {
@@ -31054,6 +31054,51 @@ window.BENCHMARK_DATA = {
             "name": "vds 100",
             "value": 1539.81,
             "range": "± 16.8171",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "52192402cf5cffb923e774446cfe199fa5e37709",
+          "message": "docs: add vds test result",
+          "timestamp": "2025-10-08T16:28:27-05:00",
+          "tree_id": "65b60c799765d07c6585ee811c5efce35244c0b2",
+          "url": "https://github.com/hyoklee/hpf/commit/52192402cf5cffb923e774446cfe199fa5e37709"
+        },
+        "date": 1759959676499,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 643.446,
+            "range": "± 3.52194",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1081.02,
+            "range": "± 30.5138",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 1707.14,
+            "range": "± 71.6418",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
