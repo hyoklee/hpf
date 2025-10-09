@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760043991030,
+  "lastUpdate": 1760047338705,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "Catch2 Benchmark": [
@@ -154,6 +154,58 @@ window.BENCHMARK_DATA = {
             "name": "cmpd_subset 100",
             "value": 5317.13,
             "range": "± 56.181",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "5046dbcfe807daf6fb5ca0d00d7ba048471cf7dc",
+          "message": "feat: add custom benchmark template with series support\n\nAdd custom index.html template for benchmarks that displays multiple\nseries (HDF5 develop vs 1.14) on a single chart, matching the\nnetcdf-c benchmark page style. Update workflow to copy this template\nto gh-pages branch after benchmark action runs.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-10-09T16:42:43-05:00",
+          "tree_id": "e831657771d39f751bc7cb372d2926f17776ea55",
+          "url": "https://github.com/hyoklee/hpf/commit/5046dbcfe807daf6fb5ca0d00d7ba048471cf7dc"
+        },
+        "date": 1760047336815,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 644.814,
+            "range": "± 2.55585",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1088.46,
+            "range": "± 13.2338",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 1590.22,
+            "range": "± 26.486",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5146.57,
+            "range": "± 160.916",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
