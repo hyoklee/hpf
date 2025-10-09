@@ -764,7 +764,7 @@ test_hdf5_src_subset(const char *filename, double *time_used)
     if(H5Dclose(dataset) < 0)
         goto error;
 
-    PASSED();
+//     PASSED();
 
     /*
      *######################################################################
@@ -804,7 +804,7 @@ test_hdf5_src_subset(const char *filename, double *time_used)
     if(H5Dclose(dataset) < 0)
         goto error;
 
-    PASSED();
+//     PASSED();
 
     /*
      *######################################################################
@@ -865,7 +865,7 @@ test_hdf5_src_subset(const char *filename, double *time_used)
     free(rbuf);
     free(rew_buf);
 
-    PASSED();
+//     PASSED();
     return 0;
 
 error:
@@ -981,7 +981,7 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
     if(H5Dclose(dataset) < 0)
         goto error;
 
-    PASSED();
+//     PASSED();
 
     /*
      *######################################################################
@@ -1018,7 +1018,7 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
     if(H5Dclose(dataset) < 0)
         goto error;
 
-    PASSED();
+//     PASSED();
 
     /*
      *######################################################################
@@ -1078,7 +1078,7 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
     free(rbuf);
     free(rew_buf);
 
-    PASSED();
+//     PASSED();
     return 0;
 
 error:
@@ -1109,15 +1109,15 @@ test(void)
     unsigned 	nerrors = 0;
     double      ssubset_time, dsubset_time;
 
-    puts("Testing the optimization of when the source type is a subset of the dest:");
+    // puts("Testing the optimization of when the source type is a subset of the dest:");
     nerrors += test_hdf5_src_subset(FILENAME[0], &ssubset_time);
 
-    puts("Testing the optimization of when the dest type is a subset of the source:");
+    // puts("Testing the optimization of when the dest type is a subset of the source:");
     nerrors += test_hdf5_dst_subset(FILENAME[1], &dsubset_time);
 
     remove(FILENAME[0]);
     remove(FILENAME[1]);
-    puts("All compound dataset tests passed.");
+    // puts("All compound dataset tests passed.");
     return 0;
 }
 
