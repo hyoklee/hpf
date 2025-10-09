@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760043188564,
+  "lastUpdate": 1760046708403,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -87,6 +87,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100",
             "value": 4.38411,
+            "unit": "sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "5046dbcfe807daf6fb5ca0d00d7ba048471cf7dc",
+          "message": "feat: add custom benchmark template with series support\n\nAdd custom index.html template for benchmarks that displays multiple\nseries (HDF5 develop vs 1.14) on a single chart, matching the\nnetcdf-c benchmark page style. Update workflow to copy this template\nto gh-pages branch after benchmark action runs.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-10-09T16:42:43-05:00",
+          "tree_id": "e831657771d39f751bc7cb372d2926f17776ea55",
+          "url": "https://github.com/hyoklee/hpf/commit/5046dbcfe807daf6fb5ca0d00d7ba048471cf7dc"
+        },
+        "date": 1760046706088,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "cmpd_subset 100",
+            "value": 4.79536,
+            "unit": "sec"
+          },
+          {
+            "name": "efc_no 100",
+            "value": 0.6227079999999999,
+            "unit": "sec"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 0.9660979999999999,
+            "unit": "sec"
+          },
+          {
+            "name": "vds 100",
+            "value": 4.2867,
             "unit": "sec"
           }
         ]
