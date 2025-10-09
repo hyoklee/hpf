@@ -735,7 +735,7 @@ test_hdf5_src_subset(const char *filename, double *time_used)
      *######################################################################
      * STEP 1. Write data to contiguous and chunked datasets.
      */
-    TESTING("writing data to contiguous and chunked datasets");
+    //TESTING("writing data to contiguous and chunked datasets");
 
     /* Create contiguous data set */
     if((dataset = H5Dcreate(file, DSET_NAME[0], src_tid, space, H5P_DEFAULT,
@@ -768,9 +768,9 @@ test_hdf5_src_subset(const char *filename, double *time_used)
 
     /*
      *######################################################################
-     * STEP 2. Rewrite the data with a subset of original data type. 
+     * STEP 2. Rewrite the data with a subset of original data type.
      */
-    TESTING("rewriting data with a subset of original data type");
+    //TESTING("rewriting data with a subset of original data type");
 
     /* Create xfer properties to preserve initialized data */
     if ((dxpl = H5Pcreate (H5P_DATASET_XFER))<0)
@@ -810,11 +810,11 @@ test_hdf5_src_subset(const char *filename, double *time_used)
      *######################################################################
      * STEP 3. Read the data into a subset of the original compound type.
      */
-    TESTING("reading data with a subset of original data type");
+    //TESTING("reading data with a subset of original data type");
 
     /* Check contiguous data set */
       // Version 1.6 way
-    if((dataset = H5Dopen(file, DSET_NAME[0], NULL))<0)      
+    if((dataset = H5Dopen(file, DSET_NAME[0], NULL))<0)
         goto error;
 
     while(timer < 50){
@@ -951,7 +951,7 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
      *######################################################################
      * STEP 1. Write data to contiguous and chunked datasets.
      */
-    TESTING("writing data to contiguous and chunked datasets");
+    //TESTING("writing data to contiguous and chunked datasets");
 
     /* Create contiguous data set */
     if((dataset = H5Dcreate(file, DSET_NAME[2], src_tid, space, H5P_DEFAULT,
@@ -985,9 +985,9 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
 
     /*
      *######################################################################
-     * STEP 2. Rewrite the data with a subset of original data type. 
+     * STEP 2. Rewrite the data with a subset of original data type.
      */
-    TESTING("rewriting data with a subset of original data type");
+    //TESTING("rewriting data with a subset of original data type");
 
     /* Create xfer properties to preserve initialized data */
     if ((dxpl = H5Pcreate (H5P_DATASET_XFER))<0)
@@ -1024,7 +1024,7 @@ test_hdf5_dst_subset(const char *filename, double *time_used)
      *######################################################################
      * STEP 3. Read the data into a subset of the original compound type.
      */
-    TESTING("reading data with a subset of original data type");
+    //TESTING("reading data with a subset of original data type");
 
     /* Check contiguous data set */
     if((dataset = H5Dopen(file, DSET_NAME[2], NULL))<0)
