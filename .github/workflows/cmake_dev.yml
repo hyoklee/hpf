@@ -37,7 +37,7 @@ jobs:
         ./efc_no | tee ../output.txt
         ./many_dsets | tee -a ../output.txt
         ./vds | tee -a ../output.txt
-        ./cmpd_subset | tee ../output.txt
+        ./cmpd_subset | tee -a ../output.txt
         cd ..
         pwd
         ls
