@@ -1,0 +1,230 @@
+name: Daily HDF5 Performance Benchmark
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Checkout HPF
+      uses: actions/checkout@v4
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          zlib1g-dev \
+          libaec-dev \
+          python3 \
+          python3-pip \
+          git
+
+    - name: Install Python dependencies
+      run: |
+        pip3 install --user matplotlib pandas scipy numpy
+
+    - name: Get HDF5 develop commit hash
+      id: hdf5-develop-hash
+      run: |
+        HDF5_HASH=$(git ls-remote https://github.com/HDFGroup/hdf5.git refs/heads/develop | awk '{print $1}')
+        echo "hash=$HDF5_HASH" >> $GITHUB_OUTPUT
+        echo "HDF5 develop commit: $HDF5_HASH"
+
+    - name: Get HDF5 1.14 branch commit hash
+      id: hdf5-1_14-hash
+      run: |
+        HDF5_HASH=$(git ls-remote https://github.com/HDFGroup/hdf5.git refs/heads/hdf5_1_14 | awk '{print $1}')
+        echo "hash=$HDF5_HASH" >> $GITHUB_OUTPUT
+        echo "HDF5 1.14 commit: $HDF5_HASH"
+
+    - name: Cache HDF5 develop build
+      id: cache-hdf5-develop
+      uses: actions/cache@v4
+      with:
+        path: |
+          hdf5-develop-install
+          hdf5-develop-build
+        key: hdf5-develop-${{ steps.hdf5-develop-hash.outputs.hash }}-ubuntu-24.04
+
+    - name: Cache HDF5 1.14 build
+      id: cache-hdf5-1_14
+      uses: actions/cache@v4
+      with:
+        path: |
+          hdf5-1_14-install
+          hdf5-1_14-build
+        key: hdf5-1_14-${{ steps.hdf5-1_14-hash.outputs.hash }}-ubuntu-24.04
+
+    - name: Check if benchmarks should run
+      id: check-run
+      run: |
+        SHOULD_RUN=false
+        if [[ "${{ steps.cache-hdf5-develop.outputs.cache-hit }}" != "true" ]] || [[ "${{ steps.cache-hdf5-1_14.outputs.cache-hit }}" != "true" ]]; then
+          SHOULD_RUN=true
+        fi
+        echo "should_run=$SHOULD_RUN" >> $GITHUB_OUTPUT
+        echo "Should run benchmarks: $SHOULD_RUN"
+
+    - name: Checkout and build HDF5 develop
+      if: steps.cache-hdf5-develop.outputs.cache-hit != 'true'
+      run: |
+        git clone --depth 1 --branch develop https://github.com/HDFGroup/hdf5.git hdf5-develop-src
+        cd hdf5-develop-src
+        mkdir -p ../hdf5-develop-build
+        cd ../hdf5-develop-build
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/hdf5-develop-install \
+              -DHDF5_ENABLE_PARALLEL=OFF \
+              -DHDF5_ENABLE_THREADSAFE=OFF \
+              -DBUILD_TESTING=OFF \
+              -DHDF5_BUILD_EXAMPLES=OFF \
+              -DHDF5_BUILD_TOOLS=ON \
+              -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
+              -DHDF5_ENABLE_SZIP_SUPPORT=ON \
+              ../hdf5-develop-src
+        ninja
+        ninja install
+
+    - name: Checkout and build HDF5 1.14
+      if: steps.cache-hdf5-1_14.outputs.cache-hit != 'true'
+      run: |
+        git clone --depth 1 --branch hdf5_1_14 https://github.com/HDFGroup/hdf5.git hdf5-1_14-src
+        cd hdf5-1_14-src
+        mkdir -p ../hdf5-1_14-build
+        cd ../hdf5-1_14-build
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/hdf5-1_14-install \
+              -DHDF5_ENABLE_PARALLEL=OFF \
+              -DHDF5_ENABLE_THREADSAFE=OFF \
+              -DBUILD_TESTING=OFF \
+              -DHDF5_BUILD_EXAMPLES=OFF \
+              -DHDF5_BUILD_TOOLS=ON \
+              -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
+              -DHDF5_ENABLE_SZIP_SUPPORT=ON \
+              ../hdf5-1_14-src
+        ninja
+        ninja install
+
+    - name: Build HPF with HDF5 develop
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir -p build-develop
+        cd build-develop
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5-develop-install \
+              ..
+        ninja
+
+    - name: Build HPF with HDF5 1.14
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir -p build-1_14
+        cd build-1_14
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5-1_14-install \
+              ..
+        ninja
+
+    - name: Run benchmarks with HDF5 develop
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir -p benchmark-results
+        cd build-develop
+        export LD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-develop-install/lib:$LD_LIBRARY_PATH
+
+        echo "=== HPF Benchmarks with HDF5 develop ===" | tee ../benchmark-results/develop.txt
+
+        echo -e "\n--- efc_no benchmark ---" | tee -a ../benchmark-results/develop.txt
+        ./efc_no --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+
+        echo -e "\n--- cmpd_subset benchmark ---" | tee -a ../benchmark-results/develop.txt
+        ./cmpd_subset --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+
+        echo -e "\n--- many_dsets benchmark ---" | tee -a ../benchmark-results/develop.txt
+        ./many_dsets --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+
+        echo -e "\n--- vds benchmark ---" | tee -a ../benchmark-results/develop.txt
+        ./vds --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+
+    - name: Run benchmarks with HDF5 1.14
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd build-1_14
+        export LD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-1_14-install/lib:$LD_LIBRARY_PATH
+
+        echo "=== HPF Benchmarks with HDF5 1.14 ===" | tee ../benchmark-results/1_14.txt
+
+        echo -e "\n--- efc_no benchmark ---" | tee -a ../benchmark-results/1_14.txt
+        ./efc_no --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+
+        echo -e "\n--- cmpd_subset benchmark ---" | tee -a ../benchmark-results/1_14.txt
+        ./cmpd_subset --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+
+        echo -e "\n--- many_dsets benchmark ---" | tee -a ../benchmark-results/1_14.txt
+        ./many_dsets --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+
+        echo -e "\n--- vds benchmark ---" | tee -a ../benchmark-results/1_14.txt
+        ./vds --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+
+    - name: Process benchmark results to JSON
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python3 .github/scripts/parse_catch2_results.py \
+          benchmark-results/develop.txt \
+          benchmark-results/benchmark_data_develop.json \
+          ${{ steps.hdf5-develop-hash.outputs.hash }} \
+          develop
+
+        python3 .github/scripts/parse_catch2_results.py \
+          benchmark-results/1_14.txt \
+          benchmark-results/benchmark_data_1_14.json \
+          ${{ steps.hdf5-1_14-hash.outputs.hash }} \
+          1_14
+
+        python3 .github/scripts/combine_benchmark_results.py \
+          benchmark-results/benchmark_data_develop.json \
+          benchmark-results/benchmark_data_1_14.json \
+          benchmark-results/benchmark_data.json
+
+    - name: Store benchmark results
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        name: 'HDF5 Performance Benchmarks'
+        tool: 'customSmallerIsBetter'
+        output-file-path: benchmark-results/benchmark_data.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
+        gh-pages-branch: gh-pages
+        benchmark-data-dir-path: benchmarks
+        skip-fetch-gh-pages: false
+        comment-always: false
+        summary-always: false
+        save-data-file: true
+        comment-on-alert: false
+        alert-threshold: 200%
+        fail-on-alert: false
+
+
+    - name: Upload detailed results
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: hpf-benchmark-results-${{ github.run_number }}
+        path: benchmark-results/
+        retention-days: 90
