@@ -221,6 +221,42 @@ jobs:
         fail-on-alert: false
 
 
+    - name: Checkout gh-pages branch for custom plots
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create grouped comparison plots
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python3 .github/scripts/create_grouped_plots.py \
+          gh-pages/benchmarks/data.js \
+          gh-pages/custom-plots
+
+    - name: Create benchmark index page
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python3 .github/scripts/create_index_html.py gh-pages
+
+    - name: Commit and push custom plots
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd gh-pages
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add custom-plots/ benchmark-index.html
+        if git diff --staged --quiet; then
+          echo "No changes to custom plots"
+        else
+          git commit -m "Update benchmark plots (develop: ${{ steps.hdf5-develop-hash.outputs.hash }}, 1.14: ${{ steps.hdf5-1_14-hash.outputs.hash }})"
+          git push
+        fi
+
     - name: Upload detailed results
       if: steps.check-run.outputs.should_run == 'true'
       uses: actions/upload-artifact@v4
