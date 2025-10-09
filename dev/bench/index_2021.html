@@ -83,7 +83,7 @@
         max-width: 1000px;
       }
     </style>
-    <title>Benchmarks</title>
+    <title>Benchmarks - 2021</title>
   </head>
 
   <body>
@@ -105,7 +105,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
-    <script src="data.js"></script>
+    <script src="data_2021.js"></script>
     <script id="main-script">
       'use strict';
       (function() {
@@ -151,7 +151,7 @@
             const dataUrl = 'data:,' + JSON.stringify(data, null, 2);
             const a = document.createElement('a');
             a.href = dataUrl;
-            a.download = 'benchmark_data.json';
+            a.download = 'benchmark_data_2021.json';
             a.click();
           };
 
