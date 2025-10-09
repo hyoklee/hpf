@@ -90,8 +90,8 @@ jobs:
               -DBUILD_TESTING=OFF \
               -DHDF5_BUILD_EXAMPLES=OFF \
               -DHDF5_BUILD_TOOLS=ON \
-              -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
-              -DHDF5_ENABLE_SZIP_SUPPORT=ON \
+              -DHDF5_ENABLE_ZLIB_SUPPORT=OFF \
+              -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
               ../hdf5-develop-src
         ninja
         ninja install
@@ -111,8 +111,8 @@ jobs:
               -DBUILD_TESTING=OFF \
               -DHDF5_BUILD_EXAMPLES=OFF \
               -DHDF5_BUILD_TOOLS=ON \
-              -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
-              -DHDF5_ENABLE_SZIP_SUPPORT=ON \
+              -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF \
+              -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
               ../hdf5-1_14-src
         ninja
         ninja install
