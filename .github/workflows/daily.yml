@@ -221,13 +221,19 @@ jobs:
         fail-on-alert: false
 
 
-    - name: Checkout gh-pages branch for custom plots
+    - name: Checkout gh-pages branch for custom plots and HTML template
       if: steps.check-run.outputs.should_run == 'true'
       uses: actions/checkout@v4
       with:
         ref: gh-pages
         path: gh-pages
         token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update benchmark index.html with custom template
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cp .github/scripts/benchmark-template.html gh-pages/benchmarks/index.html
+        echo "Updated benchmark index.html with series support"
 
     - name: Create grouped comparison plots
       if: steps.check-run.outputs.should_run == 'true'
@@ -243,17 +249,17 @@ jobs:
         cd $GITHUB_WORKSPACE
         python3 .github/scripts/create_index_html.py gh-pages
 
-    - name: Commit and push custom plots
+    - name: Commit and push custom plots and index.html
       if: steps.check-run.outputs.should_run == 'true'
       run: |
         cd gh-pages
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add custom-plots/ benchmark-index.html
+        git add custom-plots/ benchmark-index.html benchmarks/index.html
         if git diff --staged --quiet; then
-          echo "No changes to custom plots"
+          echo "No changes to custom plots or index.html"
         else
-          git commit -m "Update benchmark plots (develop: ${{ steps.hdf5-develop-hash.outputs.hash }}, 1.14: ${{ steps.hdf5-1_14-hash.outputs.hash }})"
+          git commit -m "Update benchmark plots and index.html (develop: ${{ steps.hdf5-develop-hash.outputs.hash }}, 1.14: ${{ steps.hdf5-1_14-hash.outputs.hash }})"
           git push
         fi
 
