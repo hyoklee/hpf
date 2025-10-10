@@ -175,7 +175,7 @@
 
             const color = '#ff3838';
             const data = {
-              labels: dataset.map(d => d.commit.id.slice(0, 7)),
+              labels: dataset.map(d => new Date(d.date).toLocaleDateString()),
               datasets: [],
             };
 
@@ -227,10 +227,12 @@
                 x: {
                   title: {
                     display: true,
-                    text: 'Commit',
+                    text: 'Date',
                   },
                   ticks: {
                     autoSkip: true,
+                    maxRotation: 45,
+                    minRotation: 45,
                   },
                 },
                 y: {
