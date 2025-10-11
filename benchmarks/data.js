@@ -16,7 +16,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "3e31f323ed98c11da5235981e200d5636627619e",
-          "message": "feat: display dates instead of commits on benchmark charts\n\nUpdate benchmark template to show dates on x-axis instead of commit\nIDs, matching the netcdf-c benchmark page style. Dates are rotated\n45 degrees for better readability.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "feat: display dates instead of commits on benchmark charts\n\nUpdate benchmark template to show dates on x-axis instead of commit\nIDs, matching the netcdf-c benchmark page style. Dates are rotated\n45 degrees for better readability.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-10T00:13:51Z",
           "url": "https://github.com/hyoklee/hpf/commit/3e31f323ed98c11da5235981e200d5636627619e"
         },
@@ -47,4 +47,4 @@ window.BENCHMARK_DATA = {
       }
     ]
   }
-}
+};
