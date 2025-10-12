@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760292670106,
+  "lastUpdate": 1760295370727,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "Catch2 Benchmark": [
@@ -310,6 +310,58 @@ window.BENCHMARK_DATA = {
             "name": "cmpd_subset 100",
             "value": 5293.85,
             "range": "± 162.23",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "257efb11709d6cdef77f4f7d48b28c3c15d33638",
+          "message": "ci: fix script name",
+          "timestamp": "2025-10-12T13:35:11-05:00",
+          "tree_id": "ec4f4bc516cd12b6762929b05cd0b19c005745d5",
+          "url": "https://github.com/hyoklee/hpf/commit/257efb11709d6cdef77f4f7d48b28c3c15d33638"
+        },
+        "date": 1760295369160,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 631.034,
+            "range": "± 2.09571",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1195.54,
+            "range": "± 16.5532",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 2059.6,
+            "range": "± 65.4267",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5283.96,
+            "range": "± 143.118",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
