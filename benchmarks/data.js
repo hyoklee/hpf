@@ -1,50 +1,52 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760164119058,
+  "lastUpdate": 1760295844839,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
       {
         "commit": {
           "author": {
+            "email": "hyoklee@hdfgroup.org",
             "name": "H. Joe Lee",
-            "username": "hyoklee",
-            "email": "hyoklee@hdfgroup.org"
+            "username": "hyoklee"
           },
           "committer": {
+            "email": "hyoklee@hdfgroup.org",
             "name": "H. Joe Lee",
-            "username": "hyoklee",
-            "email": "hyoklee@hdfgroup.org"
+            "username": "hyoklee"
           },
-          "id": "3e31f323ed98c11da5235981e200d5636627619e",
-          "message": "feat: display dates instead of commits on benchmark charts\n\nUpdate benchmark template to show dates on x-axis instead of commit\nIDs, matching the netcdf-c benchmark page style. Dates are rotated\n45 degrees for better readability.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
-          "timestamp": "2025-10-10T00:13:51Z",
-          "url": "https://github.com/hyoklee/hpf/commit/3e31f323ed98c11da5235981e200d5636627619e"
+          "distinct": true,
+          "id": "f5dd7d6ba17a9bbd637d5b8fe14a8fb9e8fc1543",
+          "message": "ci: test plot generation",
+          "timestamp": "2025-10-12T13:57:58-05:00",
+          "tree_id": "c6dd3598237919661fe6132d8f6f7c94f70289f9",
+          "url": "https://github.com/hyoklee/hpf/commit/f5dd7d6ba17a9bbd637d5b8fe14a8fb9e8fc1543"
         },
-        "date": 1760164116932,
+        "date": 1760295843092,
         "tool": "customSmallerIsBetter",
         "benches": [
           {
             "name": "cmpd_subset 100",
-            "value": 4.8711,
+            "value": 4.96194,
             "unit": "sec"
           },
           {
             "name": "efc_no 100",
-            "value": 0.6265270000000001,
+            "value": 0.63221,
             "unit": "sec"
           },
           {
             "name": "many_dsets 100",
-            "value": 1.01695,
+            "value": 1.01621,
             "unit": "sec"
           },
           {
             "name": "vds 100",
-            "value": 4.27441,
+            "value": 4.57152,
             "unit": "sec"
           }
         ]
       }
     ]
   }
-};
+}
