@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760295844839,
+  "lastUpdate": 1760306938272,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -43,6 +43,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100",
             "value": 4.57152,
+            "unit": "sec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "56e1499de67ceff8fb3dc99ccb1e7f9c005b2b3e",
+          "message": "ci: use gh workspace",
+          "timestamp": "2025-10-12T17:02:14-05:00",
+          "tree_id": "c9cc53aa0e829a3c85e82353d0a5016ca3ece18c",
+          "url": "https://github.com/hyoklee/hpf/commit/56e1499de67ceff8fb3dc99ccb1e7f9c005b2b3e"
+        },
+        "date": 1760306936132,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "cmpd_subset 100",
+            "value": 4.60759,
+            "unit": "sec"
+          },
+          {
+            "name": "efc_no 100",
+            "value": 0.623058,
+            "unit": "sec"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.00075,
+            "unit": "sec"
+          },
+          {
+            "name": "vds 100",
+            "value": 4.3141,
             "unit": "sec"
           }
         ]
