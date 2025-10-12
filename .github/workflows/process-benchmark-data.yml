@@ -34,7 +34,7 @@ jobs:
 
       - name: Process benchmark data to grouped format
         run: |
-          python3 .github/scripts/create_grouped_data.py \
+          python3 .github/scripts/create_grouped_benchmark_data.py \
             gh-pages/benchmarks/data.js \
             gh-pages/benchmarks/data_grouped.js
 
