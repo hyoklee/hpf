@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760056499553,
+  "lastUpdate": 1760292670106,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "Catch2 Benchmark": [
@@ -258,6 +258,58 @@ window.BENCHMARK_DATA = {
             "name": "cmpd_subset 100",
             "value": 5109.91,
             "range": "± 86.669",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "e0428b9d16daa4177a456b7502022312263d9e8c",
+          "message": "fix: update process-benchmark-data workflow to match netcdf-c version\n\n- Add YAML document separator and quote \"on\" keyword\n- Use multi-line format for if condition\n- Change script name to create_grouped_data.py\n- Output to data_grouped.js instead of data.js\n- Add step to update index.html to use grouped data\n- Update git add to include both data_grouped.js and index.html\n- Update commit message and Claude Code URL\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "timestamp": "2025-10-12T12:49:40-05:00",
+          "tree_id": "96e300f229cb85cfbab40da868520142731b264c",
+          "url": "https://github.com/hyoklee/hpf/commit/e0428b9d16daa4177a456b7502022312263d9e8c"
+        },
+        "date": 1760292667884,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 623.093,
+            "range": "± 3.71738",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1099.81,
+            "range": "± 20.2927",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 1877.21,
+            "range": "± 71.592",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5293.85,
+            "range": "± 162.23",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
