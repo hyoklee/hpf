@@ -142,23 +142,23 @@ jobs:
     - name: Run benchmarks with HDF5 develop
       if: steps.check-run.outputs.should_run == 'true'
       run: |
-        mkdir -p benchmark-results
+        mkdir -p $GITHUB_WORKSPACE/benchmark-results
         cd build-develop
         export LD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-develop-install/lib:$LD_LIBRARY_PATH
 
-        echo "=== HPF Benchmarks with HDF5 develop ===" | tee ../benchmark-results/develop.txt
+        echo "=== HPF Benchmarks with HDF5 develop ===" | tee $GITHUB_WORKSPACE/benchmark-results/develop.txt
 
-        echo -e "\n--- efc_no benchmark ---" | tee -a ../benchmark-results/develop.txt
-        ./efc_no --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+        echo -e "\n--- efc_no benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./efc_no --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
-        echo -e "\n--- cmpd_subset benchmark ---" | tee -a ../benchmark-results/develop.txt
-        ./cmpd_subset --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+        echo -e "\n--- cmpd_subset benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./cmpd_subset --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
-        echo -e "\n--- many_dsets benchmark ---" | tee -a ../benchmark-results/develop.txt
-        ./many_dsets --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+        echo -e "\n--- many_dsets benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./many_dsets --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
-        echo -e "\n--- vds benchmark ---" | tee -a ../benchmark-results/develop.txt
-        ./vds --benchmark-samples 10 | tee -a ../benchmark-results/develop.txt || true
+        echo -e "\n--- vds benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./vds --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
     - name: Run benchmarks with HDF5 1.14
       if: steps.check-run.outputs.should_run == 'true'
@@ -166,19 +166,19 @@ jobs:
         cd build-1_14
         export LD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-1_14-install/lib:$LD_LIBRARY_PATH
 
-        echo "=== HPF Benchmarks with HDF5 1.14 ===" | tee ../benchmark-results/1_14.txt
+        echo "=== HPF Benchmarks with HDF5 1.14 ===" | tee $GITHUB_WORKSPACE/benchmark-results/1_14.txt
 
-        echo -e "\n--- efc_no benchmark ---" | tee -a ../benchmark-results/1_14.txt
-        ./efc_no --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+        echo -e "\n--- efc_no benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./efc_no --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
-        echo -e "\n--- cmpd_subset benchmark ---" | tee -a ../benchmark-results/1_14.txt
-        ./cmpd_subset --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+        echo -e "\n--- cmpd_subset benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./cmpd_subset --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
-        echo -e "\n--- many_dsets benchmark ---" | tee -a ../benchmark-results/1_14.txt
-        ./many_dsets --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+        echo -e "\n--- many_dsets benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./many_dsets --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
-        echo -e "\n--- vds benchmark ---" | tee -a ../benchmark-results/1_14.txt
-        ./vds --benchmark-samples 10 | tee -a ../benchmark-results/1_14.txt || true
+        echo -e "\n--- vds benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./vds --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
     - name: Process benchmark results to JSON
       if: steps.check-run.outputs.should_run == 'true'
