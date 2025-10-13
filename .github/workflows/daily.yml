@@ -68,7 +68,7 @@ jobs:
     - name: Check if benchmarks should run
       id: check-run
       run: |
-        SHOULD_RUN=true
+        SHOULD_RUN=false
         if [[ "${{ steps.cache-hdf5-develop.outputs.cache-hit }}" != "true" ]] || [[ "${{ steps.cache-hdf5-1_14.outputs.cache-hit }}" != "true" ]]; then
           SHOULD_RUN=true
         fi
