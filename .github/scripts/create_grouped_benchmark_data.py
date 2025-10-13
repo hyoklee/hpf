@@ -85,17 +85,30 @@ def transform_to_grouped_series(data: Dict[str, Any]) -> Dict[str, Any]:
                 extra = bench.get('extra', '')
 
                 # Determine base name and version
-                # In HPF, the extra field contains version info like "HDF5 develop - abc123"
-                if 'HDF5 develop' in extra or 'develop' in extra.lower():
-                    version = 'HDF5 develop'
-                elif 'HDF5 1.14' in extra or '1.14' in extra or '1_14' in extra:
-                    version = 'HDF5 1.14'
-                else:
-                    # No version info - treat as standalone benchmark
-                    version = None
-
-                # Base name is the benchmark name (e.g., "efc_no 100")
+                # First check for version suffix in the benchmark name
+                # Common suffixes: _hdf5_develop, _hdf5_1146, _hdf5_1_14_6
+                version = None
                 base_name = bench_name
+
+                # Try to extract version from name suffix
+                if '_hdf5_develop' in bench_name.lower():
+                    base_name = re.sub(r'_hdf5_develop$', '', bench_name, flags=re.IGNORECASE)
+                    version = 'HDF5 develop'
+                elif '_hdf5_1146' in bench_name.lower() or '_hdf5_1_14_6' in bench_name.lower():
+                    base_name = re.sub(r'_hdf5_(1146|1_14_6)$', '', bench_name, flags=re.IGNORECASE)
+                    version = 'HDF5 1.14.6'
+                elif '_hdf5_1_14' in bench_name.lower():
+                    base_name = re.sub(r'_hdf5_1_14$', '', bench_name, flags=re.IGNORECASE)
+                    version = 'HDF5 1.14'
+
+                # If no version in name, check the extra field
+                if version is None:
+                    if 'HDF5 develop' in extra or 'develop' in extra.lower():
+                        version = 'HDF5 develop'
+                    elif 'HDF5 1.14.6' in extra or '1.14.6' in extra:
+                        version = 'HDF5 1.14.6'
+                    elif 'HDF5 1.14' in extra or '1.14' in extra or '1_14' in extra:
+                        version = 'HDF5 1.14'
 
                 if base_name not in bench_map:
                     bench_map[base_name] = {}
@@ -120,15 +133,18 @@ def transform_to_grouped_series(data: Dict[str, Any]) -> Dict[str, Any]:
                     # Create a grouped benchmark with series
                     series = []
 
-                    # Add versions in consistent order
-                    if 'HDF5 1.14' in versions:
+                    # Add versions in consistent order (1.14.6 first, then develop)
+                    if 'HDF5 1.14.6' in versions:
+                        series.append(versions['HDF5 1.14.6'])
+                    elif 'HDF5 1.14' in versions:
                         series.append(versions['HDF5 1.14'])
+
                     if 'HDF5 develop' in versions:
                         series.append(versions['HDF5 develop'])
 
                     # Add any other versions
                     for ver_name, ver_data in versions.items():
-                        if ver_name not in ['HDF5 1.14', 'HDF5 develop']:
+                        if ver_name not in ['HDF5 1.14', 'HDF5 1.14.6', 'HDF5 develop']:
                             series.append(ver_data)
 
                     if series:
