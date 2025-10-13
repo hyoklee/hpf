@@ -47,8 +47,6 @@ jobs:
           else
             # Update existing index.html to use data_grouped.js
             sed -i 's/src="data\.js"/src="data_grouped.js"/g' index.html
-            sed -i 's/window\.BENCHMARK_DATA/window.GROUPED_BENCHMARK_DATA/g' \
-              index.html
           fi
 
       - name: Commit and push grouped data

@@ -174,8 +174,6 @@ def main():
             benchmark['hdf5_commit_short'] = hdf5_hash[:8]
         if version_label:
             benchmark['version'] = version_label
-            # Add version to name for uniqueness
-            benchmark['name'] = f"{benchmark['name']} ({version_label})"
         benchmark['timestamp'] = current_timestamp
 
     # Create output directory if it doesn't exist
