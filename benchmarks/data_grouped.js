@@ -1,4 +1,4 @@
-window.GROUPED_BENCHMARK_DATA = {
+window.BENCHMARK_DATA = {
   "lastUpdate": 1760319596614,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
