@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1760295370727,
+  "lastUpdate": 1760324080860,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "Catch2 Benchmark": [
@@ -362,6 +362,58 @@ window.BENCHMARK_DATA = {
             "name": "cmpd_subset 100",
             "value": 5283.96,
             "range": "± 143.118",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "e47dc35160f7ffd7aee4d2ebde502eef3df85b6d",
+          "message": "ci: restore false",
+          "timestamp": "2025-10-12T21:35:35-05:00",
+          "tree_id": "ce7bc969930a4bb377133984b32886031e0bb635",
+          "url": "https://github.com/hyoklee/hpf/commit/e47dc35160f7ffd7aee4d2ebde502eef3df85b6d"
+        },
+        "date": 1760324079274,
+        "tool": "catch2",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 623.29,
+            "range": "± 11.3727",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1066.4499999999998,
+            "range": "± 23.4225",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "vds 100",
+            "value": 1571.34,
+            "range": "± 49.2243",
+            "unit": "ms",
+            "extra": "100 samples\n1 iterations"
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5041.91,
+            "range": "± 83.7607",
             "unit": "ms",
             "extra": "100 samples\n1 iterations"
           }
