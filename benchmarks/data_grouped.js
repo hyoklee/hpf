@@ -26,10 +26,16 @@ window.BENCHMARK_DATA = {
         "tool": "customSmallerIsBetter",
         "benches": [
           {
-            "name": "efc_no 100_hdf5_develop",
-            "value": 0.627601,
+            "name": "efc_no 100",
+            "value": 0.611115,
             "unit": "sec",
             "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.611115,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
               {
                 "name": "HDF5 develop",
                 "value": 0.627601,
@@ -39,10 +45,16 @@ window.BENCHMARK_DATA = {
             ]
           },
           {
-            "name": "cmpd_subset 100_hdf5_develop",
-            "value": 5.20008,
+            "name": "cmpd_subset 100",
+            "value": 4.84132,
             "unit": "sec",
             "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.84132,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
               {
                 "name": "HDF5 develop",
                 "value": 5.20008,
@@ -52,10 +64,16 @@ window.BENCHMARK_DATA = {
             ]
           },
           {
-            "name": "many_dsets 100_hdf5_develop",
-            "value": 1.12535,
+            "name": "many_dsets 100",
+            "value": 0.982038,
             "unit": "sec",
             "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.982038,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
               {
                 "name": "HDF5 develop",
                 "value": 1.12535,
@@ -65,67 +83,21 @@ window.BENCHMARK_DATA = {
             ]
           },
           {
-            "name": "vds 100_hdf5_develop",
-            "value": 1.76191,
+            "name": "vds 100",
+            "value": 4.34655,
             "unit": "sec",
             "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.34655,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
               {
                 "name": "HDF5 develop",
                 "value": 1.76191,
                 "unit": "sec",
                 "extra": "HDF5 develop"
-              }
-            ]
-          },
-          {
-            "name": "efc_no 100_hdf5_1146",
-            "value": 0.611115,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14",
-                "value": 0.611115,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
-              }
-            ]
-          },
-          {
-            "name": "cmpd_subset 100_hdf5_1146",
-            "value": 4.84132,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14",
-                "value": 4.84132,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
-              }
-            ]
-          },
-          {
-            "name": "many_dsets 100_hdf5_1146",
-            "value": 0.982038,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14",
-                "value": 0.982038,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
-              }
-            ]
-          },
-          {
-            "name": "vds 100_hdf5_1146",
-            "value": 4.34655,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14",
-                "value": 4.34655,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
               }
             ]
           }
