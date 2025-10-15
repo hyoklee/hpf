@@ -58,9 +58,18 @@
             color: #007acc;
             text-decoration: none;
             font-weight: bold;
+            display: inline-block;
+            margin: 5px 10px 5px 0;
         }
         .link-section a:hover {
             text-decoration: underline;
+        }
+        .platform-section {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -70,18 +79,24 @@
 
         <div class="description">
             <p>This page shows performance benchmarks for HDF5 comparing the <strong>develop</strong> branch
-            and the <strong>1.14</strong> branch. The benchmarks are run daily and test various HDF5 operations
+            and the <strong>1.14</strong> branch. The benchmarks are run daily on both Linux and Windows platforms
             to track performance changes over time.</p>
         </div>
 
         <div class="link-section">
-            <h3>Standard Benchmark Results</h3>
-            <p>Interactive benchmark charts with timeline view:
-            <a href="./index.html" target="_blank">Standard GitHub Pages Benchmark</a></p>
+            <h3>Interactive Benchmark Results</h3>
+            <p>
+                <a href="./benchmarks/index.html" target="_blank">Linux Benchmarks (Ubuntu 24.04)</a>
+                <a href="./benchmarks_win/index.html" target="_blank">Windows Benchmarks (Windows 2022)</a>
+            </p>
         </div>
 
         <div class="benchmark-section">
-            <h2>Performance Benchmarks - HDF5 develop vs 1.14</h2>
+            <h2>Linux Performance Benchmarks - HDF5 develop vs 1.14</h2>
+
+            <div class="platform-section">
+                <p><strong>Platform:</strong> Ubuntu 24.04 • <strong>Update:</strong> Daily at 6 AM UTC</p>
+            </div>
 
             <div class="description">
                 <p>Each plot shows the performance comparison between HDF5 develop branch (blue)
@@ -118,6 +133,47 @@
         </div>
 
         <div class="benchmark-section">
+            <h2>Windows Performance Benchmarks - HDF5 develop vs 1.14</h2>
+
+            <div class="platform-section">
+                <p><strong>Platform:</strong> Windows 2022 • <strong>Update:</strong> Daily at 7 AM UTC</p>
+            </div>
+
+            <div class="description">
+                <p>Each plot shows the performance comparison between HDF5 develop branch (blue)
+                and 1.14 branch (green) over time.</p>
+            </div>
+
+            <div class="plot-container">
+                <h3>efc_no - External File Cache</h3>
+                <img src="./custom-plots-win/efc_no_100_comparison.png"
+                     alt="efc_no benchmark comparison (Windows)"
+                     title="External file cache performance: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>cmpd_subset - Compound Subset</h3>
+                <img src="./custom-plots-win/cmpd_subset_100_comparison.png"
+                     alt="cmpd_subset benchmark comparison (Windows)"
+                     title="Compound subset performance: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>many_dsets - Many Datasets</h3>
+                <img src="./custom-plots-win/many_dsets_100_comparison.png"
+                     alt="many_dsets benchmark comparison (Windows)"
+                     title="Many datasets performance: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>vds - Virtual Dataset</h3>
+                <img src="./custom-plots-win/vds_100_comparison.png"
+                     alt="vds benchmark comparison (Windows)"
+                     title="Virtual dataset performance: develop vs 1.14 (Windows)">
+            </div>
+        </div>
+
+        <div class="benchmark-section">
             <h2>About the Benchmarks</h2>
             <div class="description">
                 <ul>
@@ -129,13 +185,12 @@
 
                 <p><strong>Testing Framework:</strong> Catch2 with benchmarking enabled (10 samples per benchmark)</p>
                 <p><strong>HDF5 Versions:</strong> develop branch and 1.14 branch</p>
-                <p><strong>Update Frequency:</strong> Daily at 6 AM UTC</p>
-                <p><strong>Platform:</strong> Ubuntu 24.04</p>
+                <p><strong>Platforms:</strong> Linux (Ubuntu 24.04) and Windows (Windows 2022)</p>
             </div>
         </div>
 
         <footer style="margin-top: 40px; text-align: center; color: #666; border-top: 1px solid #ddd; padding-top: 20px;">
-            <p>Generated automatically by GitHub Actions â€¢
+            <p>Generated automatically by GitHub Actions •
             <a href="https://github.com/hyoklee/hpf">HPF Repository</a></p>
         </footer>
     </div>
