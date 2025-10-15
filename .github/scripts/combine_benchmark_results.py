@@ -12,6 +12,11 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Any
 
+# Set UTF-8 encoding for stdout to handle Unicode characters on Windows
+if sys.platform == 'win32':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
 
 def load_benchmark_results(file_path: str) -> List[Dict[str, Any]]:
     """Load benchmark results from a JSON file."""
