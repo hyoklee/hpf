@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1761028055684,
+  "lastUpdate": 1761201244304,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -638,21 +638,21 @@ window.BENCHMARK_DATA = {
           },
           {
             "name": "cmpd_subset 100",
-            "value": 9.38802,
+            "value": 8.32348,
             "unit": "sec",
             "series": [
-              {
-                "name": "HDF5 develop",
-                "value": 9.38802,
-                "unit": "sec",
-                "extra": "HDF5 develop"
-              },
               {
                 "name": "HDF5 1.14.6",
                 "value": 8.32348,
                 "unit": "sec",
                 "extra": "HDF5 1.14.6"
-              }		
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 9.38802,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
             ]
           },
           {
@@ -688,6 +688,104 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.67738,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "b3ef917ebac68c16dab8759afcd03540465765c1",
+          "message": "ci: disable dispatch",
+          "timestamp": "2025-10-23T01:01:41Z",
+          "url": "https://github.com/hyoklee/hpf/commit/b3ef917ebac68c16dab8759afcd03540465765c1"
+        },
+        "date": 1761201242707,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.621084,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.621084,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.64197,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 4.69827,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.69827,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 5.16761,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.02572,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.02572,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.04114,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.32241,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.32241,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.55234,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
