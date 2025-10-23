@@ -1,0 +1,70 @@
+---
+name: Process Benchmark Data to Grouped Format (Mac)
+
+"on":
+  workflow_run:
+    workflows: ["Daily HDF5 Performance Benchmark (Mac)"]
+    types:
+      - completed
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  process-data:
+    runs-on: ubuntu-latest
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success' ||
+          github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Process benchmark data to grouped format
+        run: |
+          python3 .github/scripts/create_grouped_benchmark_data.py \
+            gh-pages/benchmarks_mac/data.js \
+            gh-pages/benchmarks_mac/data_grouped.js
+
+      - name: Update index.html to use grouped data
+        run: |
+          cd gh-pages/benchmarks_mac
+          if [ -f index_grouped.html ]; then
+            # Copy the updated grouped version to main index
+            cp index_grouped.html index.html
+          else
+            # Update existing index.html to use data_grouped.js
+            sed -i 's/src="data\.js"/src="data_grouped.js"/g' index.html
+          fi
+
+      - name: Commit and push grouped data
+        run: |
+          cd gh-pages
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add benchmarks_mac/data_grouped.js benchmarks_mac/index.html
+          if git diff --staged --quiet; then
+            echo "No changes to grouped data"
+          else
+            git commit -m "$(cat <<'EOF'
+          Update grouped benchmark data and visualization (Mac)
+
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+
+          Co-Authored-By: Claude <noreply@anthropic.com>
+          EOF
+          )"
+            git push
+          fi

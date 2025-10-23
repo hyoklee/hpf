@@ -1,0 +1,272 @@
+name: Daily HDF5 Performance Benchmark (Mac)
+
+on:
+  schedule:
+    # Run daily at 8 AM UTC (1 hour after Windows)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  benchmark:
+    runs-on: macos-26
+
+    steps:
+    - name: Checkout HPF
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Python dependencies
+      run: |
+        pip install matplotlib pandas scipy numpy
+
+    - name: Get HDF5 develop commit hash
+      id: hdf5-develop-hash
+      run: |
+        HDF5_HASH=$(git ls-remote https://github.com/HDFGroup/hdf5.git refs/heads/develop | awk '{print $1}')
+        echo "hash=$HDF5_HASH" >> $GITHUB_OUTPUT
+        echo "HDF5 develop commit: $HDF5_HASH"
+
+    - name: Get HDF5 1.14 branch commit hash
+      id: hdf5-1_14-hash
+      run: |
+        HDF5_HASH=$(git ls-remote https://github.com/HDFGroup/hdf5.git refs/heads/hdf5_1_14 | awk '{print $1}')
+        echo "hash=$HDF5_HASH" >> $GITHUB_OUTPUT
+        echo "HDF5 1.14 commit: $HDF5_HASH"
+
+    - name: Cache HDF5 develop build
+      id: cache-hdf5-develop
+      uses: actions/cache@v4
+      with:
+        path: |
+          hdf5-develop-install
+          hdf5-develop-build
+        key: hdf5-develop-${{ steps.hdf5-develop-hash.outputs.hash }}-macos-26
+
+    - name: Cache HDF5 1.14 build
+      id: cache-hdf5-1_14
+      uses: actions/cache@v4
+      with:
+        path: |
+          hdf5-1_14-install
+          hdf5-1_14-build
+        key: hdf5-1_14-${{ steps.hdf5-1_14-hash.outputs.hash }}-macos-26
+
+    - name: Check if benchmarks should run
+      id: check-run
+      run: |
+        SHOULD_RUN=false
+        if [[ "${{ steps.cache-hdf5-develop.outputs.cache-hit }}" != "true" ]] || [[ "${{ steps.cache-hdf5-1_14.outputs.cache-hit }}" != "true" ]]; then
+          SHOULD_RUN=true
+        fi
+        echo "should_run=$SHOULD_RUN" >> $GITHUB_OUTPUT
+        echo "Should run benchmarks: $SHOULD_RUN"
+
+    - name: Checkout and build HDF5 develop
+      if: steps.cache-hdf5-develop.outputs.cache-hit != 'true'
+      run: |
+        git clone --depth 1 --branch develop https://github.com/HDFGroup/hdf5.git hdf5-develop-src
+        cd hdf5-develop-src
+        mkdir ../hdf5-develop-build
+        cd ../hdf5-develop-build
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/hdf5-develop-install \
+              -DHDF5_ENABLE_PARALLEL=OFF \
+              -DHDF5_ENABLE_THREADSAFE=OFF \
+              -DBUILD_TESTING=OFF \
+              -DHDF5_BUILD_EXAMPLES=OFF \
+              -DHDF5_BUILD_TOOLS=ON \
+              -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF \
+              -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
+              ../hdf5-develop-src
+        ninja
+        ninja install
+
+    - name: Checkout and build HDF5 1.14
+      if: steps.cache-hdf5-1_14.outputs.cache-hit != 'true'
+      run: |
+        git clone --depth 1 --branch hdf5_1_14 https://github.com/HDFGroup/hdf5.git hdf5-1_14-src
+        cd hdf5-1_14-src
+        mkdir ../hdf5-1_14-build
+        cd ../hdf5-1_14-build
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/hdf5-1_14-install \
+              -DHDF5_ENABLE_PARALLEL=OFF \
+              -DHDF5_ENABLE_THREADSAFE=OFF \
+              -DBUILD_TESTING=OFF \
+              -DHDF5_BUILD_EXAMPLES=OFF \
+              -DHDF5_BUILD_TOOLS=ON \
+              -DHDF5_ENABLE_Z_LIB_SUPPORT=OFF \
+              -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
+              ../hdf5-1_14-src
+        ninja
+        ninja install
+
+    - name: Build HPF with HDF5 develop
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir build-develop
+        cd build-develop
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5-develop-install \
+              ..
+        ninja
+
+    - name: Build HPF with HDF5 1.14
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir build-1_14
+        cd build-1_14
+        cmake -GNinja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5-1_14-install \
+              ..
+        ninja
+
+    - name: Run benchmarks with HDF5 develop
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        mkdir $GITHUB_WORKSPACE/benchmark-results
+        cd build-develop
+        export DYLD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-develop-install/lib:$DYLD_LIBRARY_PATH
+
+        echo "=== HPF Benchmarks with HDF5 develop ===" > $GITHUB_WORKSPACE/benchmark-results/develop.txt
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        echo "--- efc_no benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./efc_no --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        echo "--- cmpd_subset benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./cmpd_subset --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        echo "--- many_dsets benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./many_dsets --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        echo "--- vds benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./vds --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
+
+    - name: Run benchmarks with HDF5 1.14
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd build-1_14
+        export DYLD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-1_14-install/lib:$DYLD_LIBRARY_PATH
+
+        echo "=== HPF Benchmarks with HDF5 1.14 ===" > $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        echo "--- efc_no benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./efc_no --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        echo "--- cmpd_subset benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./cmpd_subset --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        echo "--- many_dsets benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./many_dsets --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        echo "--- vds benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./vds --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
+
+    - name: Process benchmark results to JSON
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python .github/scripts/parse_catch2_results.py \
+          benchmark-results/develop.txt \
+          benchmark-results/benchmark_data_develop.json \
+          ${{ steps.hdf5-develop-hash.outputs.hash }} \
+          develop
+
+        python .github/scripts/parse_catch2_results.py \
+          benchmark-results/1_14.txt \
+          benchmark-results/benchmark_data_1_14.json \
+          ${{ steps.hdf5-1_14-hash.outputs.hash }} \
+          1_14
+
+        python .github/scripts/combine_benchmark_results.py \
+          benchmark-results/benchmark_data_develop.json \
+          benchmark-results/benchmark_data_1_14.json \
+          benchmark-results/benchmark_data.json
+
+    - name: Store benchmark results
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        name: 'HDF5 Performance Benchmarks (Mac)'
+        tool: 'customSmallerIsBetter'
+        output-file-path: benchmark-results/benchmark_data.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
+        gh-pages-branch: gh-pages
+        benchmark-data-dir-path: benchmarks_mac
+        skip-fetch-gh-pages: false
+        comment-always: false
+        summary-always: false
+        save-data-file: true
+        comment-on-alert: false
+        alert-threshold: 200%
+        fail-on-alert: false
+
+
+    - name: Checkout gh-pages branch for custom plots and HTML template
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update benchmark index.html with custom template
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cp .github/scripts/benchmark-template.html gh-pages/benchmarks_mac/index.html
+        echo "Updated benchmark index.html with series support"
+
+    - name: Create grouped comparison plots
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python .github/scripts/create_grouped_plots.py \
+          gh-pages/benchmarks_mac/data.js \
+          gh-pages/custom-plots-mac
+
+    - name: Create benchmark index page
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        python .github/scripts/create_index_html.py gh-pages
+
+    - name: Commit and push custom plots and index.html
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        cd gh-pages
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add custom-plots-mac/ benchmark-index.html benchmarks_mac/index.html
+        if git diff --staged --quiet; then
+          echo "No changes to custom plots or index.html"
+        else
+          git commit -m "Update Mac benchmark plots and index.html (develop: ${{ steps.hdf5-develop-hash.outputs.hash }}, 1.14: ${{ steps.hdf5-1_14-hash.outputs.hash }})"
+          git push
+        fi
+
+    - name: Upload detailed results
+      if: steps.check-run.outputs.should_run == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: hpf-benchmark-results-mac-${{ github.run_number }}
+        path: benchmark-results/
+        retention-days: 90
