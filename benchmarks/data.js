@@ -456,8 +456,8 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.38802 s_hdf5_develop",
-            "value": 0.0170236,
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 9.38802,
             "unit": "sec",
             "extra": "HDF5 develop"
           },
@@ -480,8 +480,8 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 1.14.6"
           },
           {
-            "name": "8.32348 s_hdf5_1146",
-            "value": 0.0321914,
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 8.32348,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
