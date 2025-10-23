@@ -184,13 +184,13 @@ jobs:
       if: steps.check-run.outputs.should_run == 'true'
       run: |
         cd $GITHUB_WORKSPACE
-        python .github/scripts/parse_catch2_results.py \
+        python .github/scripts/parse_catch2_results_mac.py \
           benchmark-results/develop.txt \
           benchmark-results/benchmark_data_develop.json \
           ${{ steps.hdf5-develop-hash.outputs.hash }} \
           develop
 
-        python .github/scripts/parse_catch2_results.py \
+        python .github/scripts/parse_catch2_results_mac.py \
           benchmark-results/1_14.txt \
           benchmark-results/benchmark_data_1_14.json \
           ${{ steps.hdf5-1_14-hash.outputs.hash }} \
