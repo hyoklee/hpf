@@ -34,7 +34,7 @@ for($i=0; $i < count($routines); $i++){
     for($l=0; $l < count($instances); $l++){
       $hosts = get_host_names($aid);
       for($k=0; $k < count($hosts); $k++){
-	$query = "SELECT ti.TestResult_Value, DATE_FORMAT(ti.TestInstance_Date,'%m/%d') FROM TestInstanceBest ti WHERE Host='$hosts[$k]' AND DatasetName='$instances[$l]' AND LibraryVersion='2.0' AND TestInstance_Date BETWEEN '$start_date' AND '$end_date' ORDER BY TestInstance_Date DESC";
+	$query = "SELECT ti.TestResult_Value, DATE_FORMAT(ti.TestInstance_Date,'%m/%d') FROM TestInstanceBest ti WHERE Host='$hosts[$k]' AND DatasetName='$instances[$l]' AND LibraryVersion='2.1' AND TestInstance_Date BETWEEN '$start_date' AND '$end_date' ORDER BY TestInstance_Date DESC";
         // echo $query;
         // echo "<br>";
 	$result = mysql_query($query); 
