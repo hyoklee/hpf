@@ -3050,12 +3050,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "10.1785 s_hdf5_develop",
-            "value": 0.12408499999999999,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.05545,
             "unit": "sec",
@@ -3070,12 +3064,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.454438,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.92272 s_hdf5_1146",
-            "value": 0.0864124,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -3190,12 +3178,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.51235 s_hdf5_develop",
-            "value": 0.022893,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 0.999421,
             "unit": "sec",
@@ -3210,12 +3192,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.44376,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.7881 s_hdf5_1146",
-            "value": 0.020796099999999998,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -3540,12 +3516,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.69946 s_hdf5_develop",
-            "value": 0.129105,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.01653,
             "unit": "sec",
@@ -3564,20 +3534,8 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 1.14.6"
           },
           {
-            "name": "8.95156 s_hdf5_1146",
-            "value": 0.08454170000000001,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
             "name": "many_dsets 100_hdf5_1146",
             "value": 0.851428,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "5.72058 s_hdf5_1146",
-            "value": 0.184471,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
