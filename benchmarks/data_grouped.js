@@ -4303,19 +4303,6 @@ window.BENCHMARK_DATA = {
                 "extra": "HDF5 develop"
               }
             ]
-          },
-          {
-            "name": "8.92272 s",
-            "value": 0.0864124,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14.6",
-                "value": 0.0864124,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
-              }
-            ]
           }
         ]
       },
