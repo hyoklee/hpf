@@ -7634,19 +7634,6 @@ window.BENCHMARK_DATA = {
             ]
           },
           {
-            "name": "9.63832 s",
-            "value": 0.104662,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 develop",
-                "value": 0.104662,
-                "unit": "sec",
-                "extra": "HDF5 develop"
-              }
-            ]
-          },
-          {
             "name": "many_dsets 100",
             "value": 0.811644,
             "unit": "sec",
@@ -7681,19 +7668,6 @@ window.BENCHMARK_DATA = {
                 "value": 2.25489,
                 "unit": "sec",
                 "extra": "HDF5 develop"
-              }
-            ]
-          },
-          {
-            "name": "8.76163 s",
-            "value": 0.0184758,
-            "unit": "sec",
-            "series": [
-              {
-                "name": "HDF5 1.14.6",
-                "value": 0.0184758,
-                "unit": "sec",
-                "extra": "HDF5 1.14.6"
               }
             ]
           }
