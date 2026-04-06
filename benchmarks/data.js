@@ -5458,12 +5458,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.63832 s_hdf5_develop",
-            "value": 0.104662,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.04684,
             "unit": "sec",
@@ -5478,12 +5472,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.454112,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.76163 s_hdf5_1146",
-            "value": 0.0184758,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
