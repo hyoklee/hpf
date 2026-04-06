@@ -3,7 +3,7 @@
 // File:	mailer.php
 // Description:	This script sends out an e-mail when performance of HDF
 //              is not normal.
-// Updated:     2023-01-03
+// Updated:     2026-04-06
 // Created: 	2007-07-27
 //
 // Author:      Hyo-Kyung Lee (hyoklee@hdfgroup.org)
@@ -24,7 +24,7 @@ $version2= "1.6";
 $version3= "1.8";
 $version4= "1.12";
 $version5= "1.14";
-$version6= "1.15";
+$version6= "2.2";
 
 $start_date = date('Ymd', mktime(0,0,0, date("m"), date("d")-7, date("Y")));
 $end_date = date('Ymd', mktime(0,0,0, date("m"), date("d"), date("Y")));
@@ -52,7 +52,7 @@ $message_1 = '
 ';
 $message_3 = '</table>
 
-<p>View today\'s graph for version <a href="'.$url_v6.'">2.0</a>, <a href="'.$url_v5.'">1.14</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
+<p>View today\'s graph for version <a href="'.$url_v6.'">2.2</a>, <a href="'.$url_v5.'">1.14</a>, <a href="'.$url_v4.'">1.12</a>, <a href="'.$url_v1.'">1.10</a>, <a href="'.$url_v3.'">1.8</a> or
  <a href="'.$url_v2.'">1.6</a>.
 <br>Visit HDF Performance Framework <a href="https://hpf.hdfgroup.org/index.html">website</a>.
 <p><a href="https://hpf.hdfgroup.org/unsubscribe.html">Unsubscribe</a> this alert.';
