@@ -98,8 +98,8 @@ fi
 
 # Get today's environment data.
 uname -a  >& $TEMP/uname.txt
-$CCV  >& $TEMP/cc_version.txt
-$CPPV >& $TEMP/cpp_version.txt
+$CCV  2>&1 | sed -r 's#/tmp/cc[A-Za-z0-9]+\.res#RES#g' > $TEMP/cc_version.txt
+$CPPV 2>&1 | sed -r 's#/tmp/cc[A-Za-z0-9]+\.res#RES#g' > $TEMP/cpp_version.txt
 echo $HDF5_OPTION > $TEMP/config_hdf5.txt
 echo $PERF_OPTION > $TEMP/config_perf.txt
 
@@ -111,7 +111,8 @@ else
 fi
 cd $HDF5_PREFIX
 # /usr/bin/svn co $SVN_URL svn | grep "Checked out revision" | cut -f4 -d ' ' | cut -f1 -d '.' > $TEMP/svn.log
-/mnt/scr1/hyoklee/bin/git clone --quiet https://github.com/HDFGroup/hdf5.git -b hdf5_1_14 svn
+# 1_14 doesn't work. Use 1_14_5.
+/mnt/scr1/hyoklee/bin/git clone --quiet https://github.com/HDFGroup/hdf5.git -b hdf5_1_14_5 svn
 cd svn
 git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null

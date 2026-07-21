@@ -12,23 +12,13 @@
 ###############################################################################
 # Please edit the following parameters before you submit this script into cron.
 ###############################################################################
-. /etc/bashrc
-module load CMake
-# module load MPICH/3.3.2-GCC-10.2.0
-# export PKG_CONFIG_PATH=/mnt/hdf/packages/mpifileutils/install/pkgconfig
-# export MFU_ROOT=/mnt/hdf/packages/mpifileutils/install
-# export LD_LIBRARY_PATH=/mnt/hdf/packages/mpifileutils/install/lib
-# export NPROCS=4
-# export PATH=$PATH:/usr/hdf/bin
-export PATH=/usr/hdf/bin/gcc520/:$PATH
+export PATH=/usr/hdf/bin/gcc520/:/mnt/hdf/packages/autoconf/autoconf-2.71/bin:$PATH
 export CC=/usr/hdf/bin/gcc520/gcc
 export CXX=/usr/hdf/bin/gcc520/g++
 
 
 # HDF5 version
-# VERSION="2.0" <hyokyung 2026.01.23. 08:23:54>
-# VERSION="2.1" <hyokyung 2026.02.11. 09:47:49>
-VERSION="2.2"
+VERSION="1.14"
 
 # Set the directory for temporary files.
 # DO NOT set it under HDF5_PREFIX. It should never be deleted by this script.
@@ -41,9 +31,9 @@ CPPV="/usr/hdf/bin/gcc520/g++ -v"
 
 # HDF5 Installation Directory
 HDF5_PREFIX="/scr/hyoklee/chicago/hdf5-$VERSION"
+
 # Configuration option for HDF5
-# HDF5_OPTION="-DCMAKE_BUILD_TYPE=Release -DHDF5_BUILD_CPP_LIB:BOOL=True -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$HDF5_PREFIX -DHDF5_DEFAULT_API_VERSION:STRING=v16"
-HDF5_OPTION="-DHDF5_USE_GNU_DIRS:BOOL=OFF -DHDF5_BUILD_CPP_LIB:BOOL=True -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_INSTALL_PREFIX=$HDF5_PREFIX -DHDF5_DEFAULT_API_VERSION:STRING=v16"
+HDF5_OPTION="--disable-shared --enable-cxx --enable-build-mode=production --prefix=$HDF5_PREFIX --with-default-api-version=v16"
 
 # Configuration option for performance framework
 export CXXFLAGS=-std=c++11
@@ -126,22 +116,16 @@ else
   mkdir $HDF5_PREFIX
 fi
 cd $HDF5_PREFIX
-git clone --quiet $GIT_URL -b develop svn
+git clone --quiet $GIT_URL -b hdf5_1_14_5 svn
 cd svn
-# git checkout 41a7ef8e1e8e0dc83141f7836b05879582e0674c
-# git checkout 0e3f1010f1358be39edffb113418b175feba97ac
-# Aleksandar's 8MB PR
-# git checkout 1ac5a408963fbe85044808b6eed56fb88437113e
 git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null
 rm -rf $TEMP/svn.log
 export PATH=/scr/hyoklee/bin/:$PATH
-mkdir build
-cd build
-# Temporary fix test for bad performance
-# cp /scr/hyoklee/chicago/H5Shyper.c /scr/hyoklee/chicago/hdf5-2.0/svn/src/
-# /mnt/wrk/hdfadmin/devops/spack/spack/opt/spack/linux-centos7-haswell/gcc-10.2.0/cmake-3.22.1-q2wxk3n4lewrhayp7f2dru5lpg3dmc4x/bin/cmake $HDF5_OPTION .. |  grep 'compiler' >  $TEMP/compiler_options_hdf5.txt
-cmake $HDF5_OPTION .. |  grep 'compiler' >  $TEMP/compiler_options_hdf5.txt
+./autogen.sh
+# Get HDF5 compiler option environment
+./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured o
+n' >  $TEMP/compiler_options_hdf5.txt
 $MAKE -j
 $MAKE -j install
 cd $PERF_SRC
