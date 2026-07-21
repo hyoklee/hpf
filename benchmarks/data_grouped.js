@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784537302891,
+  "lastUpdate": 1784621733436,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -14897,6 +14897,104 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.79197,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "Hyo-Kyung Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "e3fc748470e0b72a3af0a849300ee70e47b4afa1",
+          "message": "docs: clean up",
+          "timestamp": "2025-11-19T16:03:16Z",
+          "url": "https://github.com/hyoklee/hpf/commit/e3fc748470e0b72a3af0a849300ee70e47b4afa1"
+        },
+        "date": 1784621731185,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.632161,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.632161,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.6293970000000001,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 3.66946,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.66946,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 4.10812,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.04489,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.04489,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.33746,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.31517,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.31517,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.63246,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
