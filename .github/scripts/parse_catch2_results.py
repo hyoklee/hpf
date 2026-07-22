@@ -30,6 +30,12 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
     efc_no 100                                  10             1     6.08977 s
                                           588.104 ms    583.936 ms    592.672 ms
                                           22.2746 ms    18.3467 ms    26.7398 ms
+
+    Slow benchmarks report the "estimated" total in minutes (unit "m"), which
+    must be recognized so the name line is not skipped and mistaken for data:
+    vds 100                                         10             1      1.5989 m
+                                          6.05704 s     5.93705 s     6.25559 s
+                                         246.046 ms    147.353 ms    361.437 ms
     """
     benchmarks = []
     lines = content.split('\n')
@@ -69,8 +75,9 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
                         time_value = float(parts[-2])
                         time_unit = parts[-1]
 
-                        # Check if this is a valid time unit
-                        if time_unit not in ['s', 'ms', 'us', 'ns']:
+                        # Check if this is a valid time unit ('m' = minutes, used
+                        # by Catch2 for slow benchmarks whose estimated total >= 1 min)
+                        if time_unit not in ['s', 'ms', 'us', 'ns', 'm']:
                             i += 1
                             continue
 
@@ -86,6 +93,8 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
                             time_value = time_value / 1000000.0
                         elif time_unit == 'ns':
                             time_value = time_value / 1000000000.0
+                        elif time_unit == 'm':
+                            time_value = time_value * 60.0
 
                         # Move to mean line (next line after benchmark name line)
                         i += 1
@@ -95,7 +104,7 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
 
                             # Parse mean value (first value with unit)
                             for j in range(len(mean_parts) - 1):
-                                if mean_parts[j+1] in ['s', 'ms', 'us', 'ns']:
+                                if mean_parts[j+1] in ['s', 'ms', 'us', 'ns', 'm']:
                                     try:
                                         mean_value = float(mean_parts[j])
                                         mean_unit = mean_parts[j+1]
@@ -107,6 +116,8 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
                                             mean_value = mean_value / 1000000.0
                                         elif mean_unit == 'ns':
                                             mean_value = mean_value / 1000000000.0
+                                        elif mean_unit == 'm':
+                                            mean_value = mean_value * 60.0
 
                                         benchmarks.append({
                                             'name': test_name,
