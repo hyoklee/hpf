@@ -231,7 +231,7 @@ window.BENCHMARK_DATA = {
           },
           "distinct": true,
           "id": "d1fab6e6c0af4f4487e382dd10a2a4acde403d5d",
-          "message": "fix: create Windows-specific Catch2 parser to handle minutes unit\n\nCreate parse_catch2_results_win.py to fix malformed benchmark output on Windows:\n- Add support for 'm' (minutes) time unit in estimated and mean values\n- Convert minutes to seconds properly (multiply by 60)\n- Add UTF-8 encoding for file operations\n- Fix issue where test names like \"vds 100\" were replaced with \"6.05704 s\"\n\nUpdate daily_win.yml to use parse_catch2_results_win.py instead of parse_catch2_results.py\n\nThe original script only recognized s/ms/us/ns units, causing it to skip lines\nwith minutes and incorrectly parse the mean line as the benchmark name line.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: create Windows-specific Catch2 parser to handle minutes unit\n\nCreate parse_catch2_results_win.py to fix malformed benchmark output on Windows:\n- Add support for 'm' (minutes) time unit in estimated and mean values\n- Convert minutes to seconds properly (multiply by 60)\n- Add UTF-8 encoding for file operations\n- Fix issue where test names like \"vds 100\" were replaced with \"6.05704 s\"\n\nUpdate daily_win.yml to use parse_catch2_results_win.py instead of parse_catch2_results.py\n\nThe original script only recognized s/ms/us/ns units, causing it to skip lines\nwith minutes and incorrectly parse the mean line as the benchmark name line.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-15T10:02:36-05:00",
           "tree_id": "34ddbe319c86a88d001a743c1c1e73d54800f097",
           "url": "https://github.com/hyoklee/hpf/commit/d1fab6e6c0af4f4487e382dd10a2a4acde403d5d"
@@ -302,7 +302,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "49eddf559751c5e86a373b8f09db19ce5efe0d37",
-          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-15T15:42:07Z",
           "url": "https://github.com/hyoklee/hpf/commit/49eddf559751c5e86a373b8f09db19ce5efe0d37"
         },
@@ -372,7 +372,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "49eddf559751c5e86a373b8f09db19ce5efe0d37",
-          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-15T15:42:07Z",
           "url": "https://github.com/hyoklee/hpf/commit/49eddf559751c5e86a373b8f09db19ce5efe0d37"
         },
@@ -442,7 +442,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "49eddf559751c5e86a373b8f09db19ce5efe0d37",
-          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "feat: add Windows benchmark data processing workflow\n\nAdd process-benchmark-data-win.yml that processes Windows benchmark data:\n- Triggers after \"Daily HDF5 Performance Benchmark (Windows)\" workflow\n- Processes gh-pages/benchmarks_win/data.js to data_grouped.js\n- Updates benchmarks_win/index.html to use grouped data format\n- Runs on ubuntu-latest with Python 3.x\n\nMirrors functionality of process-benchmark-data.yml for Windows benchmarks.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-15T15:42:07Z",
           "url": "https://github.com/hyoklee/hpf/commit/49eddf559751c5e86a373b8f09db19ce5efe0d37"
         },
@@ -583,7 +583,7 @@ window.BENCHMARK_DATA = {
           },
           "distinct": true,
           "id": "c1fef6cb41ec3e26b07f51fee56154158558c87c",
-          "message": "feat: add Mac benchmarking workflows\n\nAdd daily_mac.yml and process-benchmark-data-mac.yml to run HDF5\nperformance benchmarks on macOS-26 platform. Uses benchmarks_mac\ndirectory to store Mac-specific benchmark data separately.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "feat: add Mac benchmarking workflows\n\nAdd daily_mac.yml and process-benchmark-data-mac.yml to run HDF5\nperformance benchmarks on macOS-26 platform. Uses benchmarks_mac\ndirectory to store Mac-specific benchmark data separately.\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T14:34:50-05:00",
           "tree_id": "48b5491e09f8e9f85e40be7f4e7e4121d5aff7a0",
           "url": "https://github.com/hyoklee/hpf/commit/c1fef6cb41ec3e26b07f51fee56154158558c87c"
@@ -655,7 +655,7 @@ window.BENCHMARK_DATA = {
           },
           "distinct": true,
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T15:12:43-05:00",
           "tree_id": "643f11d23b160496e11375ee179ce7f401828d23",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
@@ -726,7 +726,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -796,7 +796,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -866,7 +866,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -936,7 +936,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1006,7 +1006,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1076,7 +1076,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1146,7 +1146,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1216,7 +1216,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1286,7 +1286,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1356,7 +1356,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1426,7 +1426,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1496,7 +1496,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1566,7 +1566,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1636,7 +1636,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1706,7 +1706,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1776,7 +1776,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -1846,7 +1846,7 @@ window.BENCHMARK_DATA = {
             "email": "hyoklee@hdfgroup.org"
           },
           "id": "e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854",
-          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+          "message": "fix: correct cmpd_subset benchmark name parsing on Mac\n\nCreated Mac-specific parser (parse_catch2_results_mac.py) to handle\ncases where Catch2 output formatting on macOS causes benchmark names\nto be replaced with estimated timing values (e.g., \"6.13292 s\" instead\nof \"cmpd_subset 100\").\n\nThe parser detects when a benchmark name consists only of a numeric\ntiming value and recovers the actual benchmark name from the section\nheader above it.\n\nUpdated daily_mac.yml workflow to use the new Mac-specific parser.\n\nFixes #<issue_number>\n\n\ud83e\udd16 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
           "timestamp": "2025-10-23T20:12:43Z",
           "url": "https://github.com/hyoklee/hpf/commit/e7b5e062f72e9dfacb9fa3dc19dd35c455d7c854"
         },
@@ -6636,12 +6636,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.3878 s_hdf5_develop",
-            "value": 0.11388899999999999,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 0.9956349999999999,
             "unit": "sec",
@@ -6656,12 +6650,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.46204,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.51453 s_hdf5_1146",
-            "value": 0.169523,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -7336,12 +7324,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.60245 s_hdf5_develop",
-            "value": 0.0801056,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.02886,
             "unit": "sec",
@@ -7356,12 +7338,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.48526600000000003,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.69694 s_hdf5_1146",
-            "value": 0.034022500000000004,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -8106,12 +8082,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.56081 s_hdf5_develop",
-            "value": 0.0734525,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.06759,
             "unit": "sec",
@@ -8126,12 +8096,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.45349700000000004,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.36217 s_hdf5_1146",
-            "value": 0.0444469,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -8176,12 +8140,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.61196 s_hdf5_develop",
-            "value": 0.10610599999999999,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.0903,
             "unit": "sec",
@@ -8196,12 +8154,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.462402,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.57748 s_hdf5_1146",
-            "value": 0.09503919999999999,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -8456,12 +8408,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "8.69378 s_hdf5_develop",
-            "value": 0.0203284,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 0.9909690000000001,
             "unit": "sec",
@@ -8476,12 +8422,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.47258999999999995,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.1218 s_hdf5_1146",
-            "value": 0.059943399999999994,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -8526,12 +8466,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "8.99211 s_hdf5_develop",
-            "value": 0.0419848,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.05809,
             "unit": "sec",
@@ -8546,12 +8480,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.46931599999999996,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.15081 s_hdf5_1146",
-            "value": 0.026419599999999998,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -9436,12 +9364,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "10.7255 s_hdf5_develop",
-            "value": 0.0328414,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.17589,
             "unit": "sec",
@@ -9460,20 +9382,8 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 1.14.6"
           },
           {
-            "name": "9.94744 s_hdf5_1146",
-            "value": 0.046041200000000004,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
             "name": "many_dsets 100_hdf5_1146",
             "value": 0.95678,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "7.41161 s_hdf5_1146",
-            "value": 0.152511,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
@@ -9646,12 +9556,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "9.06061 s_hdf5_develop",
-            "value": 0.152393,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.05516,
             "unit": "sec",
@@ -9666,12 +9570,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.463144,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.17477 s_hdf5_1146",
-            "value": 0.039157,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -9996,12 +9894,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "8.9997 s_hdf5_develop",
-            "value": 0.0570942,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.06692,
             "unit": "sec",
@@ -10016,12 +9908,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.452181,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "8.09944 s_hdf5_1146",
-            "value": 0.0288491,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -10066,12 +9952,6 @@ window.BENCHMARK_DATA = {
             "extra": "HDF5 develop"
           },
           {
-            "name": "7.80221 s_hdf5_develop",
-            "value": 0.046736,
-            "unit": "sec",
-            "extra": "HDF5 develop"
-          },
-          {
             "name": "many_dsets 100_hdf5_develop",
             "value": 1.32918,
             "unit": "sec",
@@ -10086,12 +9966,6 @@ window.BENCHMARK_DATA = {
           {
             "name": "efc_no 100_hdf5_1146",
             "value": 0.424529,
-            "unit": "sec",
-            "extra": "HDF5 1.14.6"
-          },
-          {
-            "name": "7.00879 s_hdf5_1146",
-            "value": 0.122837,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           },
@@ -10815,4 +10689,4 @@ window.BENCHMARK_DATA = {
       }
     ]
   }
-}
+};
