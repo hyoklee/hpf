@@ -201,6 +201,22 @@ jobs:
           benchmark-results/benchmark_data_1_14.json \
           benchmark-results/benchmark_data.json
 
+    - name: Validate existing gh-pages benchmark history
+      id: history-before
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        # github-action-benchmark silently discards history it cannot
+        # JSON.parse. Fail here instead of losing every past run.
+        git fetch --depth=1 origin gh-pages
+        if git cat-file -e FETCH_HEAD:benchmarks/data.js 2>/dev/null; then
+          git show FETCH_HEAD:benchmarks/data.js > /tmp/gh-pages-data.js
+          python3 .github/scripts/validate_data_js.py /tmp/gh-pages-data.js \
+            --output-name entries
+        else
+          echo "No benchmarks/data.js on gh-pages yet"
+          echo "entries=0" >> $GITHUB_OUTPUT
+        fi
+
     - name: Store benchmark results
       if: steps.check-run.outputs.should_run == 'true'
       uses: benchmark-action/github-action-benchmark@v1
@@ -228,6 +244,12 @@ jobs:
         ref: gh-pages
         path: gh-pages
         token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Verify benchmark history was not truncated
+      if: steps.check-run.outputs.should_run == 'true'
+      run: |
+        python3 .github/scripts/validate_data_js.py gh-pages/benchmarks/data.js \
+          --min-entries ${{ steps.history-before.outputs.entries }}
 
     - name: Update benchmark index.html with custom template
       if: steps.check-run.outputs.should_run == 'true'
