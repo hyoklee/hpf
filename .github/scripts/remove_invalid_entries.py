@@ -84,12 +84,16 @@ def remove_invalid_entries(data: Dict[str, Any]) -> int:
 
 
 def write_data_js(data: Dict[str, Any], output_file: str):
-    """Write the data as a JavaScript file (matches create_grouped_benchmark_data.py)."""
+    """Write the data as a JavaScript file (matches github-action-benchmark).
+
+    No trailing ';' -- github-action-benchmark reads its own history with a
+    bare JSON.parse of everything after the prefix, so a semicolon makes it
+    discard all past runs and push a fresh single-entry file instead.
+    """
     try:
         with open(output_file, 'w') as f:
             f.write('window.BENCHMARK_DATA = ')
             json.dump(data, f, indent=2)
-            f.write(';\n')
         print(f"Benchmark data written to {output_file}")
     except Exception as e:
         print(f"Error writing {output_file}: {e}")
