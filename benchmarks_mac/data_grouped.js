@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784889166958,
+  "lastUpdate": 1784941547955,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -14306,6 +14306,106 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.98453,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "f59de209504057bfaf2320261a45f46845bd54d0",
+          "message": "fix: stop remove_invalid_entries.py writing a history-wiping ';'\n\nThis is the script behind the 43e9d9d cleanup: it ended data.js with\n'};', which github-action-benchmark cannot JSON.parse, so the next run\nsilently dropped all 155 entries. Emit the payload the way the action\nitself does, with '}' as the final byte.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-07-24T19:57:46-05:00",
+          "tree_id": "0589734b70d4a02594e74153636f03e7ebd35154",
+          "url": "https://github.com/hyoklee/hpf/commit/f59de209504057bfaf2320261a45f46845bd54d0"
+        },
+        "date": 1784941546136,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.538319,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.538319,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.00193,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 6.18537,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 6.18537,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 7.51067,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 0.747106,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.747106,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.64642,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 3.13772,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.13772,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 2.07095,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
