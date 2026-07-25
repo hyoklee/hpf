@@ -1,7 +1,7 @@
 
 # HDF Performance Framework
 
-[Dashboard](https://hyoklee.github.io/hpf/dev/bench/)
+[Dashboard](https://github.com/hyoklee/hpf/wiki#dashboards)
 
 ## About
 
