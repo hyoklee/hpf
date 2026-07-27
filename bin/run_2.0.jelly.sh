@@ -28,7 +28,8 @@ export CXX=/usr/hdf/bin/gcc520/g++
 # HDF5 version
 # VERSION="2.0" <hyokyung 2026.01.23. 08:23:54>
 # VERSION="2.1" <hyokyung 2026.02.11. 09:47:49>
-VERSION="2.2"
+# VERSION="2.2" <hyokyung 2026.07.23. 13:23:36>
+VERSION="2.3"
 
 # Set the directory for temporary files.
 # DO NOT set it under HDF5_PREFIX. It should never be deleted by this script.
