@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784941547955,
+  "lastUpdate": 1785235614790,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -10292,6 +10292,76 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 3.13772,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "f359e8425659235c26152754c556a255c3e3f1a1",
+          "message": "docs: update dashboard link",
+          "timestamp": "2026-07-25T01:07:49Z",
+          "url": "https://github.com/hyoklee/hpf/commit/f359e8425659235c26152754c556a255c3e3f1a1"
+        },
+        "date": 1785235612249,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.46544,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 5.12529,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 0.94627,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 1.60496,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.481538,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 4.61839,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 0.577375,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 3.36112,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
