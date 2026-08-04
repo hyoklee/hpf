@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785487310874,
+  "lastUpdate": 1785872807160,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -15414,6 +15414,106 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.70116,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "301c89e1aea250ebac55f03c219a10dc04f7eda7",
+          "message": "docs: correct the CLIO VOL crash attribution\n\nThe NULL-object dereference in clio_file_specific was already fixed on\nclio-core dev by 3e8979cd (2026-07-31). It was hit here against a stale\nlocal checkout at b5c68c5e, and the local patch written to unblock\nmeasurement duplicated work that already existed -- upstream's version is\nbetter (it restores the caller's FAPL slot and guards the remaining ops).\n\nRecord upstream's wider trigger too: HDF5 asks every plugin on\nHDF5_PLUGIN_PATH whether it can open a file, so the .so merely being\npresent crashed H5Fopen without the connector being selected.\n\nThe measured numbers are unaffected and reproduce on dev @ 03819a98\nunmodified.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-04T14:39:25-05:00",
+          "tree_id": "5c8399b0b13abb9b383ba4e6ac55a8ed02099523",
+          "url": "https://github.com/hyoklee/hpf/commit/301c89e1aea250ebac55f03c219a10dc04f7eda7"
+        },
+        "date": 1785872806601,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.630125,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.630125,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.6293179999999999,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 3.72873,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.72873,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 4.1503,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.00667,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.00667,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.34858,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.36009,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.36009,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.62578,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
