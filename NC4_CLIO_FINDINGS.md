@@ -25,7 +25,7 @@ Workload `tst_chunks3` from netcdf-c `nc_perf`, args `6 64 16 64 16 64 16`
 | --- | --- | --- |
 | HDFGroup/hdf5 | `develop` | `b70a2d09` |
 | Unidata/netcdf-c | `main` | `35d5ccf3` |
-| iowarp/clio-core | `dev` | `b5c68c5e` (+ the VOL fix below) |
+| iowarp/clio-core | `dev` | `b5c68c5e` + the `clio_file_specific` fix, equivalent to `3e8979cd` already on `dev` (see below) |
 
 Run on one x86-64 Linux host (WSL2, 20 cores), three repetitions; the table
 below is the per-benchmark median of those three. These are single-host
@@ -77,7 +77,7 @@ and predictably slower, the VFD is free until it is catastrophic.
 
 ## Problems found
 
-### 1. CLIO VOL segfaults on the first netCDF-4 call — fixed, needs upstream
+### 1. CLIO VOL segfaults on the first netCDF-4 call — already fixed upstream
 
 `clio_file_specific()` in
 `context-transfer-engine/adapter/hdf5_vol/clio_vol.cc` casts and dereferences
@@ -97,15 +97,28 @@ Program received signal SIGSEGV, Segmentation fault.
 6  main ()
 ```
 
-The fix mirrors `H5VLpassthru`: for those two op types, shallow-copy the args,
-copy the FAPL, `H5Pset_vol(..., H5VL_NATIVE, NULL)`, and forward with a NULL
-object. clio-core's own VOL compat suite cannot catch this — every case runs
-through h5py, and h5py never calls `H5Fis_accessible`.
+The fix delegates those two op types to native with a NULL object: copy the
+FAPL, `H5Pset_vol(..., H5VL_NATIVE, NULL)`, forward, restore the caller's FAPL
+slot.
 
-Reported and fixed upstream; the CLIO VOL numbers above were measured with that
-fix applied. Until it lands in clio-core `dev`, the workflow will publish only
-the baseline and VFD series (it drops a crashing variant rather than recording
-a fabricated value).
+**This was already fixed on clio-core `dev` by
+[`3e8979cd`](https://github.com/iowarp/clio-core/commit/3e8979cd) (2026-07-31).**
+The crash was hit against a stale local checkout at `b5c68c5e`; a local patch
+was written to unblock measurement, then discarded once upstream turned out to
+have the better version of it — theirs also restores the caller's FAPL slot and
+guards the remaining ops. The CLIO VOL numbers above are reproducible on
+`dev` @ `03819a98` unmodified.
+
+Upstream also identified a wider trigger than netCDF: HDF5's
+`H5VL__file_open_find_connector_cb` asks *every* plugin on `HDF5_PLUGIN_PATH`
+whether it can open a file, so merely having `libclio_hdf5_vol.so` in the
+plugin directory crashed a plain `H5Fopen` — the connector did not have to be
+selected.
+
+What remains missing is coverage: no case in clio-core's `vol_compat_suite.py`
+reaches that callback, because every case goes through h5py and h5py never
+calls `H5Fis_accessible`. A regression probe is proposed in
+[iowarp/clio-core#898](https://github.com/iowarp/clio-core/pull/898).
 
 ### 2. The VFD needs the `clio_cte_filesystem` pool composed
 
