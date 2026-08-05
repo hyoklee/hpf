@@ -201,7 +201,10 @@ jobs:
 
       - name: Build and run the three NetCDF-4 variants
         run: |
-          set -euo pipefail
+          # Deliberately no `set -u` yet: conda's own activation hooks are not
+          # nounset-clean (activate_cctools_osx-arm64.sh reads $AR before
+          # setting it, which aborts the step). It is turned on right after.
+          set -eo pipefail
           # The conda env does not survive across steps; re-activate it and
           # publish its prefix so the driver's clio configure can find the
           # dependencies. The driver prepends our own HDF5 to CMAKE_PREFIX_PATH,
@@ -215,6 +218,7 @@ jobs:
             eval "$(conda shell.bash hook)"
           fi
           conda activate iowarp
+          set -u
           # ':'-separated: this is the environment form of the variable. The
           # driver converts it to a ';' CMake list when it folds our own HDF5 in
           # front of it. Pinning ar/ranlib to Xcode's is the driver's job too --
