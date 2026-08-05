@@ -388,20 +388,39 @@ if has_variant clio_vfd || has_variant clio_vol; then
             case "$linked" in
                 "$HDF5_INSTALL"/*) return 0 ;;
                 @rpath/*)
-                    local rp
+                    # dyld resolves @rpath against each LC_RPATH entry in order,
+                    # looking for that exact filename -- so the question is not
+                    # "does an earlier rpath hold some libhdf5" (the conda env
+                    # that supplies clio's dependencies always does) but "which
+                    # directory holds libhdf5.<soversion>.dylib first". A
+                    # different HDF5 release cannot shadow ours; a second copy
+                    # of the same soversion can, and that is the case to catch.
+                    local soname rp dsodir first="" resolved hdf5_real
+                    soname="${linked#@rpath/}"
+                    dsodir="$(cd "$(dirname "$dso")" && pwd -P)"
                     for rp in $(otool -l "$dso" \
                                 | awk '/LC_RPATH/{f=1} f && $1=="path"{print $2; f=0}'); do
                         case "$rp" in
-                            "$HDF5_INSTALL"/*) return 0 ;;
+                            @loader_path*) rp="$dsodir${rp#@loader_path}" ;;
+                            # Expanded against the loading program, which is not
+                            # known here; the runtime ldd gate cannot see these.
+                            @executable_path*) continue ;;
                         esac
-                        # A different libhdf5 earlier on the search path wins.
-                        if ls "$rp"/libhdf5*.dylib >/dev/null 2>&1; then
-                            echo "ERROR: $base finds libhdf5 in $rp before $HDF5_INSTALL/lib" >&2
-                            return 1
-                        fi
+                        if [ -e "$rp/$soname" ]; then first="$rp/$soname"; break; fi
                     done
-                    echo "ERROR: $base has no rpath entry under $HDF5_INSTALL" >&2
-                    return 1 ;;
+                    if [ -z "$first" ]; then
+                        echo "ERROR: $base needs $soname but no rpath entry provides it" >&2
+                        return 1
+                    fi
+                    resolved="$(cd "$(dirname "$first")" && pwd -P)/$(basename "$first")"
+                    hdf5_real="$(cd "$HDF5_INSTALL" && pwd -P)"
+                    case "$resolved" in
+                        "$hdf5_real"/*)
+                            echo "$base resolves $soname -> $resolved"
+                            return 0 ;;
+                        *)  echo "ERROR: $base resolves $soname to $resolved, not the HDF5 under $HDF5_INSTALL" >&2
+                            return 1 ;;
+                    esac ;;
                 "") echo "ERROR: $base does not link libhdf5 at all" >&2; return 1 ;;
                 *)  echo "ERROR: $base links $linked, not the HDF5 under $HDF5_INSTALL" >&2
                     return 1 ;;

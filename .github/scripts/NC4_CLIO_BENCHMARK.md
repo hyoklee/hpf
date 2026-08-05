@@ -39,11 +39,30 @@ What differs on macOS, and why:
 | --- | --- | --- |
 | clio dependencies | `iowarp/deps-cpu` container | conda env from clio-core's `CI/ci-deps.sh` (runners cannot use containers) |
 | adapter suffix | `libclio_vfd.so` | `libclio_vfd.dylib` (`add_library(SHARED)`); HDF5's plugin scanner accepts both |
-| ABI gate | `ldd` | `otool -L`, falling back to the `LC_RPATH` list because HDF5 stamps `@rpath/libhdf5.*.dylib` |
+| ABI gate | `ldd` | `otool -L`, falling back to the `LC_RPATH` list because HDF5 stamps `@rpath/libhdf5.*.dylib` (see below) |
 | ELF support | `CLIO_CORE_ENABLE_ELF=ON` | `OFF` — Linux-only |
 | `ar` / `ranlib` | default | pinned to Xcode's; conda's `llvm-ranlib` aborts archiving (clio-core #797) |
 | shm cleanup | sweeps `/dev/shm` | no-op — macOS POSIX shm objects are not files |
-| VFD adapter | must build; a failure is a regression | `--allow-adapter-build-failure` drops the series, because clio-core's own CI does not build the VFD on macOS |
+| VFD adapter | must build; a failure is a regression | not available — see below; `--allow-adapter-build-failure` drops the series |
+
+**The CLIO VFD cannot be built on macOS.** clio-core puts `add_subdirectory(vfd)`
+inside `if(CLIO_CORE_ENABLE_ELF)` in `context-transfer-engine/adapter/CMakeLists.txt`,
+and that option does `pkg_check_modules(libelf REQUIRED libelf)` — so asking for
+it on Mach-O fails at configure time. The VFD itself never touches `real_api.h`
+(it is a plugin, not an interceptor), so the gate looks incidental rather than
+intended, but working around it would mean installing an ELF library on macOS to
+satisfy a CMake condition. The workflow instead attempts the target, gets
+`No rule to make target 'clio_vfd'`, drops the variant with a warning, and
+publishes the other two. If upstream ungates it, the series appears on its own.
+
+**Why the macOS ABI gate resolves the soname.** HDF5 stamps its install name as
+`@rpath/libhdf5.<soversion>.dylib`, and dyld searches each `LC_RPATH` entry in
+order *for that exact filename*. The conda env supplying clio's dependencies
+always ships its own libhdf5, and its lib directory comes first — but as a
+different release (`libhdf5.310.dylib` vs our develop `libhdf5.1000.dylib`) it
+cannot shadow ours. Failing on "an earlier rpath contains some libhdf5" is
+therefore a false positive; the gate resolves the actual soname, expanding
+`@loader_path`, and fails only when the winning file is outside our prefix.
 
 The script is bash-3.2 clean for this reason: macOS ships bash 3.2, so no
 `local -n` namerefs and no `declare -A`. It also avoids GNU-only spellings —
