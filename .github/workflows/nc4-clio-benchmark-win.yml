@@ -1,0 +1,361 @@
+name: NetCDF-4 CLIO Performance Benchmark (Windows)
+
+# The Windows counterpart of nc4-clio-benchmark.yml, on windows-2025, publishing
+# to `benchmarks_nc4_clio_win/` on gh-pages. As with the macOS workflow the
+# directory is separate on purpose: github-action-benchmark keys history on the
+# benchmark name alone, so one shared directory would interleave the platforms
+# into a single line graph.
+#
+# Two things are true of Windows that are not true of the other two runners, and
+# both change what this workflow can measure:
+#
+#   * netCDF-C's benchmark suite is POSIX-only. tst_chunks3's timing macros are
+#     built on getrusage(2), which MSVC does not have -- no nc_perf source
+#     carries a single _WIN32 guard. The driver applies
+#     .github/patches/netcdf-c-tst_chunks3-win32.patch to the netcdf-c clone,
+#     which supplies getrusage on top of GetProcessTimes (the same user+kernel
+#     CPU time the POSIX platforms measure). The numbers published here are
+#     therefore from a locally patched workload; the patch is upstreamable.
+#
+#   * There is no CLIO VFD. clio-core gates add_subdirectory(vfd) behind
+#     CLIO_CORE_ENABLE_ELF, which requires libelf, and its own ci-adapters.yml
+#     sets CLIO_CTE_ENABLE_VFD=OFF on Windows. The driver is given
+#     --allow-adapter-build-failure so the variant drops itself and the rest
+#     still publishes -- exactly as on macOS.
+#
+# clio-core's dependencies come from vcpkg (its ci-windows.yml route), which
+# also installs an hdf5 of its own. Windows binds DLL imports by bare filename
+# with no soversion, so the first hdf5.dll loaded wins for the whole process:
+# the driver puts our HDF5 first on PATH and refuses to run if a stray
+# hdf5.dll sits beside the plugins.
+
+on:
+  schedule:
+    # 11:00 UTC. Linux CLIO runs at 07:00, daily_mac at 08:00, the macOS CLIO
+    # benchmark at 09:00; keep them apart so they do not contend for gh-pages.
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run even when no upstream repo changed'
+        type: boolean
+        default: false
+      bench_args:
+        description: 'tst_chunks3 args: <deflate> <dim1> <chunk1> <dim2> <chunk2> <dim3> <chunk3>'
+        type: string
+        default: '6 64 16 64 16 64 16'
+
+concurrency:
+  group: nc4-clio-benchmark-win
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Runs on Linux: it only resolves remote HEADs, and a Windows runner costs
+  # twice as much per minute for the same `git ls-remote`.
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      should_run:  ${{ steps.decide.outputs.should_run }}
+      hdf5_sha:    ${{ steps.heads.outputs.hdf5_sha }}
+      netcdf_sha:  ${{ steps.heads.outputs.netcdf_sha }}
+      clio_sha:    ${{ steps.heads.outputs.clio_sha }}
+      reason:      ${{ steps.decide.outputs.reason }}
+    steps:
+      - name: Resolve upstream HEADs
+        id: heads
+        run: |
+          set -euo pipefail
+          resolve() {
+            local sha
+            sha=$(git ls-remote "$1" "refs/heads/$2" | awk '{print $1}')
+            if [ -z "$sha" ]; then
+              echo "::error::could not resolve $1 $2" >&2
+              exit 1
+            fi
+            echo "$sha"
+          }
+          HDF5_SHA=$(resolve https://github.com/HDFGroup/hdf5.git develop)
+          NETCDF_SHA=$(resolve https://github.com/Unidata/netcdf-c.git main)
+          CLIO_SHA=$(resolve https://github.com/iowarp/clio-core.git dev)
+          {
+            echo "hdf5_sha=$HDF5_SHA"
+            echo "netcdf_sha=$NETCDF_SHA"
+            echo "clio_sha=$CLIO_SHA"
+          } >> "$GITHUB_OUTPUT"
+          echo "hdf5     develop $HDF5_SHA"
+          echo "netcdf-c main    $NETCDF_SHA"
+          echo "clio-core dev    $CLIO_SHA"
+
+      - name: Checkout gh-pages stamp
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 1
+
+      - name: Decide whether to benchmark
+        id: decide
+        run: |
+          set -euo pipefail
+          STAMP=gh-pages/benchmarks_nc4_clio_win/last_run.json
+          SHOULD_RUN=true
+          REASON="no previous run recorded"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] \
+             && [ "${{ inputs.force }}" = "true" ]; then
+            REASON="forced via workflow_dispatch"
+          elif [ -f "$STAMP" ]; then
+            prev() { python3 -c "import json,sys;print(json.load(open(sys.argv[1])).get(sys.argv[2],''))" "$STAMP" "$1"; }
+            PREV_HDF5=$(prev hdf5_sha)
+            PREV_NETCDF=$(prev netcdf_sha)
+            PREV_CLIO=$(prev clio_sha)
+            CHANGED=""
+            [ "$PREV_HDF5"   = "${{ steps.heads.outputs.hdf5_sha }}"   ] || CHANGED="$CHANGED hdf5"
+            [ "$PREV_NETCDF" = "${{ steps.heads.outputs.netcdf_sha }}" ] || CHANGED="$CHANGED netcdf-c"
+            [ "$PREV_CLIO"   = "${{ steps.heads.outputs.clio_sha }}"   ] || CHANGED="$CHANGED clio-core"
+            if [ -z "$CHANGED" ]; then
+              SHOULD_RUN=false
+              REASON="no change in clio-core, hdf5, or netcdf-c since the last run"
+            else
+              REASON="changed:$CHANGED"
+            fi
+          fi
+
+          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          echo "reason=$REASON" >> "$GITHUB_OUTPUT"
+          echo "should_run=$SHOULD_RUN ($REASON)"
+          echo "### NetCDF-4 CLIO benchmark (Windows): \`should_run=$SHOULD_RUN\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "$REASON" >> "$GITHUB_STEP_SUMMARY"
+
+  benchmark:
+    needs: check
+    if: needs.check.outputs.should_run == 'true'
+    runs-on: windows-2025
+    # vcpkg builds clio's dependency set from source on the first run; the three
+    # MSVC builds follow. Generous, but the change gate keeps runs rare.
+    timeout-minutes: 360
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+    steps:
+      - name: Checkout HPF
+        uses: actions/checkout@v4
+
+      # Copied from clio-core's ci-windows.yml: MSVC link steps intermittently
+      # fail with "Access is denied" when Defender's real-time scanner opens a
+      # freshly linked binary. Best-effort -- if the call is refused the build
+      # proceeds exactly as before.
+      - name: Exclude workspace from Defender (link-flake mitigation)
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          Add-MpPreference -ExclusionPath "${{ github.workspace }}" -ErrorAction SilentlyContinue
+          Add-MpPreference -ExclusionProcess "link.exe","cl.exe","mspdbsrv.exe","vcpkg.exe","MSBuild.exe" -ErrorAction SilentlyContinue
+          if ($env:VCPKG_INSTALLATION_ROOT) {
+            Add-MpPreference -ExclusionPath "$env:VCPKG_INSTALLATION_ROOT" -ErrorAction SilentlyContinue
+          }
+
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: |
+          cd $env:VCPKG_INSTALLATION_ROOT
+          git pull
+          .\bootstrap-vcpkg.bat
+
+      - name: Cache HDF5 develop build
+        uses: actions/cache@v4
+        with:
+          path: |
+            nc4-clio-work/hdf5-build
+            nc4-clio-work/hdf5-install
+          key: nc4clio-win-hdf5-${{ needs.check.outputs.hdf5_sha }}-windows-2025
+
+      - name: Cache netCDF-C build
+        uses: actions/cache@v4
+        with:
+          path: |
+            nc4-clio-work/netcdf-build
+            nc4-clio-work/netcdf-install
+          key: nc4clio-win-netcdf-${{ needs.check.outputs.netcdf_sha }}-${{ needs.check.outputs.hdf5_sha }}-windows-2025
+
+      # Holds vcpkg_installed/ too, so clio's dependency set is only built from
+      # source when clio-core itself moves.
+      - name: Cache clio-core build
+        uses: actions/cache@v4
+        with:
+          path: nc4-clio-work/clio-build
+          key: nc4clio-win-clio-${{ needs.check.outputs.clio_sha }}-${{ needs.check.outputs.hdf5_sha }}-windows-2025
+
+      - name: Build and run the NetCDF-4 variants
+        run: |
+          set -euo pipefail
+          # $(pwd) not $GITHUB_WORKSPACE: the latter is a backslash path, which
+          # bash would read as escapes. The driver converts to D:/... itself for
+          # the MSVC toolchain.
+          bash .github/scripts/nc4_clio_bench.sh \
+            --clone \
+            --work-dir "$(pwd)/nc4-clio-work" \
+            --results-dir "$(pwd)/benchmark-results" \
+            --hdf5-ref develop \
+            --netcdf-ref main \
+            --clio-ref dev \
+            --bench-args "${{ inputs.bench_args || '6 64 16 64 16 64 16' }}" \
+            --run-timeout 45m \
+            --allow-adapter-build-failure \
+            --jobs "${NUMBER_OF_PROCESSORS:-4}"
+
+      - name: Report which variants produced results
+        if: always()
+        run: |
+          {
+            echo "### Variants (Windows)"
+            echo
+            echo "| variant | result |"
+            echo "| --- | --- |"
+            for v in baseline clio_vfd clio_vol; do
+              if [ -s "benchmark-results/tst_chunks3_${v}.txt" ]; then
+                echo "| \`$v\` | measured |"
+              else
+                echo "| \`$v\` | :warning: no result (not built, crashed, or timed out) |"
+              fi
+            done
+            echo
+            echo "_Workload built with .github/patches/netcdf-c-tst_chunks3-win32.patch_"
+            echo "_(nc_perf has no Windows support upstream; the shim supplies getrusage)._"
+          } >> "$GITHUB_STEP_SUMMARY"
+          test -s benchmark-results/tst_chunks3_baseline.txt || {
+            echo "::error::the baseline variant produced no result; nothing to compare against"
+            exit 1
+          }
+
+      - name: Parse results
+        run: |
+          set -euo pipefail
+          # Label the results with what the driver actually built, not with the
+          # SHAs the check job resolved -- a branch can move in between.
+          sha() { python -c "import json,sys;print(json.load(open(sys.argv[1]))[sys.argv[2]][:8])" \
+                    nc4-clio-work/sources.json "$1"; }
+          INFO="Windows (patched nc_perf) - hdf5 $(sha hdf5_sha) / netcdf-c $(sha netcdf_sha) / clio-core $(sha clio_sha)"
+          echo "$INFO"
+
+          for variant in baseline clio_vfd clio_vol; do
+            python .github/scripts/parse_nc4_clio_results.py \
+              "benchmark-results/tst_chunks3_${variant}.txt" \
+              "benchmark-results/nc4_${variant}.json" \
+              "$variant" "$INFO"
+          done
+
+          python .github/scripts/combine_nc4_clio_results.py \
+            benchmark-results/nc4_baseline.json \
+            benchmark-results/nc4_clio_vfd.json \
+            benchmark-results/nc4_clio_vol.json \
+            benchmark-results/benchmark_data.json
+
+      - name: Validate existing gh-pages history
+        id: history-before
+        run: |
+          set -euo pipefail
+          # github-action-benchmark silently discards history it cannot
+          # JSON.parse. Record the current entry count so the post-publish
+          # check can prove nothing was wiped.
+          git fetch --depth=1 origin gh-pages || true
+          if git cat-file -e FETCH_HEAD:benchmarks_nc4_clio_win/data.js 2>/dev/null; then
+            git show FETCH_HEAD:benchmarks_nc4_clio_win/data.js > gh-pages-data-win.js
+            python .github/scripts/validate_data_js.py gh-pages-data-win.js \
+              --output-name entries
+          else
+            echo "No benchmarks_nc4_clio_win/data.js on gh-pages yet"
+            echo "entries=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: 'NetCDF-4 CLIO Performance Benchmarks (Windows)'
+          tool: 'customSmallerIsBetter'
+          output-file-path: benchmark-results/benchmark_data.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          gh-pages-branch: gh-pages
+          benchmark-data-dir-path: benchmarks_nc4_clio_win
+          skip-fetch-gh-pages: false
+          comment-always: false
+          summary-always: true
+          save-data-file: true
+          comment-on-alert: false
+          alert-threshold: 200%
+          fail-on-alert: false
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify benchmark history was not truncated
+        run: |
+          python .github/scripts/validate_data_js.py \
+            gh-pages/benchmarks_nc4_clio_win/data.js \
+            --min-entries ${{ steps.history-before.outputs.entries }}
+
+      - name: Build comparison plot page
+        run: |
+          set -euo pipefail
+          python .github/scripts/create_nc4_clio_plots.py \
+            gh-pages/benchmarks_nc4_clio_win/data.js \
+            gh-pages/benchmarks_nc4_clio_win/plots.html \
+            --title "NetCDF-4 CLIO Performance Benchmark (Windows)"
+
+      - name: Write run stamp
+        run: |
+          set -euo pipefail
+          mkdir -p gh-pages/benchmarks_nc4_clio_win
+          python - <<'PY'
+          import json, os, datetime
+          src = json.load(open("nc4-clio-work/sources.json"))
+          src.update(
+              run_id=os.environ["GITHUB_RUN_ID"],
+              run_number=os.environ["GITHUB_RUN_NUMBER"],
+              completed_at=datetime.datetime.now(datetime.timezone.utc)
+                              .strftime("%Y-%m-%dT%H:%M:%SZ"),
+          )
+          with open("gh-pages/benchmarks_nc4_clio_win/last_run.json", "w") as fh:
+              json.dump(src, fh, indent=2)
+          print(src)
+          PY
+
+      - name: Commit plot page and stamp
+        run: |
+          set -euo pipefail
+          cd gh-pages
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add benchmarks_nc4_clio_win/plots.html benchmarks_nc4_clio_win/last_run.json
+          if git diff --staged --quiet; then
+            echo "No changes to publish"
+          else
+            git commit -m "Update NetCDF-4 CLIO Windows benchmark page (hdf5 ${{ needs.check.outputs.hdf5_sha }}, clio-core ${{ needs.check.outputs.clio_sha }})"
+            # The github-action-benchmark step above pushed to the same branch;
+            # rebase rather than force so its data.js commit is preserved.
+            git pull --rebase origin gh-pages
+            git push origin HEAD:gh-pages
+          fi
+
+      - name: Upload detailed results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nc4-clio-win-benchmark-results-${{ github.run_number }}
+          path: |
+            benchmark-results/
+            nc4-clio-work/clio_run.log
+          retention-days: 90
+          if-no-files-found: warn

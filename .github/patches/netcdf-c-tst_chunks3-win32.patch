@@ -1,0 +1,68 @@
+diff --git a/nc_perf/tst_chunks3.c b/nc_perf/tst_chunks3.c
+index eb0cc1c..2977738 100644
+--- a/nc_perf/tst_chunks3.c
++++ b/nc_perf/tst_chunks3.c
+@@ -27,6 +27,63 @@
+ #ifdef HAVE_SYS_RESOURCE_H
+ #include <sys/resource.h>
+ #endif
++
++/* MSVC has no getrusage(2), and nc_perf's timing macros are built on it, so
++ * tst_chunks3 cannot be compiled on Windows as it stands. Supply the small
++ * part of the interface those macros use, in the same units.
++ *
++ * GetProcessTimes reports kernel and user CPU time for the process in 100 ns
++ * ticks, which is what ru_utime/ru_stime mean here -- the timing macros sum
++ * the two and divide by the repetition count, so the measurement stays CPU
++ * time and remains comparable with the POSIX platforms.
++ *
++ * ru_inblock/ru_oublock have no Win32 equivalent. They are read by the macros
++ * but never printed (only the seconds field reaches the output the benchmark
++ * parser consumes), so reporting zero costs nothing here. */
++#if defined(_WIN32) && !defined(HAVE_SYS_RESOURCE_H)
++#ifndef WIN32_LEAN_AND_MEAN
++#define WIN32_LEAN_AND_MEAN
++#endif
++#ifndef NOMINMAX
++#define NOMINMAX
++#endif
++#include <winsock2.h>   /* struct timeval; must precede windows.h */
++#include <windows.h>
++
++#define RUSAGE_SELF 0
++
++struct rusage {
++    struct timeval ru_utime;
++    struct timeval ru_stime;
++    long ru_inblock;
++    long ru_oublock;
++};
++
++static __inline void
++hpf_filetime_to_timeval(const FILETIME *ft, struct timeval *tv)
++{
++    /* 100 ns ticks since an epoch that cancels out: only differences are used */
++    ULARGE_INTEGER t;
++    t.LowPart = ft->dwLowDateTime;
++    t.HighPart = ft->dwHighDateTime;
++    tv->tv_sec = (long)(t.QuadPart / 10000000ULL);
++    tv->tv_usec = (long)((t.QuadPart % 10000000ULL) / 10ULL);
++}
++
++static __inline int
++getrusage(int who, struct rusage *ru)
++{
++    FILETIME creation, exit, kernel, user;
++    (void)who;
++    if (!GetProcessTimes(GetCurrentProcess(), &creation, &exit, &kernel, &user))
++        return -1;
++    hpf_filetime_to_timeval(&user, &ru->ru_utime);
++    hpf_filetime_to_timeval(&kernel, &ru->ru_stime);
++    ru->ru_inblock = 0;
++    ru->ru_oublock = 0;
++    return 0;
++}
++#endif /* _WIN32 && !HAVE_SYS_RESOURCE_H */
+ #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+ #include <sys/statvfs.h>
+ #define HAVE_STATVFS 1

@@ -109,6 +109,8 @@ def main():
                 <a href="./benchmarks_nc4_clio/index.html" target="_blank">NetCDF-4 CLIO History (Linux)</a>
                 <a href="./benchmarks_nc4_clio_mac/plots.html" target="_blank">NetCDF-4 CLIO Comparison (macOS)</a>
                 <a href="./benchmarks_nc4_clio_mac/index.html" target="_blank">NetCDF-4 CLIO History (macOS)</a>
+                <a href="./benchmarks_nc4_clio_win/plots.html" target="_blank">NetCDF-4 CLIO Comparison (Windows)</a>
+                <a href="./benchmarks_nc4_clio_win/index.html" target="_blank">NetCDF-4 CLIO History (Windows)</a>
             </p>
         </div>
 

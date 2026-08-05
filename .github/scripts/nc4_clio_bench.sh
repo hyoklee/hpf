@@ -27,10 +27,27 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ------------------------------------------------------------- portability
-# The script runs on Linux CI (ubuntu container) and macOS CI (macos-26).
-# macOS ships bash 3.2, BSD userland, and no /dev/shm, so keep everything below
-# bash-3.2 clean -- in particular no `local -n` namerefs and no `declare -A`.
+# The script runs on Linux CI (ubuntu container), macOS CI (macos-26), and
+# Windows CI (windows-2025, under Git Bash). macOS ships bash 3.2, BSD
+# userland, and no /dev/shm, so keep everything below bash-3.2 clean -- in
+# particular no `local -n` namerefs and no `declare -A`.
 OS="$(uname -s)"
+
+# Windows is a bigger departure than macOS and gets its own flag rather than
+# more `case "$OS"` arms: a multi-config MSVC generator, vcpkg instead of a
+# distro's packages, DLLs that bind by bare filename, and no POSIX process
+# tools. Everything gated on WIN below is one of those four.
+case "$OS" in
+    MINGW*|MSYS*|CYGWIN*) WIN=1 ;;
+    *)                    WIN=0 ;;
+esac
+
+# CMake on Windows needs native (or mixed D:/foo) paths; bash here needs
+# something it can stat. MSYS2 accepts the mixed form for both, so convert
+# once at the boundary and use one spelling everywhere after that.
+native_path() {
+    if [ "$WIN" = 1 ]; then cygpath -m "$1"; else echo "$1"; fi
+}
 
 # Extra -D flags every cmake configure below gets. On macOS the conda env that
 # supplies clio's dependencies is active for the whole build, which puts
@@ -39,8 +56,19 @@ OS="$(uname -s)"
 # hit this in their issue #797). Xcode's ar/ranlib have no such dependency and
 # are correct here -- nothing in this build produces LTO/bitcode archives.
 CMAKE_TOOL_OPTS=""
+# Visual Studio is a multi-config generator: the configuration is chosen at
+# build time, not configure time, so every --build and --install needs it.
+CMAKE_CONFIG_OPTS=""
+CMAKE_BUILD_OPTS=""
 
 case "$OS" in
+    MINGW*|MSYS*|CYGWIN*)
+        NCPU="${NUMBER_OF_PROCESSORS:-4}"
+        DSO_EXT="dll"
+        SED_UNBUF="-u"   # Git Bash ships GNU sed
+        CMAKE_CONFIG_OPTS="-A x64"
+        CMAKE_BUILD_OPTS="--config Release"
+        ;;
     Darwin)
         NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
         CMAKE_TOOL_OPTS="-DCMAKE_AR=$(xcrun -f ar 2>/dev/null || echo /usr/bin/ar)"
@@ -69,7 +97,12 @@ esac
 ESC="$(printf '\033')"
 
 TIMEOUT_BIN=""
-if command -v timeout >/dev/null 2>&1; then
+if [ "$WIN" = 1 ]; then
+    # NOT `command -v timeout`: on Windows that resolves to System32\timeout.exe,
+    # which is an interactive "pause for N seconds" command and would silently
+    # sleep instead of bounding the benchmark. Only the coreutils one will do.
+    [ -x /usr/bin/timeout ] && TIMEOUT_BIN="/usr/bin/timeout"
+elif command -v timeout >/dev/null 2>&1; then
     TIMEOUT_BIN="timeout"
 elif command -v gtimeout >/dev/null 2>&1; then
     TIMEOUT_BIN="gtimeout"
@@ -180,10 +213,10 @@ while [ $# -gt 0 ]; do
 done
 
 mkdir -p "$WORK_DIR"
-WORK_DIR="$(cd "$WORK_DIR" && pwd)"
+WORK_DIR="$(native_path "$(cd "$WORK_DIR" && pwd)")"
 RESULTS_DIR="${RESULTS_DIR:-$WORK_DIR/results}"
 mkdir -p "$RESULTS_DIR"
-RESULTS_DIR="$(cd "$RESULTS_DIR" && pwd)"
+RESULTS_DIR="$(native_path "$(cd "$RESULTS_DIR" && pwd)")"
 
 HDF5_INSTALL="$WORK_DIR/hdf5-install"
 NETCDF_INSTALL="$WORK_DIR/netcdf-install"
@@ -202,7 +235,7 @@ resolve_src() {
     # resolve_src <current-value> <repo> <ref> <dest-name>
     local cur="$1" repo="$2" ref="$3" name="$4" dest
     if [ -n "$cur" ]; then
-        dest="$(cd "$cur" && pwd)"
+        dest="$(native_path "$(cd "$cur" && pwd)")"
         echo "$name: using existing checkout $dest" >&2
         echo "$dest"
         return
@@ -241,9 +274,9 @@ if has_stage build; then
 log "Building HDF5 ($HDF5_REF) -> $HDF5_INSTALL"
 # Shared libs are mandatory: a VOL connector / VFD plugin is dlopen'd into the
 # application and must resolve against the *same* libhdf5.so the app links.
-# shellcheck disable=SC2086  # CMAKE_TOOL_OPTS is a deliberate word-split
+# shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
 cmake -S "$HDF5_SRC" -B "$WORK_DIR/hdf5-build" \
-      $CMAKE_TOOL_OPTS \
+      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$HDF5_INSTALL" \
       -DBUILD_SHARED_LIBS=ON \
@@ -258,13 +291,39 @@ cmake -S "$HDF5_SRC" -B "$WORK_DIR/hdf5-build" \
       -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
       -DHDF5_ENABLE_SZIP_SUPPORT=OFF \
       >/dev/null
-cmake --build "$WORK_DIR/hdf5-build" -j "$JOBS"
-cmake --install "$WORK_DIR/hdf5-build" >/dev/null
+# shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+cmake --build "$WORK_DIR/hdf5-build" -j "$JOBS" $CMAKE_BUILD_OPTS
+# shellcheck disable=SC2086
+cmake --install "$WORK_DIR/hdf5-build" $CMAKE_BUILD_OPTS >/dev/null
+
+# nc_perf is POSIX-only: tst_chunks3's timing macros are built on getrusage(2),
+# which MSVC does not have, so the benchmark workload cannot be compiled on
+# Windows as it stands. Supply the shim before configuring. Only ever applied
+# to a checkout this script cloned itself -- silently rewriting a developer's
+# own tree would be a nasty surprise.
+if [ "$WIN" = 1 ]; then
+    NETCDF_WIN_PATCH="$SCRIPT_DIR/../patches/netcdf-c-tst_chunks3-win32.patch"
+    case "$NETCDF_SRC" in
+        "$WORK_DIR"/*)
+            if git -C "$NETCDF_SRC" apply --reverse --check "$NETCDF_WIN_PATCH" 2>/dev/null; then
+                echo "netcdf-c: Windows getrusage shim already applied"
+            elif git -C "$NETCDF_SRC" apply "$NETCDF_WIN_PATCH"; then
+                echo "netcdf-c: applied Windows getrusage shim to nc_perf/tst_chunks3.c"
+            else
+                echo "ERROR: $NETCDF_WIN_PATCH no longer applies to netcdf-c $NETCDF_REF." >&2
+                echo "       tst_chunks3 cannot build on Windows without it; refresh the patch." >&2
+                exit 1
+            fi
+            ;;
+        *)  warn "netcdf-c checkout was not cloned by this script; leaving it alone."
+            warn "tst_chunks3 will not compile on Windows without the getrusage shim." ;;
+    esac
+fi
 
 log "Building netCDF-C ($NETCDF_REF) against HDF5 $HDF5_REF"
-# shellcheck disable=SC2086  # CMAKE_TOOL_OPTS is a deliberate word-split
+# shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
 cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
-      $CMAKE_TOOL_OPTS \
+      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$NETCDF_INSTALL" \
       -DCMAKE_PREFIX_PATH="$HDF5_INSTALL" \
@@ -281,9 +340,12 @@ cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
       -DBUILD_TESTING=ON \
       -DENABLE_BENCHMARKS=ON \
       >/dev/null
-cmake --build "$WORK_DIR/netcdf-build" -j "$JOBS"
-cmake --install "$WORK_DIR/netcdf-build" >/dev/null
-cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS"
+# shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+cmake --build "$WORK_DIR/netcdf-build" -j "$JOBS" $CMAKE_BUILD_OPTS
+# shellcheck disable=SC2086
+cmake --install "$WORK_DIR/netcdf-build" $CMAKE_BUILD_OPTS >/dev/null
+# shellcheck disable=SC2086
+cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS" $CMAKE_BUILD_OPTS
 
 if has_variant clio_vfd || has_variant clio_vol; then
     log "Building clio-core ($CLIO_REF) VFD + VOL against HDF5 $HDF5_REF"
@@ -302,9 +364,32 @@ if has_variant clio_vfd || has_variant clio_vol; then
         CLIO_PREFIX_PATH="$CLIO_PREFIX_PATH;$(echo "$CMAKE_PREFIX_PATH" | tr ':' ';')"
     fi
 
-    # ELF support is Linux-only, and clio's macOS CI builds with conda deps --
-    # both match what clio-core's own ci-macos.yml / ci-adapters.yml do.
-    if [ "$OS" = Darwin ]; then
+    # ELF support is Linux-only. clio-core gates add_subdirectory(vfd) behind it
+    # (adapter/CMakeLists.txt) and CLIO_CORE_ENABLE_ELF does
+    # pkg_check_modules(libelf REQUIRED), so the VFD target simply does not
+    # exist off Linux -- hence --allow-adapter-build-failure on those runners.
+    # The rest mirrors what clio-core's own ci-macos.yml / ci-adapters.yml do.
+    if [ "$WIN" = 1 ]; then
+        # vcpkg supplies zeromq/yaml-cpp/cereal/msgpack (and an hdf5 we must not
+        # let win -- see the ABI gate below). The manifest and overlay port live
+        # in the clio checkout, matching clio-core's ci-windows.yml.
+        CLIO_PLATFORM_OPTS="-DCLIO_CORE_ENABLE_ELF=OFF -DCLIO_CORE_ENABLE_CONDA=OFF"
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DCLIO_CORE_ENABLE_RPATH=OFF"
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DCLIO_CORE_ENABLE_ZMQ=ON -DCLIO_CORE_ENABLE_CEREAL=ON"
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DVCPKG_TARGET_TRIPLET=x64-windows"
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DVCPKG_MANIFEST_DIR=$CLIO_SRC/installers/vcpkg"
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DVCPKG_OVERLAY_PORTS=$CLIO_SRC/installers/vcpkg/overlay-ports"
+        # vcpkg's per-target applocal DLL copy races itself and Defender on
+        # these runners (clio-core #848); the run step puts the vcpkg bin dir
+        # on PATH instead, so nothing needs copying.
+        CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DVCPKG_APPLOCAL_DEPS=OFF"
+        if [ -n "${VCPKG_INSTALLATION_ROOT:-}" ]; then
+            CLIO_PLATFORM_OPTS="$CLIO_PLATFORM_OPTS -DCMAKE_TOOLCHAIN_FILE=$(native_path "$VCPKG_INSTALLATION_ROOT")/scripts/buildsystems/vcpkg.cmake"
+        else
+            echo "ERROR: VCPKG_INSTALLATION_ROOT is unset; clio-core needs vcpkg on Windows" >&2
+            exit 1
+        fi
+    elif [ "$OS" = Darwin ]; then
         CLIO_PLATFORM_OPTS="-DCLIO_CORE_ENABLE_ELF=OFF -DCLIO_CORE_ENABLE_CONDA=ON"
     else
         CLIO_PLATFORM_OPTS="-DCLIO_CORE_ENABLE_ELF=ON -DCLIO_CORE_ENABLE_CONDA=OFF"
@@ -316,7 +401,7 @@ if has_variant clio_vfd || has_variant clio_vol; then
     cmake -S "$CLIO_SRC" -B "$CLIO_BUILD" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_PREFIX_PATH="$CLIO_PREFIX_PATH" \
-          $CMAKE_TOOL_OPTS \
+          $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS \
           $CLIO_PLATFORM_OPTS \
           -DHDF5_ROOT="$HDF5_INSTALL" \
           -DHDF5_DIR="$HDF5_INSTALL/cmake" \
@@ -340,7 +425,8 @@ if has_variant clio_vfd || has_variant clio_vol; then
     # It is a runtime-loaded module, so nothing in the link graph of clio_vfd
     # pulls it in -- omit it and the VFD hangs on its first H5Fcreate while the
     # runtime logs "ChiMod 'clio_cte_filesystem' not found".
-    cmake --build "$CLIO_BUILD" -j "$JOBS" --target \
+    # shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+    cmake --build "$CLIO_BUILD" -j "$JOBS" $CMAKE_BUILD_OPTS --target \
         clio_run clio_cte_core_runtime clio_cte_filesystem_runtime \
         clio_bdev_runtime clio_admin_runtime
 
@@ -353,7 +439,8 @@ if has_variant clio_vfd || has_variant clio_vol; then
         # build_adapter <variant> <cmake-target>
         local variant="$1" target="$2"
         has_variant "$variant" || return 0
-        if cmake --build "$CLIO_BUILD" -j "$JOBS" --target "$target"; then
+        # shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+        if cmake --build "$CLIO_BUILD" -j "$JOBS" $CMAKE_BUILD_OPTS --target "$target"; then
             return 0
         fi
         [ "$ALLOW_ADAPTER_BUILD_FAILURE" = 1 ] || {
@@ -377,6 +464,25 @@ if has_variant clio_vfd || has_variant clio_vol; then
         # check_links_our_hdf5 <dso>
         local dso="$1" linked base
         base="$(basename "$dso")"
+        if [ "$WIN" = 1 ]; then
+            # Windows binds imports by bare filename ("hdf5.dll") with no
+            # soversion to tell two builds apart, and the first hdf5.dll loaded
+            # into the process serves everyone. So the question is not what the
+            # plugin recorded but what the loader will find first, and the only
+            # copies that can win are one sitting beside the executable or
+            # plugin, or the first one on PATH. vcpkg installs its own hdf5 for
+            # clio's dependency set, so this is a live hazard, not a theoretical
+            # one -- but it is decided by the run stage's PATH, which is set
+            # further down and re-checked there.
+            local stray
+            stray="$(ls "$(dirname "$dso")"/hdf5.dll 2>/dev/null || true)"
+            if [ -n "$stray" ]; then
+                echo "ERROR: $stray sits beside $base and would shadow the HDF5 under $HDF5_INSTALL" >&2
+                return 1
+            fi
+            echo "$base: no stray hdf5.dll in $(dirname "$dso") (load order is enforced by PATH at run time)"
+            return 0
+        fi
         if [ "$OS" = Darwin ]; then
             # otool reports the recorded install name. HDF5's CMake stamps
             # @rpath/libhdf5.*.dylib, which names no directory at all, so for
@@ -435,10 +541,18 @@ if has_variant clio_vfd || has_variant clio_vol; then
         esac
     }
 
-    for pair in "clio_vfd:libclio_vfd" "clio_vol:libclio_hdf5_vol"; do
-        variant="${pair%%:*}"; libname="${pair#*:}"
+    # A multi-config generator drops its output in bin/<config>, so the plugin
+    # directory is only known after the build.
+    if [ "$WIN" = 1 ] && [ -d "$CLIO_BUILD/bin/Release" ]; then
+        CLIO_BIN="$CLIO_BUILD/bin/Release"
+    fi
+
+    for pair in "clio_vfd:libclio_vfd:clio_vfd" "clio_vol:libclio_hdf5_vol:clio_hdf5_vol"; do
+        variant="${pair%%:*}"; rest="${pair#*:}"
+        libname="${rest%%:*}"; winname="${rest#*:}"
         has_variant "$variant" || continue
-        dso="$CLIO_BIN/$libname.$DSO_EXT"
+        # MSVC produces clio_vfd.dll, not libclio_vfd.dll.
+        if [ "$WIN" = 1 ]; then dso="$CLIO_BIN/$winname.dll"; else dso="$CLIO_BIN/$libname.$DSO_EXT"; fi
         [ -f "$dso" ] || { echo "missing $dso" >&2; exit 1; }
         check_links_our_hdf5 "$dso" || exit 1
     done
@@ -452,9 +566,15 @@ if ! has_stage run; then
     exit 0
 fi
 
+# Repeated from the build stage so that --stages run alone still finds the
+# plugins where a multi-config generator put them.
+if [ "$WIN" = 1 ] && [ -d "$CLIO_BUILD/bin/Release" ]; then
+    CLIO_BIN="$CLIO_BUILD/bin/Release"
+fi
+
 # `-perm -u+x` is not portable to BSD find; test executability in the shell.
 TST_CHUNKS3=""
-for cand in $(find "$WORK_DIR/netcdf-build" -name tst_chunks3 -type f); do
+for cand in $(find "$WORK_DIR/netcdf-build" \( -name tst_chunks3 -o -name tst_chunks3.exe \) -type f); do
     if [ -x "$cand" ]; then TST_CHUNKS3="$cand"; break; fi
 done
 [ -n "$TST_CHUNKS3" ] || { echo "tst_chunks3 not found under $WORK_DIR/netcdf-build" >&2; exit 1; }
@@ -467,6 +587,22 @@ export LD_LIBRARY_PATH="$HDF5_INSTALL/lib:$NETCDF_INSTALL/lib:$CLIO_BIN${LD_LIBR
 # HDF5, netCDF-C, and clio-core all bake in ($ORIGIN / @loader_path relative).
 if [ "$OS" = Darwin ]; then
     export DYLD_LIBRARY_PATH="$HDF5_INSTALL/lib:$NETCDF_INSTALL/lib:$CLIO_BIN${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+fi
+if [ "$WIN" = 1 ]; then
+    # There is no rpath on Windows: a DLL is found beside the executable, in
+    # the system directories, or on PATH -- and the first hdf5.dll to load wins
+    # for every module in the process. Our HDF5 therefore goes first, ahead of
+    # the vcpkg tree that supplies clio's zeromq/yaml-cpp/msgpack (and its own
+    # hdf5, which must not win). PATH here is a POSIX-style list; Git Bash
+    # converts it for the child processes.
+    VCPKG_BIN="$CLIO_BUILD/vcpkg_installed/x64-windows/bin"
+    export PATH="$HDF5_INSTALL/bin:$NETCDF_INSTALL/bin:$CLIO_BIN:$VCPKG_BIN:$PATH"
+    if [ -f "$HDF5_INSTALL/bin/hdf5.dll" ]; then
+        echo "hdf5.dll resolved from: $HDF5_INSTALL/bin (ahead of $VCPKG_BIN)"
+    else
+        echo "ERROR: no hdf5.dll under $HDF5_INSTALL/bin; the vcpkg copy would win" >&2
+        exit 1
+    fi
 fi
 
 CLIO_CONF="$WORK_DIR/clio_runtime.yaml"
@@ -484,13 +620,25 @@ clio_shm_sweep() {
 }
 
 clio_runtime_alive() {
+    if [ "$WIN" = 1 ]; then
+        # tasklist has no command-line filter, so this matches the image name.
+        # Unlike the POSIX branch it cannot tell our clio_run from someone
+        # else's -- acceptable on a CI runner, which is the only place this
+        # path runs, and noted so nobody ports it to a workstation unawares.
+        tasklist //FI "IMAGENAME eq clio_run.exe" 2>/dev/null | grep -qi clio_run.exe
+        return $?
+    fi
     pgrep -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1
 }
 
 clio_runtime_stop() {
     # Match the runtime we started by its full path. A bare `pkill -f clio_run`
     # would also kill a developer's unrelated clio_run on the same machine.
-    pkill -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1 || true
+    if [ "$WIN" = 1 ]; then
+        taskkill //F //IM clio_run.exe >/dev/null 2>&1 || true
+    else
+        pkill -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1 || true
+    fi
     [ "$CLIO_RUNTIME_STARTED" = 1 ] || return 0
 
     # SIGTERM shutdown is not instant -- the runtime reaps its shm segments and

@@ -20,40 +20,59 @@ The workload is `tst_chunks3` from netcdf-c's `nc_perf`.
 | --- | --- |
 | `../workflows/nc4-clio-benchmark.yml` | cron workflow (Linux): change gate, build, measure, publish |
 | `../workflows/nc4-clio-benchmark-mac.yml` | the same on `macos-26`, publishing to `benchmarks_nc4_clio_mac/` |
+| `../workflows/nc4-clio-benchmark-win.yml` | the same on `windows-2025`, publishing to `benchmarks_nc4_clio_win/` |
+| `../patches/netcdf-c-tst_chunks3-win32.patch` | supplies `getrusage` so the workload compiles with MSVC |
 | `nc4_clio_bench.sh` | builds the three stacks and runs the variants (shared by CI and local runs) |
 | `clio_runtime.yaml` | `clio_run` compose config used by both CLIO variants |
 | `parse_nc4_clio_results.py` | `tst_chunks3` text → benchmark JSON, per variant |
 | `combine_nc4_clio_results.py` | three variant JSONs → one suffixed github-action-benchmark payload |
 | `create_nc4_clio_plots.py` | `data.js` → self-contained comparison page (`plots.html`) |
 
-## The two platforms
+## The three platforms
 
-Linux and macOS run the same driver script and publish to **separate**
-gh-pages directories (`benchmarks_nc4_clio/`, `benchmarks_nc4_clio_mac/`).
-github-action-benchmark keys its history on the benchmark name alone, so one
-shared directory would interleave the two platforms into a single line graph.
+All three run the same driver script and publish to **separate** gh-pages
+directories (`benchmarks_nc4_clio/`, `benchmarks_nc4_clio_mac/`,
+`benchmarks_nc4_clio_win/`). github-action-benchmark keys its history on the
+benchmark name alone, so one shared directory would interleave the platforms
+into a single line graph.
 
-What differs on macOS, and why:
+What differs, and why:
 
-| | Linux | macOS |
-| --- | --- | --- |
-| clio dependencies | `iowarp/deps-cpu` container | conda env from clio-core's `CI/ci-deps.sh` (runners cannot use containers) |
-| adapter suffix | `libclio_vfd.so` | `libclio_vfd.dylib` (`add_library(SHARED)`); HDF5's plugin scanner accepts both |
-| ABI gate | `ldd` | `otool -L`, falling back to the `LC_RPATH` list because HDF5 stamps `@rpath/libhdf5.*.dylib` (see below) |
-| ELF support | `CLIO_CORE_ENABLE_ELF=ON` | `OFF` — Linux-only |
-| `ar` / `ranlib` | default | pinned to Xcode's; conda's `llvm-ranlib` aborts archiving (clio-core #797) |
-| shm cleanup | sweeps `/dev/shm` | no-op — macOS POSIX shm objects are not files |
-| VFD adapter | must build; a failure is a regression | not available — see below; `--allow-adapter-build-failure` drops the series |
+| | Linux | macOS | Windows |
+| --- | --- | --- | --- |
+| clio dependencies | `iowarp/deps-cpu` container | conda env from clio-core's `CI/ci-deps.sh` | vcpkg manifest (its `ci-windows.yml` route) |
+| generator | single-config | single-config | multi-config MSVC — every `--build`/`--install` needs `--config Release` |
+| adapter file | `libclio_vfd.so` | `libclio_vfd.dylib` | `clio_hdf5_vol.dll` in `bin/Release` |
+| ABI gate | `ldd` | `otool -L` + `LC_RPATH` (see below) | PATH order — DLLs bind by bare name, so the first `hdf5.dll` loaded wins |
+| ELF support | `ON` | `OFF` — Linux-only | `OFF` |
+| shm cleanup | sweeps `/dev/shm` | no-op | no-op |
+| process control | `pkill`/`pgrep` | same | `taskkill`/`tasklist` |
+| workload | stock `tst_chunks3` | stock | **patched** — nc_perf is POSIX-only (see below) |
+| VFD adapter | must build; a failure is a regression | not available (ELF gate) | not available (ELF gate) |
 
-**The CLIO VFD cannot be built on macOS.** clio-core puts `add_subdirectory(vfd)`
+**netCDF-C's benchmarks do not build on Windows.** `tst_chunks3`'s timing
+macros are built on `getrusage(2)`, and not one of nc_perf's 23 sources carries
+a `_WIN32` guard — the suite is POSIX-only by construction, so there is no
+portable substitute to switch to either. `.github/patches/netcdf-c-tst_chunks3-win32.patch`
+supplies `getrusage` on top of `GetProcessTimes`, which reports the same
+user+kernel CPU time the POSIX platforms measure, so the numbers stay
+comparable in kind. `ru_inblock`/`ru_oublock` have no Win32 equivalent and are
+reported as zero; the timing macros read but never print them. The driver
+applies the patch only to a checkout it cloned itself — never to a developer's
+own tree — and fails loudly if it stops applying, since the workload cannot
+build without it. It is worth upstreaming.
+
+**The CLIO VFD cannot be built off Linux.** clio-core puts `add_subdirectory(vfd)`
 inside `if(CLIO_CORE_ENABLE_ELF)` in `context-transfer-engine/adapter/CMakeLists.txt`,
 and that option does `pkg_check_modules(libelf REQUIRED libelf)` — so asking for
-it on Mach-O fails at configure time. The VFD itself never touches `real_api.h`
-(it is a plugin, not an interceptor), so the gate looks incidental rather than
-intended, but working around it would mean installing an ELF library on macOS to
-satisfy a CMake condition. The workflow instead attempts the target, gets
-`No rule to make target 'clio_vfd'`, drops the variant with a warning, and
-publishes the other two. If upstream ungates it, the series appears on its own.
+it on Mach-O or Windows fails at configure time — and clio-core's own
+`ci-adapters.yml` sets `CLIO_CTE_ENABLE_VFD=OFF` on Windows for the same reason.
+The VFD itself never touches `real_api.h` (it is a plugin, not an interceptor),
+so the gate looks incidental rather than intended, but working around it would
+mean installing an ELF library on those platforms to satisfy a CMake condition.
+The workflows instead attempt the target, get `No rule to make target
+'clio_vfd'`, drop the variant with a warning, and publish the rest. If upstream
+ungates it, the series appears on its own.
 
 **Why the macOS ABI gate resolves the soname.** HDF5 stamps its install name as
 `@rpath/libhdf5.<soversion>.dylib`, and dyld searches each `LC_RPATH` entry in
