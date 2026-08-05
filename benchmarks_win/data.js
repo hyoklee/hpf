@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785873056385,
+  "lastUpdate": 1785922776364,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Windows)": [
@@ -11072,6 +11072,76 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 5.63849,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "301c89e1aea250ebac55f03c219a10dc04f7eda7",
+          "message": "docs: correct the CLIO VOL crash attribution\n\nThe NULL-object dereference in clio_file_specific was already fixed on\nclio-core dev by 3e8979cd (2026-07-31). It was hit here against a stale\nlocal checkout at b5c68c5e, and the local patch written to unblock\nmeasurement duplicated work that already existed -- upstream's version is\nbetter (it restores the caller's FAPL slot and guards the remaining ops).\n\nRecord upstream's wider trigger too: HDF5 asks every plugin on\nHDF5_PLUGIN_PATH whether it can open a file, so the .so merely being\npresent crashed H5Fopen without the connector being selected.\n\nThe measured numbers are unaffected and reproduce on dev @ 03819a98\nunmodified.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-04T19:39:25Z",
+          "url": "https://github.com/hyoklee/hpf/commit/301c89e1aea250ebac55f03c219a10dc04f7eda7"
+        },
+        "date": 1785922772533,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 1.26176,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 7.89287,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 2.48011,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 2.60478,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 1.13302,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 5.844,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 1.8241,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 5.92252,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
