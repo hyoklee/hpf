@@ -18,12 +18,37 @@ The workload is `tst_chunks3` from netcdf-c's `nc_perf`.
 
 | File | Role |
 | --- | --- |
-| `../workflows/nc4-clio-benchmark.yml` | cron workflow: change gate, build, measure, publish |
+| `../workflows/nc4-clio-benchmark.yml` | cron workflow (Linux): change gate, build, measure, publish |
+| `../workflows/nc4-clio-benchmark-mac.yml` | the same on `macos-26`, publishing to `benchmarks_nc4_clio_mac/` |
 | `nc4_clio_bench.sh` | builds the three stacks and runs the variants (shared by CI and local runs) |
 | `clio_runtime.yaml` | `clio_run` compose config used by both CLIO variants |
 | `parse_nc4_clio_results.py` | `tst_chunks3` text → benchmark JSON, per variant |
 | `combine_nc4_clio_results.py` | three variant JSONs → one suffixed github-action-benchmark payload |
 | `create_nc4_clio_plots.py` | `data.js` → self-contained comparison page (`plots.html`) |
+
+## The two platforms
+
+Linux and macOS run the same driver script and publish to **separate**
+gh-pages directories (`benchmarks_nc4_clio/`, `benchmarks_nc4_clio_mac/`).
+github-action-benchmark keys its history on the benchmark name alone, so one
+shared directory would interleave the two platforms into a single line graph.
+
+What differs on macOS, and why:
+
+| | Linux | macOS |
+| --- | --- | --- |
+| clio dependencies | `iowarp/deps-cpu` container | conda env from clio-core's `CI/ci-deps.sh` (runners cannot use containers) |
+| adapter suffix | `libclio_vfd.so` | `libclio_vfd.dylib` (`add_library(SHARED)`); HDF5's plugin scanner accepts both |
+| ABI gate | `ldd` | `otool -L`, falling back to the `LC_RPATH` list because HDF5 stamps `@rpath/libhdf5.*.dylib` |
+| ELF support | `CLIO_CORE_ENABLE_ELF=ON` | `OFF` — Linux-only |
+| `ar` / `ranlib` | default | pinned to Xcode's; conda's `llvm-ranlib` aborts archiving (clio-core #797) |
+| shm cleanup | sweeps `/dev/shm` | no-op — macOS POSIX shm objects are not files |
+| VFD adapter | must build; a failure is a regression | `--allow-adapter-build-failure` drops the series, because clio-core's own CI does not build the VFD on macOS |
+
+The script is bash-3.2 clean for this reason: macOS ships bash 3.2, so no
+`local -n` namerefs and no `declare -A`. It also avoids GNU-only spellings —
+`sed -u` (BSD: `-l`), `\x1b` in a sed regex (BSD matches it literally),
+`find -perm -u+x`, and `timeout` (BSD: `gtimeout`, else a shell watchdog).
 
 ## Change gate
 

@@ -26,6 +26,84 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# ------------------------------------------------------------- portability
+# The script runs on Linux CI (ubuntu container) and macOS CI (macos-26).
+# macOS ships bash 3.2, BSD userland, and no /dev/shm, so keep everything below
+# bash-3.2 clean -- in particular no `local -n` namerefs and no `declare -A`.
+OS="$(uname -s)"
+
+# Extra -D flags every cmake configure below gets. On macOS the conda env that
+# supplies clio's dependencies is active for the whole build, which puts
+# conda's llvm-tools on PATH; CMake then detects llvm-ranlib, which cannot load
+# its own runtime dylib and aborts static archiving intermittently (clio-core
+# hit this in their issue #797). Xcode's ar/ranlib have no such dependency and
+# are correct here -- nothing in this build produces LTO/bitcode archives.
+CMAKE_TOOL_OPTS=""
+
+case "$OS" in
+    Darwin)
+        NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
+        CMAKE_TOOL_OPTS="-DCMAKE_AR=$(xcrun -f ar 2>/dev/null || echo /usr/bin/ar)"
+        CMAKE_TOOL_OPTS="$CMAKE_TOOL_OPTS -DCMAKE_RANLIB=$(xcrun -f ranlib 2>/dev/null || echo /usr/bin/ranlib)"
+        # CMake builds clio's adapters with add_library(SHARED), which is
+        # .dylib on Apple. HDF5's plugin scanner accepts both suffixes
+        # (H5PLpath.c matches ".so" or ".dylib"), so only the path this script
+        # checks has to change.
+        DSO_EXT="dylib"
+        # BSD sed spells GNU's -u (unbuffered) as -l (line-buffered).
+        SED_UNBUF="-l"
+        ;;
+    *)
+        NCPU="$(nproc 2>/dev/null || echo 4)"
+        DSO_EXT="so"
+        SED_UNBUF="-u"
+        ;;
+esac
+
+# coreutils timeout(1) is not in the macOS base system; Homebrew installs it as
+# gtimeout. Fall back to a watchdog so a local mac run without coreutils still
+# gets hang protection -- an adapter that blocks forever is a result this
+# benchmark has to report, not a reason to burn the job's whole time budget.
+# A literal ESC byte: `\x1b` in a sed regex is a GNU extension that BSD sed
+# would match as the three characters "x1b", leaving the color codes in place.
+ESC="$(printf '\033')"
+
+TIMEOUT_BIN=""
+if command -v timeout >/dev/null 2>&1; then
+    TIMEOUT_BIN="timeout"
+elif command -v gtimeout >/dev/null 2>&1; then
+    TIMEOUT_BIN="gtimeout"
+fi
+
+# duration_seconds 45m -> 2700. Accepts a bare number (seconds) or Ns/Nm/Nh.
+duration_seconds() {
+    case "$1" in
+        *h) echo $(( ${1%h} * 3600 )) ;;
+        *m) echo $(( ${1%m} * 60 )) ;;
+        *s) echo "${1%s}" ;;
+        *)  echo "$1" ;;
+    esac
+}
+
+run_with_timeout() {
+    # run_with_timeout <duration> <cmd> [args...]
+    local dur="$1"; shift
+    if [ -n "$TIMEOUT_BIN" ]; then
+        "$TIMEOUT_BIN" "$dur" "$@"
+        return $?
+    fi
+    local secs pid watchdog rc=0
+    secs="$(duration_seconds "$dur")"
+    "$@" &
+    pid=$!
+    ( sleep "$secs"; kill -TERM "$pid" 2>/dev/null || true
+      sleep 10;      kill -KILL "$pid" 2>/dev/null || true ) >/dev/null 2>&1 &
+    watchdog=$!
+    wait "$pid" || rc=$?
+    kill "$watchdog" 2>/dev/null || true
+    return $rc
+}
+
 # ----------------------------------------------------------------- defaults
 WORK_DIR="${PWD}/nc4-clio-work"
 RESULTS_DIR=""
@@ -42,9 +120,16 @@ CLIO_REPO="https://github.com/iowarp/clio-core.git"
 # tst_chunks3 args: <deflate> <dim1> <chunk1> <dim2> <chunk2> <dim3> <chunk3>
 BENCH_ARGS="6 512 64 512 64 512 64"
 STAGES="build,run"
-JOBS="$(nproc 2>/dev/null || echo 4)"
+JOBS="$NCPU"
 VARIANTS="baseline,clio_vfd,clio_vol"
 RUN_TIMEOUT="45m"
+# clio-core's own CI builds the VFD adapter on Linux only (ci-vfd.yml is
+# ubuntu-only; the macOS job in ci-adapters.yml covers just the VOL). Where an
+# adapter is not expected to build, --allow-adapter-build-failure demotes its
+# build failure to a dropped variant instead of failing the whole run.
+ALLOW_ADAPTER_BUILD_FAILURE=0
+# Variants dropped because their adapter did not compile (see build_adapter).
+UNBUILDABLE=""
 
 usage() {
     sed -n '3,25p' "$0" | sed 's/^# \{0,1\}//'
@@ -65,6 +150,10 @@ Options:
   --stages LIST       subset of build,run             (default: build,run)
   --jobs N            parallel build jobs
   --run-timeout DUR   per-variant timeout(1) duration (default: 45m)
+  --allow-adapter-build-failure
+                      a CLIO adapter that fails to compile drops its variant
+                      instead of failing the run (for platforms where the
+                      adapter is not supported upstream)
 EOF
 }
 
@@ -84,6 +173,7 @@ while [ $# -gt 0 ]; do
         --stages)      STAGES="$2"; shift 2 ;;
         --jobs)        JOBS="$2"; shift 2 ;;
         --run-timeout) RUN_TIMEOUT="$2"; shift 2 ;;
+        --allow-adapter-build-failure) ALLOW_ADAPTER_BUILD_FAILURE=1; shift ;;
         -h|--help)     usage; exit 0 ;;
         *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
     esac
@@ -106,25 +196,29 @@ log() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m[warn] %s\033[0m\n' "$*" >&2; }
 
 # --------------------------------------------------------------- sources
+# Prints the resolved source directory on stdout; progress goes to stderr.
+# (A `local -n` nameref would read better, but macOS bash is 3.2.)
 resolve_src() {
-    # resolve_src <var-name> <repo> <ref> <dest-name>
-    local -n _dest="$1"; local repo="$2" ref="$3" name="$4"
-    if [ -n "$_dest" ]; then
-        _dest="$(cd "$_dest" && pwd)"
-        echo "$name: using existing checkout $_dest"
+    # resolve_src <current-value> <repo> <ref> <dest-name>
+    local cur="$1" repo="$2" ref="$3" name="$4" dest
+    if [ -n "$cur" ]; then
+        dest="$(cd "$cur" && pwd)"
+        echo "$name: using existing checkout $dest" >&2
+        echo "$dest"
         return
     fi
     [ "$CLONE" = 1 ] || { echo "no --${name}-src and no --clone" >&2; exit 2; }
-    _dest="$WORK_DIR/$name-src"
-    if [ ! -d "$_dest/.git" ]; then
-        git clone --depth 1 --branch "$ref" "$repo" "$_dest"
+    dest="$WORK_DIR/$name-src"
+    if [ ! -d "$dest/.git" ]; then
+        git clone --depth 1 --branch "$ref" "$repo" "$dest" >&2
     fi
-    echo "$name: cloned $repo@$ref -> $_dest"
+    echo "$name: cloned $repo@$ref -> $dest" >&2
+    echo "$dest"
 }
 
-resolve_src HDF5_SRC   "$HDF5_REPO"   "$HDF5_REF"   hdf5
-resolve_src NETCDF_SRC "$NETCDF_REPO" "$NETCDF_REF" netcdf
-resolve_src CLIO_SRC   "$CLIO_REPO"   "$CLIO_REF"   clio
+HDF5_SRC="$(resolve_src   "$HDF5_SRC"   "$HDF5_REPO"   "$HDF5_REF"   hdf5)"
+NETCDF_SRC="$(resolve_src "$NETCDF_SRC" "$NETCDF_REPO" "$NETCDF_REF" netcdf)"
+CLIO_SRC="$(resolve_src   "$CLIO_SRC"   "$CLIO_REPO"   "$CLIO_REF"   clio)"
 
 # Record what was ACTUALLY built. A branch can advance between the workflow
 # resolving its HEAD and this script cloning it, so labelling the results with
@@ -147,7 +241,9 @@ if has_stage build; then
 log "Building HDF5 ($HDF5_REF) -> $HDF5_INSTALL"
 # Shared libs are mandatory: a VOL connector / VFD plugin is dlopen'd into the
 # application and must resolve against the *same* libhdf5.so the app links.
+# shellcheck disable=SC2086  # CMAKE_TOOL_OPTS is a deliberate word-split
 cmake -S "$HDF5_SRC" -B "$WORK_DIR/hdf5-build" \
+      $CMAKE_TOOL_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$HDF5_INSTALL" \
       -DBUILD_SHARED_LIBS=ON \
@@ -166,7 +262,9 @@ cmake --build "$WORK_DIR/hdf5-build" -j "$JOBS"
 cmake --install "$WORK_DIR/hdf5-build" >/dev/null
 
 log "Building netCDF-C ($NETCDF_REF) against HDF5 $HDF5_REF"
+# shellcheck disable=SC2086  # CMAKE_TOOL_OPTS is a deliberate word-split
 cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
+      $CMAKE_TOOL_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$NETCDF_INSTALL" \
       -DCMAKE_PREFIX_PATH="$HDF5_INSTALL" \
@@ -189,11 +287,37 @@ cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS"
 
 if has_variant clio_vfd || has_variant clio_vol; then
     log "Building clio-core ($CLIO_REF) VFD + VOL against HDF5 $HDF5_REF"
+
+    # Our HDF5 must win over any other one on the prefix path, but the rest of
+    # the path has to survive: on macOS clio's dependencies (thallium, mercury,
+    # argobots, cereal, yaml-cpp, ...) come from the conda env that
+    # CI/ci-deps.sh creates, and the workflow passes that in through the
+    # environment. A bare -DCMAKE_PREFIX_PATH="$HDF5_INSTALL" would override it
+    # and the configure step would fail to find them.
+    # CMAKE_PREFIX_PATH is a ';'-separated CMake list as a -D value but a
+    # ':'-separated path list as an environment variable, so the ambient value
+    # has to be converted rather than concatenated.
+    CLIO_PREFIX_PATH="$HDF5_INSTALL"
+    if [ -n "${CMAKE_PREFIX_PATH:-}" ]; then
+        CLIO_PREFIX_PATH="$CLIO_PREFIX_PATH;$(echo "$CMAKE_PREFIX_PATH" | tr ':' ';')"
+    fi
+
+    # ELF support is Linux-only, and clio's macOS CI builds with conda deps --
+    # both match what clio-core's own ci-macos.yml / ci-adapters.yml do.
+    if [ "$OS" = Darwin ]; then
+        CLIO_PLATFORM_OPTS="-DCLIO_CORE_ENABLE_ELF=OFF -DCLIO_CORE_ENABLE_CONDA=ON"
+    else
+        CLIO_PLATFORM_OPTS="-DCLIO_CORE_ENABLE_ELF=ON -DCLIO_CORE_ENABLE_CONDA=OFF"
+    fi
+
     # Only the adapters and the runtime they need -- not CAE/CEE/fuse/python,
     # which roughly triples the build for no benefit to this benchmark.
+    # shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
     cmake -S "$CLIO_SRC" -B "$CLIO_BUILD" \
           -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_PREFIX_PATH="$HDF5_INSTALL" \
+          -DCMAKE_PREFIX_PATH="$CLIO_PREFIX_PATH" \
+          $CMAKE_TOOL_OPTS \
+          $CLIO_PLATFORM_OPTS \
           -DHDF5_ROOT="$HDF5_INSTALL" \
           -DHDF5_DIR="$HDF5_INSTALL/cmake" \
           -DCLIO_CORE_ENABLE_RUNTIME=ON \
@@ -203,8 +327,6 @@ if has_variant clio_vfd || has_variant clio_vol; then
           -DCLIO_CORE_ENABLE_TESTS=OFF \
           -DCLIO_CORE_ENABLE_BENCHMARKS=OFF \
           -DCLIO_CORE_ENABLE_PYTHON=OFF \
-          -DCLIO_CORE_ENABLE_CONDA=OFF \
-          -DCLIO_CORE_ENABLE_ELF=ON \
           -DCLIO_CTE_ENABLE_POSIX_ADAPTER=ON \
           -DCLIO_CTE_ENABLE_STDIO_ADAPTER=ON \
           -DCLIO_CTE_ENABLE_VFD=ON \
@@ -219,23 +341,87 @@ if has_variant clio_vfd || has_variant clio_vol; then
     # pulls it in -- omit it and the VFD hangs on its first H5Fcreate while the
     # runtime logs "ChiMod 'clio_cte_filesystem' not found".
     cmake --build "$CLIO_BUILD" -j "$JOBS" --target \
-        clio_vfd clio_hdf5_vol clio_run \
-        clio_cte_core_runtime clio_cte_filesystem_runtime \
+        clio_run clio_cte_core_runtime clio_cte_filesystem_runtime \
         clio_bdev_runtime clio_admin_runtime
+
+    # The adapters are built one target at a time so that an adapter which does
+    # not compile on this platform can be dropped on its own, leaving the other
+    # variants measurable. Without --allow-adapter-build-failure this is just a
+    # slower way to fail, which is what Linux CI wants: there, an adapter that
+    # stops compiling is a regression, not a platform gap.
+    build_adapter() {
+        # build_adapter <variant> <cmake-target>
+        local variant="$1" target="$2"
+        has_variant "$variant" || return 0
+        if cmake --build "$CLIO_BUILD" -j "$JOBS" --target "$target"; then
+            return 0
+        fi
+        [ "$ALLOW_ADAPTER_BUILD_FAILURE" = 1 ] || {
+            echo "ERROR: target $target failed to build" >&2
+            exit 1
+        }
+        warn "target $target failed to build; dropping the $variant variant"
+        VARIANTS="$(echo ",$VARIANTS," | sed "s/,$variant,/,/" | sed 's/^,//; s/,$//')"
+        UNBUILDABLE="$UNBUILDABLE $variant"
+    }
+    build_adapter clio_vfd clio_vfd
+    build_adapter clio_vol clio_hdf5_vol
 
     # ABI gate. A VFD/VOL plugin linked against a *different* libhdf5 than the
     # application either fails to load or corrupts the VOL ABI, and HDF5's
     # plugin loader reports that as a silent fallback to native -- which would
     # make the CLIO series a duplicate of the baseline without anyone noticing.
-    for so in "$CLIO_BIN/libclio_vfd.so" "$CLIO_BIN/libclio_hdf5_vol.so"; do
-        [ -f "$so" ] || { echo "missing $so" >&2; exit 1; }
-        linked="$(ldd "$so" | awk '/libhdf5/ {print $3; exit}')"
-        echo "$(basename "$so") -> libhdf5: ${linked:-<none>}"
+    # The risk is concrete on macOS, where the conda env that supplies clio's
+    # dependencies also ships its own libhdf5.
+    check_links_our_hdf5() {
+        # check_links_our_hdf5 <dso>
+        local dso="$1" linked base
+        base="$(basename "$dso")"
+        if [ "$OS" = Darwin ]; then
+            # otool reports the recorded install name. HDF5's CMake stamps
+            # @rpath/libhdf5.*.dylib, which names no directory at all, so for
+            # that case the check moves to the LC_RPATH list: our HDF5 has to
+            # be on it, and no other directory holding a libhdf5 may come
+            # first. An absolute install name is checked directly.
+            linked="$(otool -L "$dso" | awk '/libhdf5/ {print $1; exit}')"
+            echo "$base -> libhdf5: ${linked:-<none>}"
+            case "$linked" in
+                "$HDF5_INSTALL"/*) return 0 ;;
+                @rpath/*)
+                    local rp
+                    for rp in $(otool -l "$dso" \
+                                | awk '/LC_RPATH/{f=1} f && $1=="path"{print $2; f=0}'); do
+                        case "$rp" in
+                            "$HDF5_INSTALL"/*) return 0 ;;
+                        esac
+                        # A different libhdf5 earlier on the search path wins.
+                        if ls "$rp"/libhdf5*.dylib >/dev/null 2>&1; then
+                            echo "ERROR: $base finds libhdf5 in $rp before $HDF5_INSTALL/lib" >&2
+                            return 1
+                        fi
+                    done
+                    echo "ERROR: $base has no rpath entry under $HDF5_INSTALL" >&2
+                    return 1 ;;
+                "") echo "ERROR: $base does not link libhdf5 at all" >&2; return 1 ;;
+                *)  echo "ERROR: $base links $linked, not the HDF5 under $HDF5_INSTALL" >&2
+                    return 1 ;;
+            esac
+        fi
+        linked="$(ldd "$dso" | awk '/libhdf5/ {print $3; exit}')"
+        echo "$base -> libhdf5: ${linked:-<none>}"
         case "$linked" in
-            "$HDF5_INSTALL"/*) ;;
-            *) echo "ERROR: $(basename "$so") does not link the HDF5 under $HDF5_INSTALL" >&2
-               exit 1 ;;
+            "$HDF5_INSTALL"/*) return 0 ;;
+            *) echo "ERROR: $base does not link the HDF5 under $HDF5_INSTALL" >&2
+               return 1 ;;
         esac
+    }
+
+    for pair in "clio_vfd:libclio_vfd" "clio_vol:libclio_hdf5_vol"; do
+        variant="${pair%%:*}"; libname="${pair#*:}"
+        has_variant "$variant" || continue
+        dso="$CLIO_BIN/$libname.$DSO_EXT"
+        [ -f "$dso" ] || { echo "missing $dso" >&2; exit 1; }
+        check_links_our_hdf5 "$dso" || exit 1
     done
 fi
 
@@ -247,11 +433,22 @@ if ! has_stage run; then
     exit 0
 fi
 
-TST_CHUNKS3="$(find "$WORK_DIR/netcdf-build" -name tst_chunks3 -type f -perm -u+x | head -1)"
+# `-perm -u+x` is not portable to BSD find; test executability in the shell.
+TST_CHUNKS3=""
+for cand in $(find "$WORK_DIR/netcdf-build" -name tst_chunks3 -type f); do
+    if [ -x "$cand" ]; then TST_CHUNKS3="$cand"; break; fi
+done
 [ -n "$TST_CHUNKS3" ] || { echo "tst_chunks3 not found under $WORK_DIR/netcdf-build" >&2; exit 1; }
 
 RUN_DIR="$WORK_DIR/run"
 export LD_LIBRARY_PATH="$HDF5_INSTALL/lib:$NETCDF_INSTALL/lib:$CLIO_BIN${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# macOS: SIP strips DYLD_* from the environment of protected binaries, so this
+# does not survive into a child of /bin/bash and is only a belt-and-braces
+# measure. What actually resolves the libraries there is the install RPATH that
+# HDF5, netCDF-C, and clio-core all bake in ($ORIGIN / @loader_path relative).
+if [ "$OS" = Darwin ]; then
+    export DYLD_LIBRARY_PATH="$HDF5_INSTALL/lib:$NETCDF_INSTALL/lib:$CLIO_BIN${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+fi
 
 CLIO_CONF="$WORK_DIR/clio_runtime.yaml"
 CLIO_RUN_LOG="$WORK_DIR/clio_run.log"
@@ -259,8 +456,11 @@ CLIO_RUN_LOG="$WORK_DIR/clio_run.log"
 CLIO_RUNTIME_STARTED=0
 
 # clio/chimaera shm segments outlive a killed runtime and make the next
-# `clio_run start` fail with "Address already in use".
+# `clio_run start` fail with "Address already in use". macOS has no /dev/shm --
+# its POSIX shm objects are not exposed in the filesystem, so there is nothing
+# to sweep there and the runtime has to reclaim them itself.
 clio_shm_sweep() {
+    [ -d /dev/shm ] || return 0
     find /dev/shm -maxdepth 1 \( -name 'chimaera*' -o -name 'clio*' \) -delete 2>/dev/null || true
 }
 
@@ -348,8 +548,8 @@ run_variant() {
     # The sed strips clio's ANSI color codes so the archived artifact is
     # readable; the parser ignores non-timing lines either way.
     # shellcheck disable=SC2086  # BENCH_ARGS is deliberately word-split
-    if ( cd "$dir" && timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
-            | sed -u 's/\x1b\[[0-9;]*m//g' | tee -a "$out"; then
+    if ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
+            | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out"; then
         echo "variant $variant: ok"
     else
         warn "variant $variant failed; discarding its result file"
@@ -403,6 +603,9 @@ fi
 
 log "Results in $RESULTS_DIR"
 ls -la "$RESULTS_DIR"
+if [ -n "$UNBUILDABLE" ]; then
+    warn "variants whose adapter did not build on $OS:$UNBUILDABLE"
+fi
 if [ -n "$FAILED" ]; then
     warn "variants that produced no result:$FAILED"
 fi
