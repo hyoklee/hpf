@@ -243,6 +243,22 @@ NETCDF_INSTALL="$WORK_DIR/netcdf-install"
 CLIO_BUILD="$WORK_DIR/clio-build"
 CLIO_BIN="$CLIO_BUILD/bin"
 
+# Where the built plugins actually are. A multi-config generator would put them
+# in bin/<config>, but clio-core pins RUNTIME_OUTPUT_DIRECTORY to bin/, so on
+# Windows the DLLs land in bin/ while only the import libraries go to
+# bin/Release. Both layouts exist in the wild, so locate the plugin instead of
+# assuming either.
+resolve_clio_bin() {
+    [ "$WIN" = 1 ] || return 0
+    local cand
+    for cand in $(find "$CLIO_BUILD/bin" -maxdepth 2 \
+                       \( -name clio_hdf5_vol.dll -o -name clio_vfd.dll \) \
+                       2>/dev/null); do
+        CLIO_BIN="$(dirname "$cand")"
+        return 0
+    done
+}
+
 has_stage()   { case ",$STAGES,"   in *",$1,"*) return 0 ;; *) return 1 ;; esac; }
 has_variant() { case ",$VARIANTS," in *",$1,"*) return 0 ;; *) return 1 ;; esac; }
 log() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
@@ -577,11 +593,7 @@ if has_variant clio_vfd || has_variant clio_vol; then
         esac
     }
 
-    # A multi-config generator drops its output in bin/<config>, so the plugin
-    # directory is only known after the build.
-    if [ "$WIN" = 1 ] && [ -d "$CLIO_BUILD/bin/Release" ]; then
-        CLIO_BIN="$CLIO_BUILD/bin/Release"
-    fi
+    resolve_clio_bin
 
     for pair in "clio_vfd:libclio_vfd:clio_vfd" "clio_vol:libclio_hdf5_vol:clio_hdf5_vol"; do
         variant="${pair%%:*}"; rest="${pair#*:}"
@@ -602,11 +614,8 @@ if ! has_stage run; then
     exit 0
 fi
 
-# Repeated from the build stage so that --stages run alone still finds the
-# plugins where a multi-config generator put them.
-if [ "$WIN" = 1 ] && [ -d "$CLIO_BUILD/bin/Release" ]; then
-    CLIO_BIN="$CLIO_BUILD/bin/Release"
-fi
+# Repeated from the build stage so that --stages run alone still finds them.
+resolve_clio_bin
 
 # `-perm -u+x` is not portable to BSD find; test executability in the shell.
 TST_CHUNKS3=""
