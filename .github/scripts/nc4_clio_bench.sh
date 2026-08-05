@@ -49,6 +49,13 @@ native_path() {
     if [ "$WIN" = 1 ]; then cygpath -m "$1"; else echo "$1"; fi
 }
 
+# The inverse, for anything that goes into a colon-separated list. PATH entries
+# must NOT be the mixed form: bash splits PATH on ':', so "D:/a/hpf" becomes the
+# two entries "D" and "/a/hpf" and every lookup through it silently fails.
+posix_path() {
+    if [ "$WIN" = 1 ]; then cygpath -u "$1"; else echo "$1"; fi
+}
+
 # Git on Windows defaults to core.autocrlf=true, which checks the sources out
 # with CRLF endings. Nothing here depends on that any more (the nc_perf shims
 # are injected by a script that handles either), but keeping the trees LF makes
@@ -649,8 +656,15 @@ if [ "$WIN" = 1 ]; then
     done
     [ -n "$NETCDF_DLL_DIR" ] || warn "netcdf.dll not found under $WORK_DIR/netcdf-build"
     # zlib1.dll lives in the classic-mode vcpkg tree that supplied zlib to the
-    # HDF5 and netCDF-C builds; the manifest tree above is clio's own.
-    export PATH="$HDF5_INSTALL/bin:${NETCDF_DLL_DIR:-$NETCDF_INSTALL/bin}:$CLIO_BIN:$VCPKG_BIN${VCPKG_INSTALLED:+:$VCPKG_INSTALLED/bin}:$PATH"
+    # HDF5 and netCDF-C builds; the manifest tree above is clio's own. Every
+    # entry goes in as a POSIX path -- see posix_path().
+    WIN_DLL_PATH="$(posix_path "$HDF5_INSTALL/bin")"
+    WIN_DLL_PATH="$WIN_DLL_PATH:$(posix_path "${NETCDF_DLL_DIR:-$NETCDF_INSTALL/bin}")"
+    WIN_DLL_PATH="$WIN_DLL_PATH:$(posix_path "$CLIO_BIN")"
+    WIN_DLL_PATH="$WIN_DLL_PATH:$(posix_path "$VCPKG_BIN")"
+    [ -n "$VCPKG_INSTALLED" ] && WIN_DLL_PATH="$WIN_DLL_PATH:$(posix_path "$VCPKG_INSTALLED/bin")"
+    export PATH="$WIN_DLL_PATH:$PATH"
+    echo "DLL search path: $WIN_DLL_PATH"
     if [ -f "$HDF5_INSTALL/bin/hdf5.dll" ]; then
         echo "hdf5.dll resolved from: $HDF5_INSTALL/bin (ahead of $VCPKG_BIN)"
     else
@@ -773,7 +787,10 @@ run_variant() {
             | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out"; then
         echo "variant $variant: ok"
     else
-        warn "variant $variant failed; discarding its result file"
+        # Windows reports a failed DLL load as 0xC0000135 (-1073741515) with no
+        # output at all, which is indistinguishable from a silent crash unless
+        # the status is printed.
+        warn "variant $variant failed (exit $?); discarding its result file"
         rm -f "$out"
         return 1
     fi
