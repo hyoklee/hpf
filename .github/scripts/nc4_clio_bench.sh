@@ -334,9 +334,18 @@ if [ "$WIN" = 1 ]; then
 fi
 
 log "Building netCDF-C ($NETCDF_REF) against HDF5 $HDF5_REF"
+# netCDF-C generates libsrc/attr.c and friends from .m4 sources, and there is no
+# m4 in a stock Windows toolchain. Pre-seeding the cache variable satisfies
+# find_program(NC_M4 ...) without putting the whole MSYS2 bin directory on PATH,
+# where its link.exe would shadow MSVC's linker.
+NETCDF_EXTRA_OPTS=""
+if [ -n "${NC_M4:-}" ]; then
+    NETCDF_EXTRA_OPTS="-DNC_M4=$NC_M4"
+    echo "netcdf-c: using m4 at $NC_M4"
+fi
 # shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
 cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
-      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS $ZLIB_OPTS \
+      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS $ZLIB_OPTS $NETCDF_EXTRA_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$NETCDF_INSTALL" \
       -DCMAKE_PREFIX_PATH="$HDF5_INSTALL${VCPKG_INSTALLED:+;$VCPKG_INSTALLED}" \
