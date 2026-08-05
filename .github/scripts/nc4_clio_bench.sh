@@ -264,11 +264,35 @@ clio_shm_sweep() {
     find /dev/shm -maxdepth 1 \( -name 'chimaera*' -o -name 'clio*' \) -delete 2>/dev/null || true
 }
 
+clio_runtime_alive() {
+    pgrep -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1
+}
+
 clio_runtime_stop() {
     # Match the runtime we started by its full path. A bare `pkill -f clio_run`
     # would also kill a developer's unrelated clio_run on the same machine.
     pkill -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1 || true
     [ "$CLIO_RUNTIME_STARTED" = 1 ] || return 0
+
+    # SIGTERM shutdown is not instant -- the runtime reaps its shm segments and
+    # only then releases the :9413 listener. A fixed `sleep 1` was not enough:
+    # the next variant's clio_run reached ServerInitShm while the previous one
+    # still held the port, died with "Could not start TCP server", and the
+    # variant was dropped from the dashboard. Wait for the process to actually
+    # be gone, escalating to SIGKILL, before sweeping and returning.
+    local i
+    for i in $(seq 1 60); do
+        clio_runtime_alive || break
+        sleep 1
+    done
+    if clio_runtime_alive; then
+        warn "clio_run still alive 60s after SIGTERM; sending SIGKILL"
+        pkill -9 -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1 || true
+        for i in $(seq 1 10); do
+            clio_runtime_alive || break
+            sleep 1
+        done
+    fi
     sleep 1
     clio_shm_sweep
     CLIO_RUNTIME_STARTED=0
@@ -285,6 +309,13 @@ clio_runtime_start() {
             sleep 1
             echo "clio_run ready"
             return 0
+        fi
+        # A failed bind is terminal -- the runtime never retries -- so report it
+        # now instead of waiting out the full readiness timeout.
+        if grep -q "Could not start TCP server" "$CLIO_RUN_LOG" 2>/dev/null; then
+            warn "clio_run could not bind its server port; tail of $CLIO_RUN_LOG:"
+            tail -40 "$CLIO_RUN_LOG" >&2 || true
+            return 1
         fi
         sleep 1
     done

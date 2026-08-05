@@ -40,6 +40,14 @@ concurrency:
 permissions:
   contents: write
 
+# The benchmark job runs in a container, where the runner does not default to
+# bash -- it falls back to `sh -e {0}`, and dash rejects `set -o pipefail`
+# ("Illegal option -o pipefail"), which killed the Parse results step. Ask for
+# bash explicitly so every `run:` block below really is a bash block.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   # --------------------------------------------------------------------------
   # Change gate. The benchmark only means something when one of the three
