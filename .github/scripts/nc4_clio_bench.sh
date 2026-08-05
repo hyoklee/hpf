@@ -49,6 +49,15 @@ native_path() {
     if [ "$WIN" = 1 ]; then cygpath -m "$1"; else echo "$1"; fi
 }
 
+# Git on Windows defaults to core.autocrlf=true, which checks the sources out
+# with CRLF endings. That silently breaks `git apply` of the LF patch below --
+# the context lines no longer match -- so pin the working tree to LF. MSVC is
+# perfectly happy compiling LF sources.
+GIT_CLONE_OPTS=""
+if [ "$WIN" = 1 ]; then
+    GIT_CLONE_OPTS="-c core.autocrlf=false -c core.eol=lf"
+fi
+
 # Extra -D flags every cmake configure below gets. On macOS the conda env that
 # supplies clio's dependencies is active for the whole build, which puts
 # conda's llvm-tools on PATH; CMake then detects llvm-ranlib, which cannot load
@@ -253,7 +262,8 @@ resolve_src() {
     [ "$CLONE" = 1 ] || { echo "no --${name}-src and no --clone" >&2; exit 2; }
     dest="$WORK_DIR/$name-src"
     if [ ! -d "$dest/.git" ]; then
-        git clone --depth 1 --branch "$ref" "$repo" "$dest" >&2
+        # shellcheck disable=SC2086  # GIT_CLONE_OPTS is a deliberate word-split
+        git $GIT_CLONE_OPTS clone --depth 1 --branch "$ref" "$repo" "$dest" >&2
     fi
     echo "$name: cloned $repo@$ref -> $dest" >&2
     echo "$dest"
@@ -319,6 +329,8 @@ if [ "$WIN" = 1 ]; then
                 echo "netcdf-c: Windows getrusage shim already applied"
             elif git -C "$NETCDF_SRC" apply "$NETCDF_WIN_PATCH"; then
                 echo "netcdf-c: applied Windows getrusage shim to nc_perf/tst_chunks3.c"
+            elif git -C "$NETCDF_SRC" apply --ignore-whitespace "$NETCDF_WIN_PATCH"; then
+                echo "netcdf-c: applied Windows getrusage shim (whitespace-tolerant)"
             else
                 echo "ERROR: $NETCDF_WIN_PATCH no longer applies to netcdf-c $NETCDF_REF." >&2
                 echo "       tst_chunks3 cannot build on Windows without it; refresh the patch." >&2
