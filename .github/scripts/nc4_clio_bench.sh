@@ -50,8 +50,9 @@ native_path() {
 }
 
 # Git on Windows defaults to core.autocrlf=true, which checks the sources out
-# with CRLF endings. That silently breaks `git apply` of the LF patch below --
-# the context lines no longer match -- so pin the working tree to LF. MSVC is
+# with CRLF endings. Nothing here depends on that any more (the nc_perf shims
+# are injected by a script that handles either), but keeping the trees LF makes
+# them identical to the other platforms' and keeps diffs readable. MSVC is
 # perfectly happy compiling LF sources.
 GIT_CLONE_OPTS=""
 if [ "$WIN" = 1 ]; then
@@ -326,7 +327,7 @@ if [ "$WIN" = 1 ]; then
         "$WORK_DIR"/*)
             PY=python3
             command -v python3 >/dev/null 2>&1 || PY=python
-            "$PY" "$SCRIPT_DIR/apply_win_getrusage_shim.py" "$NETCDF_SRC"
+            "$PY" "$SCRIPT_DIR/apply_win_nc_perf_shims.py" "$NETCDF_SRC"
             ;;
         *)  warn "netcdf-c checkout was not cloned by this script; leaving it alone."
             warn "tst_chunks3 will not compile on Windows without the getrusage shim." ;;
@@ -362,12 +363,25 @@ cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
       -DBUILD_TESTING=ON \
       -DENABLE_BENCHMARKS=ON \
       >/dev/null
-# shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
-cmake --build "$WORK_DIR/netcdf-build" -j "$JOBS" $CMAKE_BUILD_OPTS
-# shellcheck disable=SC2086
-cmake --install "$WORK_DIR/netcdf-build" $CMAKE_BUILD_OPTS >/dev/null
-# shellcheck disable=SC2086
-cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS" $CMAKE_BUILD_OPTS
+if [ "$WIN" = 1 ]; then
+    # Only the library and the one benchmark target. Building everything would
+    # drag in the rest of nc_perf -- bm_file, tst_ar4*, tst_wrf_reads and the
+    # rest all include <sys/time.h> or <unistd.h> unguarded and none of them is
+    # needed here -- and the utilities and test suite besides. Skipping the
+    # install step follows from that: its rules cover binaries never built, so
+    # the run stage takes netcdf.dll from the build tree instead.
+    # shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+    cmake --build "$WORK_DIR/netcdf-build" --target netcdf -j "$JOBS" $CMAKE_BUILD_OPTS
+    # shellcheck disable=SC2086
+    cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS" $CMAKE_BUILD_OPTS
+else
+    # shellcheck disable=SC2086  # CMAKE_BUILD_OPTS is a deliberate word-split
+    cmake --build "$WORK_DIR/netcdf-build" -j "$JOBS" $CMAKE_BUILD_OPTS
+    # shellcheck disable=SC2086
+    cmake --install "$WORK_DIR/netcdf-build" $CMAKE_BUILD_OPTS >/dev/null
+    # shellcheck disable=SC2086
+    cmake --build "$WORK_DIR/netcdf-build" --target tst_chunks3 -j "$JOBS" $CMAKE_BUILD_OPTS
+fi
 
 if has_variant clio_vfd || has_variant clio_vol; then
     log "Building clio-core ($CLIO_REF) VFD + VOL against HDF5 $HDF5_REF"
@@ -618,9 +632,16 @@ if [ "$WIN" = 1 ]; then
     # hdf5, which must not win). PATH here is a POSIX-style list; Git Bash
     # converts it for the child processes.
     VCPKG_BIN="$CLIO_BUILD/vcpkg_installed/x64-windows/bin"
+    # netCDF-C is not installed on Windows (see the build stage), so netcdf.dll
+    # comes from wherever the multi-config generator left it.
+    NETCDF_DLL_DIR=""
+    for cand in $(find "$WORK_DIR/netcdf-build" -name netcdf.dll -type f 2>/dev/null); do
+        NETCDF_DLL_DIR="$(dirname "$cand")"; break
+    done
+    [ -n "$NETCDF_DLL_DIR" ] || warn "netcdf.dll not found under $WORK_DIR/netcdf-build"
     # zlib1.dll lives in the classic-mode vcpkg tree that supplied zlib to the
     # HDF5 and netCDF-C builds; the manifest tree above is clio's own.
-    export PATH="$HDF5_INSTALL/bin:$NETCDF_INSTALL/bin:$CLIO_BIN:$VCPKG_BIN${VCPKG_INSTALLED:+:$VCPKG_INSTALLED/bin}:$PATH"
+    export PATH="$HDF5_INSTALL/bin:${NETCDF_DLL_DIR:-$NETCDF_INSTALL/bin}:$CLIO_BIN:$VCPKG_BIN${VCPKG_INSTALLED:+:$VCPKG_INSTALLED/bin}:$PATH"
     if [ -f "$HDF5_INSTALL/bin/hdf5.dll" ]; then
         echo "hdf5.dll resolved from: $HDF5_INSTALL/bin (ahead of $VCPKG_BIN)"
     else

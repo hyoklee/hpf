@@ -21,7 +21,7 @@ The workload is `tst_chunks3` from netcdf-c's `nc_perf`.
 | `../workflows/nc4-clio-benchmark.yml` | cron workflow (Linux): change gate, build, measure, publish |
 | `../workflows/nc4-clio-benchmark-mac.yml` | the same on `macos-26`, publishing to `benchmarks_nc4_clio_mac/` |
 | `../workflows/nc4-clio-benchmark-win.yml` | the same on `windows-2025`, publishing to `benchmarks_nc4_clio_win/` |
-| `apply_win_getrusage_shim.py` | supplies `getrusage` so the workload compiles with MSVC |
+| `apply_win_nc_perf_shims.py` | supplies `getrusage` so the workload compiles with MSVC |
 | `nc4_clio_bench.sh` | builds the three stacks and runs the variants (shared by CI and local runs) |
 | `clio_runtime.yaml` | `clio_run` compose config used by both CLIO variants |
 | `parse_nc4_clio_results.py` | `tst_chunks3` text → benchmark JSON, per variant |
@@ -53,7 +53,7 @@ What differs, and why:
 **netCDF-C's benchmarks do not build on Windows.** `tst_chunks3`'s timing
 macros are built on `getrusage(2)`, and not one of nc_perf's 23 sources carries
 a `_WIN32` guard — the suite is POSIX-only by construction, so there is no
-portable substitute to switch to either. `apply_win_getrusage_shim.py`
+portable substitute to switch to either. `apply_win_nc_perf_shims.py`
 supplies `getrusage` on top of `GetProcessTimes`, which reports the same
 user+kernel CPU time the POSIX platforms measure, so the numbers stay
 comparable in kind. `ru_inblock`/`ru_oublock` have no Win32 equivalent and are

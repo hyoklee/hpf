@@ -2,10 +2,18 @@
 """
 Make netCDF-C's tst_chunks3 compile with MSVC.
 
-nc_perf is POSIX-only: tst_chunks3's timing macros are built on getrusage(2),
-and not one of nc_perf's sources carries a _WIN32 guard, so the workload the
-NetCDF-4/CLIO benchmark measures cannot be built on Windows as it stands. This
-inserts the missing piece of <sys/resource.h> ahead of those macros.
+nc_perf is POSIX-only and not one of its sources carries a _WIN32 guard, so the
+workload the NetCDF-4/CLIO benchmark measures cannot be built on Windows as it
+stands. Two files stand between MSVC and the tst_chunks3 target:
+
+  nc_perf/tst_chunks3.c  timing macros built on getrusage(2), which MSVC has
+                         no equivalent of -- supply the part they use
+  nc_perf/tst_utils.c    includes <sys/time.h> unguarded for struct timeval,
+                         which on Windows comes from <winsock2.h>
+
+The rest of nc_perf (bm_file, tst_ar4*, ...) is equally unportable and is left
+alone: the driver builds the `tst_chunks3` target specifically rather than the
+whole directory, so those never compile.
 
 Why this is a script and not a .patch
 -------------------------------------
@@ -21,17 +29,21 @@ are normalised for matching and the file's own style is preserved on write, and
 the only thing that has to stay true is that the include block still exists.
 
 Usage:
-    apply_win_getrusage_shim.py <netcdf-c-source-dir>
+    apply_win_nc_perf_shims.py <netcdf-c-source-dir>
 
-Idempotent: a tree that already carries the shim is left alone. Exits non-zero
-if the anchor is gone, because the build cannot succeed without this.
+Idempotent: a tree that already carries the shims is left alone. Exits non-zero
+if an anchor is gone, because the build cannot succeed without these.
 """
 
 import re
 import sys
 from pathlib import Path
 
+# One marker per edit: they are what makes re-running a no-op, so two edits
+# must not share one or the second would look already-applied (or worse, be
+# inserted twice on a re-run against a tree that already has the first).
 MARKER = "HPF_WIN32_GETRUSAGE_SHIM"
+TIMEVAL_MARKER = "HPF_WIN32_TIMEVAL_SHIM"
 
 # The include block the shim goes after. Matched with flexible line endings and
 # trailing whitespace so neither a CRLF checkout nor a reformat breaks it.
@@ -103,39 +115,60 @@ getrusage(int who, struct rusage *ru)
 """.format(marker=MARKER)
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        print("Usage: apply_win_getrusage_shim.py <netcdf-c-source-dir>")
-        sys.exit(2)
+# tst_utils.c pulls in <sys/time.h> unconditionally, for struct timeval alone.
+# On Windows that type lives in <winsock2.h>.
+TIMEVAL_ANCHOR = re.compile(rb"#include[ \t]+<sys/time\.h>[ \t]*\r?\n")
 
-    target = Path(sys.argv[1]) / "nc_perf" / "tst_chunks3.c"
-    if not target.is_file():
-        print(f"ERROR: {target} not found", file=sys.stderr)
+TIMEVAL_REPLACEMENT = """#if defined(_WIN32) && !defined(HAVE_SYS_TIME_H)
+/* {marker}: struct timeval comes from winsock2.h on Windows */
+#include <winsock2.h>
+#else
+#include <sys/time.h>
+#endif
+""".format(marker=TIMEVAL_MARKER)
+
+
+def file_eol(data: bytes) -> bytes:
+    """The line ending the file already uses, so the result stays consistent."""
+    return b"\r\n" if data.count(b"\r\n") > data.count(b"\n") // 2 else b"\n"
+
+
+def edit(path: Path, anchor, make_text, marker: str, what: str,
+         replace: bool = False) -> None:
+    """Insert after (or replace) the anchor; idempotent, loud when it cannot."""
+    if not path.is_file():
+        print(f"ERROR: {path} not found", file=sys.stderr)
         sys.exit(1)
 
-    data = target.read_bytes()
-
-    if MARKER.encode() in data:
-        print(f"{target}: shim already present")
+    data = path.read_bytes()
+    if marker.encode() in data:
+        print(f"{path}: {what} already present")
         return
 
-    match = ANCHOR.search(data)
+    match = anchor.search(data)
     if not match:
-        print(f"ERROR: could not find the <sys/resource.h> include block in {target}.",
-              file=sys.stderr)
-        print("       nc_perf's includes must have been reorganised upstream; "
+        print(f"ERROR: could not find the {what} anchor in {path}.", file=sys.stderr)
+        print("       nc_perf must have been reorganised upstream; "
               "re-anchor this script.", file=sys.stderr)
         sys.exit(1)
 
-    # Write the shim in whatever line ending the file already uses, so the
-    # result is consistent whether the checkout is LF or CRLF.
-    eol = b"\r\n" if data.count(b"\r\n") > data.count(b"\n") // 2 else b"\n"
-    shim = SHIM.replace("\n", eol.decode("ascii")).encode("ascii")
+    eol = file_eol(data)
+    text = make_text.replace("\n", eol.decode("ascii")).encode("ascii")
+    start = match.start() if replace else match.end()
+    patched = data[:start] + text + data[match.end():]
+    path.write_bytes(patched)
+    print(f"{path}: applied {what} ({len(text)} bytes, {eol!r} line endings)")
 
-    patched = data[:match.end()] + shim + data[match.end():]
-    target.write_bytes(patched)
-    print(f"{target}: inserted the Windows getrusage shim "
-          f"({len(shim)} bytes, {eol!r} line endings)")
+
+def main() -> None:
+    if len(sys.argv) != 2:
+        print("Usage: apply_win_nc_perf_shims.py <netcdf-c-source-dir>")
+        sys.exit(2)
+
+    root = Path(sys.argv[1]) / "nc_perf"
+    edit(root / "tst_chunks3.c", ANCHOR, SHIM, MARKER, "getrusage shim")
+    edit(root / "tst_utils.c", TIMEVAL_ANCHOR, TIMEVAL_REPLACEMENT,
+         TIMEVAL_MARKER, "struct timeval include", replace=True)
 
 
 if __name__ == "__main__":
