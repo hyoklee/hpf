@@ -322,20 +322,11 @@ cmake --install "$WORK_DIR/hdf5-build" $CMAKE_BUILD_OPTS >/dev/null
 # to a checkout this script cloned itself -- silently rewriting a developer's
 # own tree would be a nasty surprise.
 if [ "$WIN" = 1 ]; then
-    NETCDF_WIN_PATCH="$SCRIPT_DIR/../patches/netcdf-c-tst_chunks3-win32.patch"
     case "$NETCDF_SRC" in
         "$WORK_DIR"/*)
-            if git -C "$NETCDF_SRC" apply --reverse --check "$NETCDF_WIN_PATCH" 2>/dev/null; then
-                echo "netcdf-c: Windows getrusage shim already applied"
-            elif git -C "$NETCDF_SRC" apply "$NETCDF_WIN_PATCH"; then
-                echo "netcdf-c: applied Windows getrusage shim to nc_perf/tst_chunks3.c"
-            elif git -C "$NETCDF_SRC" apply --ignore-whitespace "$NETCDF_WIN_PATCH"; then
-                echo "netcdf-c: applied Windows getrusage shim (whitespace-tolerant)"
-            else
-                echo "ERROR: $NETCDF_WIN_PATCH no longer applies to netcdf-c $NETCDF_REF." >&2
-                echo "       tst_chunks3 cannot build on Windows without it; refresh the patch." >&2
-                exit 1
-            fi
+            PY=python3
+            command -v python3 >/dev/null 2>&1 || PY=python
+            "$PY" "$SCRIPT_DIR/apply_win_getrusage_shim.py" "$NETCDF_SRC"
             ;;
         *)  warn "netcdf-c checkout was not cloned by this script; leaving it alone."
             warn "tst_chunks3 will not compile on Windows without the getrusage shim." ;;

@@ -21,7 +21,7 @@ The workload is `tst_chunks3` from netcdf-c's `nc_perf`.
 | `../workflows/nc4-clio-benchmark.yml` | cron workflow (Linux): change gate, build, measure, publish |
 | `../workflows/nc4-clio-benchmark-mac.yml` | the same on `macos-26`, publishing to `benchmarks_nc4_clio_mac/` |
 | `../workflows/nc4-clio-benchmark-win.yml` | the same on `windows-2025`, publishing to `benchmarks_nc4_clio_win/` |
-| `../patches/netcdf-c-tst_chunks3-win32.patch` | supplies `getrusage` so the workload compiles with MSVC |
+| `apply_win_getrusage_shim.py` | supplies `getrusage` so the workload compiles with MSVC |
 | `nc4_clio_bench.sh` | builds the three stacks and runs the variants (shared by CI and local runs) |
 | `clio_runtime.yaml` | `clio_run` compose config used by both CLIO variants |
 | `parse_nc4_clio_results.py` | `tst_chunks3` text → benchmark JSON, per variant |
@@ -53,14 +53,23 @@ What differs, and why:
 **netCDF-C's benchmarks do not build on Windows.** `tst_chunks3`'s timing
 macros are built on `getrusage(2)`, and not one of nc_perf's 23 sources carries
 a `_WIN32` guard — the suite is POSIX-only by construction, so there is no
-portable substitute to switch to either. `.github/patches/netcdf-c-tst_chunks3-win32.patch`
+portable substitute to switch to either. `apply_win_getrusage_shim.py`
 supplies `getrusage` on top of `GetProcessTimes`, which reports the same
 user+kernel CPU time the POSIX platforms measure, so the numbers stay
 comparable in kind. `ru_inblock`/`ru_oublock` have no Win32 equivalent and are
 reported as zero; the timing macros read but never print them. The driver
-applies the patch only to a checkout it cloned itself — never to a developer's
-own tree — and fails loudly if it stops applying, since the workload cannot
-build without it. It is worth upstreaming.
+applies it only to a checkout it cloned itself — never to a developer's own
+tree — and fails loudly if the anchor is gone, since the workload cannot build
+without it. It is worth upstreaming.
+
+It injects the shim at an anchor rather than shipping a `.patch` because
+`git apply` failed in CI twice, both times over line endings and neither time
+over the change itself: Git on Windows checks sources out as CRLF
+(`core.autocrlf=true`), so an LF patch's context could not match — and once the
+sources were pinned to LF, the patch *file* came out of the hpf checkout as
+CRLF and failed the other way. The injector normalises endings for matching,
+preserves the file's own style on write, and carries no line numbers to go
+stale when upstream edits the file for unrelated reasons.
 
 **The CLIO VFD cannot be built off Linux.** clio-core puts `add_subdirectory(vfd)`
 inside `if(CLIO_CORE_ENABLE_ELF)` in `context-transfer-engine/adapter/CMakeLists.txt`,

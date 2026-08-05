@@ -12,7 +12,7 @@ name: NetCDF-4 CLIO Performance Benchmark (Windows)
 #   * netCDF-C's benchmark suite is POSIX-only. tst_chunks3's timing macros are
 #     built on getrusage(2), which MSVC does not have -- no nc_perf source
 #     carries a single _WIN32 guard. The driver applies
-#     .github/patches/netcdf-c-tst_chunks3-win32.patch to the netcdf-c clone,
+#     .github/scripts/apply_win_getrusage_shim.py to the netcdf-c clone,
 #     which supplies getrusage on top of GetProcessTimes (the same user+kernel
 #     CPU time the POSIX platforms measure). The numbers published here are
 #     therefore from a locally patched workload; the patch is upstreamable.
@@ -232,7 +232,7 @@ jobs:
               fi
             done
             echo
-            echo "_Workload built with .github/patches/netcdf-c-tst_chunks3-win32.patch_"
+            echo "_Workload built with .github/scripts/apply_win_getrusage_shim.py_"
             echo "_(nc_perf has no Windows support upstream; the shim supplies getrusage)._"
           } >> "$GITHUB_STEP_SUMMARY"
           test -s benchmark-results/tst_chunks3_baseline.txt || {
