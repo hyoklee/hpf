@@ -60,6 +60,12 @@ CMAKE_TOOL_OPTS=""
 # build time, not configure time, so every --build and --install needs it.
 CMAKE_CONFIG_OPTS=""
 CMAKE_BUILD_OPTS=""
+# Windows has no system zlib, which HDF5 (deflate filter) and netCDF-C both
+# require -- and the benchmark runs at deflate 6, so building without it would
+# silently drop a third of the series. vcpkg is already needed for clio-core's
+# dependency set, so it supplies zlib too; the workflow installs it.
+ZLIB_OPTS=""
+VCPKG_INSTALLED=""
 
 case "$OS" in
     MINGW*|MSYS*|CYGWIN*)
@@ -68,6 +74,10 @@ case "$OS" in
         SED_UNBUF="-u"   # Git Bash ships GNU sed
         CMAKE_CONFIG_OPTS="-A x64"
         CMAKE_BUILD_OPTS="--config Release"
+        if [ -n "${VCPKG_INSTALLATION_ROOT:-}" ]; then
+            VCPKG_INSTALLED="$(cygpath -m "$VCPKG_INSTALLATION_ROOT")/installed/x64-windows"
+            ZLIB_OPTS="-DZLIB_ROOT=$VCPKG_INSTALLED -DZLIB_USE_EXTERNAL=OFF"
+        fi
         ;;
     Darwin)
         NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
@@ -276,7 +286,7 @@ log "Building HDF5 ($HDF5_REF) -> $HDF5_INSTALL"
 # application and must resolve against the *same* libhdf5.so the app links.
 # shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
 cmake -S "$HDF5_SRC" -B "$WORK_DIR/hdf5-build" \
-      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS \
+      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS $ZLIB_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$HDF5_INSTALL" \
       -DBUILD_SHARED_LIBS=ON \
@@ -323,10 +333,10 @@ fi
 log "Building netCDF-C ($NETCDF_REF) against HDF5 $HDF5_REF"
 # shellcheck disable=SC2086  # the *_OPTS vars are a deliberate word-split
 cmake -S "$NETCDF_SRC" -B "$WORK_DIR/netcdf-build" \
-      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS \
+      $CMAKE_TOOL_OPTS $CMAKE_CONFIG_OPTS $ZLIB_OPTS \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX="$NETCDF_INSTALL" \
-      -DCMAKE_PREFIX_PATH="$HDF5_INSTALL" \
+      -DCMAKE_PREFIX_PATH="$HDF5_INSTALL${VCPKG_INSTALLED:+;$VCPKG_INSTALLED}" \
       -DHDF5_ROOT="$HDF5_INSTALL" \
       -DENABLE_HDF5=ON \
       -DUSE_PARALLEL=OFF -DHDF5_PARALLEL=OFF -DUSE_PARALLEL4=OFF \
@@ -596,7 +606,9 @@ if [ "$WIN" = 1 ]; then
     # hdf5, which must not win). PATH here is a POSIX-style list; Git Bash
     # converts it for the child processes.
     VCPKG_BIN="$CLIO_BUILD/vcpkg_installed/x64-windows/bin"
-    export PATH="$HDF5_INSTALL/bin:$NETCDF_INSTALL/bin:$CLIO_BIN:$VCPKG_BIN:$PATH"
+    # zlib1.dll lives in the classic-mode vcpkg tree that supplied zlib to the
+    # HDF5 and netCDF-C builds; the manifest tree above is clio's own.
+    export PATH="$HDF5_INSTALL/bin:$NETCDF_INSTALL/bin:$CLIO_BIN:$VCPKG_BIN${VCPKG_INSTALLED:+:$VCPKG_INSTALLED/bin}:$PATH"
     if [ -f "$HDF5_INSTALL/bin/hdf5.dll" ]; then
         echo "hdf5.dll resolved from: $HDF5_INSTALL/bin (ahead of $VCPKG_BIN)"
     else

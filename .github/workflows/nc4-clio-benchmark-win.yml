@@ -162,12 +162,17 @@ jobs:
             Add-MpPreference -ExclusionPath "$env:VCPKG_INSTALLATION_ROOT" -ErrorAction SilentlyContinue
           }
 
-      - name: Bootstrap vcpkg
+      # Windows has no system zlib, and both HDF5's deflate filter and netCDF-C
+      # require one -- the benchmark runs at deflate 6, so without it a third
+      # of the series would silently vanish. Classic-mode install, kept apart
+      # from the manifest tree clio-core builds against.
+      - name: Bootstrap vcpkg and install zlib
         shell: pwsh
         run: |
           cd $env:VCPKG_INSTALLATION_ROOT
           git pull
           .\bootstrap-vcpkg.bat
+          .\vcpkg.exe install zlib:x64-windows
 
       - name: Cache HDF5 develop build
         uses: actions/cache@v4
