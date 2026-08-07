@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786070173184,
+  "lastUpdate": 1786070377424,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Windows)": [
@@ -15790,6 +15790,106 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 2.16367,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "2f353bdf66292afafd6f017577db9072c0855744",
+          "message": "ci: re-anchor the VFD probe on current clio-core dev\n\nThe first probe stopped at its own assertion -- \"cfs UNIX block not found as\nexpected\" -- rather than reporting a meaningless result. Upstream dev had moved\n(8370b76f -> 20c802db): e2050b6b deleted adapter/cfs outright, folding the\ndescriptor layer into clio::cte::filesystem::Client, and the VFD now links\nclio_cte_filesystem_client instead of clio_cte_cfs_adapter.\n\nThat refactor strengthens the hypothesis rather than weakening it: the VFD's\nlast POSIX-shaped dependency is gone, and the filesystem chimod it now links is\nnot UNIX-gated. Anchor the edit on the ELF-gate comment, which survives, and\ninsert the UNIX-gated VFD block ahead of it. Dry-run against current upstream\ndev produces the intended CMake.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-06T21:27:44-05:00",
+          "tree_id": "ec5cd086d414d91d13d8cfa63a6165f0cf2c7264",
+          "url": "https://github.com/hyoklee/hpf/commit/2f353bdf66292afafd6f017577db9072c0855744"
+        },
+        "date": 1786070373713,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.903569,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.903569,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.00765,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 6.1312,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 6.1312,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 8.04373,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.35995,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.35995,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.73442,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 6.40281,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 6.40281,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 2.70743,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
