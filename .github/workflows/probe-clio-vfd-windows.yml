@@ -1,11 +1,13 @@
-name: probe - CLIO VFD on Windows
+name: probe - CLIO VFD (Windows + Linux)
 
 # EXPERIMENT, not part of the benchmark suite. Delete once it has answered.
 #
-# Builds the `clio_vfd` target on windows-2025 from a clio-core branch, to
-# iterate on the Windows port of H5FDclio.cc without waiting for clio-core's
-# full CI (which builds and tests everything, and sets CLIO_CTE_ENABLE_VFD=OFF
-# on Windows anyway).
+# Builds the `clio_vfd` target from a clio-core branch on BOTH platforms.
+#
+# Windows is the port being developed. Linux is there because the port renames
+# the descriptor API's types (off_t/ssize_t -> FsOff/FsSsize) in signatures the
+# POSIX interceptors call, so "it builds on Windows" is only half an answer --
+# the adapters that consumed the old signatures have to keep building too.
 #
 # Only the VFD and what it links are built: the runtime, the CTE core client
 # and the filesystem client. HDF5 comes from vcpkg, which satisfies the VFD's
@@ -139,3 +141,67 @@ jobs:
             configure.log
             build.log
           if-no-files-found: warn
+
+  linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    container:
+      image: iowarp/deps-cpu:latest
+      options: --user 0
+    steps:
+      - name: Install build prerequisites
+        run: |
+          set -eux
+          apt-get update -qq
+          apt-get install -y -qq build-essential cmake git pkg-config libelf-dev
+          git config --global --add safe.directory '*'
+
+      - name: Clone clio-core
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch "${{ inputs.clio_ref || 'vfd-windows' }}" \
+            --recurse-submodules https://github.com/iowarp/clio-core.git clio-src
+          git -C clio-src log --oneline -1
+
+      # ELF on, so the POSIX/STDIO/MPI-IO interceptors are built as well: those
+      # are the callers whose signatures the rename touches.
+      - name: Configure with every descriptor-API consumer enabled
+        run: |
+          set -euo pipefail
+          cmake -S clio-src -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCLIO_CORE_ENABLE_RUNTIME=ON \
+            -DCLIO_CORE_ENABLE_CTE=ON \
+            -DCLIO_CORE_ENABLE_CAE=OFF \
+            -DCLIO_CORE_ENABLE_CEE=OFF \
+            -DCLIO_CORE_ENABLE_TESTS=OFF \
+            -DCLIO_CORE_ENABLE_BENCHMARKS=OFF \
+            -DCLIO_CORE_ENABLE_PYTHON=OFF \
+            -DCLIO_CORE_ENABLE_ELF=ON \
+            -DCLIO_CTE_ENABLE_VFD=ON \
+            -DCLIO_CTE_ENABLE_HDF5_VOL=OFF \
+            -DCLIO_CTE_ENABLE_POSIX_ADAPTER=ON \
+            -DCLIO_CTE_ENABLE_STDIO_ADAPTER=ON \
+            -DCLIO_CTE_ENABLE_FUSE_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_ADIOS2_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_COMPRESS=OFF \
+            -DCLIO_CORE_ENABLE_GRAY_SCOTT=OFF \
+            -DCLIO_CTP_LOG_LEVEL=1 > configure.log 2>&1 || { tail -30 configure.log; exit 1; }
+
+      - name: Build the VFD and the POSIX/STDIO interceptors
+        run: |
+          set -euo pipefail
+          cmake --build build -j"$(nproc)" --target \
+            clio_vfd clio_cte_posix clio_cte_stdio 2>&1 | tee build.log
+
+      - name: Verdict
+        if: always()
+        run: |
+          {
+            echo "## POSIX side still builds after the type rename?"
+            echo
+            for t in bin/libclio_vfd.so bin/libclio_cte_posix.so bin/libclio_cte_stdio.so; do
+              if [ -f "build/$t" ]; then echo "- \`$t\` built"; else echo "- **\`$t\` MISSING**"; fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+          test -f build/bin/libclio_vfd.so
