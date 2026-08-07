@@ -1,0 +1,141 @@
+name: probe - CLIO VFD on Windows
+
+# EXPERIMENT, not part of the benchmark suite. Delete once it has answered.
+#
+# Builds the `clio_vfd` target on windows-2025 from a clio-core branch, to
+# iterate on the Windows port of H5FDclio.cc without waiting for clio-core's
+# full CI (which builds and tests everything, and sets CLIO_CTE_ENABLE_VFD=OFF
+# on Windows anyway).
+#
+# Only the VFD and what it links are built: the runtime, the CTE core client
+# and the filesystem client. HDF5 comes from vcpkg, which satisfies the VFD's
+# HDF5 >= 1.14 requirement -- the question here is whether the driver compiles
+# and links with MSVC, not how fast it runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      clio_ref:
+        description: 'clio-core ref to build'
+        type: string
+        default: vfd-windows
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  probe:
+    runs-on: windows-2025
+    timeout-minutes: 180
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+    steps:
+      - name: Exclude workspace from Defender (link-flake mitigation)
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          Add-MpPreference -ExclusionPath "${{ github.workspace }}" -ErrorAction SilentlyContinue
+          Add-MpPreference -ExclusionProcess "link.exe","cl.exe","mspdbsrv.exe","vcpkg.exe","MSBuild.exe" -ErrorAction SilentlyContinue
+          if ($env:VCPKG_INSTALLATION_ROOT) {
+            Add-MpPreference -ExclusionPath "$env:VCPKG_INSTALLATION_ROOT" -ErrorAction SilentlyContinue
+          }
+
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: |
+          cd $env:VCPKG_INSTALLATION_ROOT
+          git pull
+          .\bootstrap-vcpkg.bat
+
+      - name: Clone clio-core
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch "${{ inputs.clio_ref || 'vfd-windows' }}" \
+            --recurse-submodules https://github.com/iowarp/clio-core.git clio-src
+          git -C clio-src rev-parse HEAD
+          git -C clio-src log --oneline -1
+
+      # Cached against the clio SHA: the vcpkg dependency set is the slow part
+      # and does not change between iterations on the driver source.
+      - name: Cache vcpkg + build tree
+        uses: actions/cache@v4
+        with:
+          path: build/vcpkg_installed
+          key: clio-vfd-probe-vcpkg-x64-windows-v1
+
+      - name: Configure (VFD on)
+        run: |
+          set -euo pipefail
+          cmake -S clio-src -B build -A x64 \
+            -DCMAKE_TOOLCHAIN_FILE="$(cygpath -m "$VCPKG_INSTALLATION_ROOT")/scripts/buildsystems/vcpkg.cmake" \
+            -DVCPKG_TARGET_TRIPLET=x64-windows \
+            -DVCPKG_MANIFEST_DIR="$(pwd)/clio-src/installers/vcpkg" \
+            -DVCPKG_OVERLAY_PORTS="$(pwd)/clio-src/installers/vcpkg/overlay-ports" \
+            -DVCPKG_APPLOCAL_DEPS=OFF \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCLIO_CORE_ENABLE_RUNTIME=ON \
+            -DCLIO_CORE_ENABLE_CTE=ON \
+            -DCLIO_CORE_ENABLE_CAE=OFF \
+            -DCLIO_CORE_ENABLE_CEE=OFF \
+            -DCLIO_CORE_ENABLE_TESTS=OFF \
+            -DCLIO_CORE_ENABLE_BENCHMARKS=OFF \
+            -DCLIO_CORE_ENABLE_PYTHON=OFF \
+            -DCLIO_CORE_ENABLE_CONDA=OFF \
+            -DCLIO_CORE_ENABLE_ELF=OFF \
+            -DCLIO_CORE_ENABLE_RPATH=OFF \
+            -DCLIO_CORE_ENABLE_ZMQ=ON \
+            -DCLIO_CORE_ENABLE_CEREAL=ON \
+            -DCLIO_CTE_ENABLE_VFD=ON \
+            -DCLIO_CTE_ENABLE_HDF5_VOL=OFF \
+            -DCLIO_CTE_ENABLE_FUSE_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_ADIOS2_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_COMPRESS=OFF \
+            -DCLIO_CORE_ENABLE_GRAY_SCOTT=OFF \
+            -DCLIO_CTP_LOG_LEVEL=1 2>&1 | tee configure.log
+          grep -q "VFD: building against HDF5" configure.log \
+            && echo "the vfd target was generated" \
+            || { echo "::error::configure did not generate the vfd target"; exit 1; }
+
+      - name: Build clio_vfd
+        id: build
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          cmake --build build --config Release --target clio_vfd \
+            -j "${NUMBER_OF_PROCESSORS:-4}" 2>&1 | tee build.log
+
+      - name: Verdict
+        if: always()
+        run: |
+          dll="$(find build -name 'clio_vfd.dll' -type f 2>/dev/null | head -1)"
+          {
+            echo "## Does the CLIO VFD build on Windows?"
+            echo
+            echo "| step | result |"
+            echo "| --- | --- |"
+            echo "| \`cmake --build --target clio_vfd\` | ${{ steps.build.outcome }} |"
+            echo "| \`clio_vfd.dll\` | ${dll:-**not produced**} |"
+            echo
+            if [ -z "$dll" ]; then
+              echo "### First MSVC diagnostics"
+              echo '```'
+              grep -oE "[A-Za-z0-9_./\\\\-]+\.(cc|h)\([0-9]+,[0-9]+\): (error|fatal error) [A-Z0-9]+: .*" build.log \
+                | sort -u | head -30 || tail -30 build.log
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          test -n "$dll"
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clio-vfd-windows-probe
+          path: |
+            configure.log
+            build.log
+          if-no-files-found: warn
