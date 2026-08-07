@@ -11,18 +11,18 @@ name: probe - CLIO VFD on macOS
 # The gate looks incidental rather than deliberate: the VFD is a plugin HDF5
 # dlopen's, not a libc interceptor. It never includes real_api.h and never
 # calls dlsym/RTLD_NEXT; it links ctp::interceptor, but that is an INTERFACE
-# target which only attaches libelf when ELF is on. Its actual dependency,
-# clio_cte_cfs_adapter, is built under `if(UNIX)` -- true on macOS -- and
-# clio-core already draws exactly this distinction in a comment above the cfs
-# gate: "Gated on UNIX, not on ELF: unlike the interceptors it never touches
-# real_api.h".
+# target which only attaches libelf when ELF is on. Since clio-core e2050b6b
+# its remaining dependency is clio_cte_filesystem_client, which is not
+# UNIX-gated at all.
 #
-# So: does moving the VFD to the same UNIX gate as cfs make it build on macOS?
-# This clones upstream dev, applies that change in-job (nothing is pushed
-# anywhere), and tries to build the target. HDF5 comes from the conda env
-# CI/ci-deps.sh creates -- the VFD needs >= 1.14 and conda ships 1.14, so there
-# is no need to build HDF5 develop here. The question is whether it compiles
-# and links at all, not how fast it is.
+# Round 1 (run 31141294898) answered the build question: with the VFD moved to
+# a UNIX gate it compiles and links on macos-26, producing libclio_vfd.dylib.
+#
+# Round 2, below, answers the one that actually matters: does it WORK? Same
+# in-job CMake change (nothing is pushed to clio-core), then the real benchmark
+# driver -- HDF5 develop, netCDF-C main, a live clio_run, and tst_chunks3
+# driven through HDF5_DRIVER=clio_vfd. Results are printed, not published:
+# this is a probe, not a dashboard run.
 
 on:
   workflow_dispatch:
@@ -31,6 +31,10 @@ on:
         description: 'clio-core ref to probe'
         type: string
         default: dev
+      bench_args:
+        description: 'tst_chunks3 args'
+        type: string
+        default: '6 64 16 64 16 64 16'
 
 permissions:
   contents: read
@@ -42,14 +46,22 @@ defaults:
 jobs:
   probe:
     runs-on: macos-26
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
+      - name: Checkout HPF
+        uses: actions/checkout@v4
+
+      - name: Install coreutils
+        run: brew install coreutils
+
       - name: Clone clio-core
         run: |
           set -euo pipefail
+          mkdir -p nc4-clio-work
           git clone --depth 1 --branch "${{ inputs.clio_ref || 'dev' }}" \
-            --recurse-submodules https://github.com/iowarp/clio-core.git clio-src
-          git -C clio-src rev-parse HEAD
+            --recurse-submodules https://github.com/iowarp/clio-core.git \
+            nc4-clio-work/clio-src
+          git -C nc4-clio-work/clio-src rev-parse HEAD
 
       - name: Move the VFD off the ELF gate and onto the UNIX gate
         run: |
@@ -57,7 +69,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
 
-          p = Path("clio-src/context-transfer-engine/adapter/CMakeLists.txt")
+          p = Path("nc4-clio-work/clio-src/context-transfer-engine/adapter/CMakeLists.txt")
           s = p.read_text()
 
           vfd_block = ("    if (CLIO_CTE_ENABLE_VFD)\n"
@@ -83,19 +95,20 @@ jobs:
           p.write_text(s)
           print("gate moved")
           PY
-          echo "--- resulting diff ---"
-          git -C clio-src diff --stat
-          git -C clio-src diff -- context-transfer-engine/adapter/CMakeLists.txt
+          git -C nc4-clio-work/clio-src diff --stat
 
       - name: Install clio-core dependencies (conda)
         run: |
           set -eo pipefail
-          cd clio-src
+          cd nc4-clio-work/clio-src
           chmod +x CI/ci-deps.sh
           ./CI/ci-deps.sh --only-deps release
 
-      - name: Configure with the VFD on and ELF off
-        id: configure
+      # No --allow-adapter-build-failure on purpose: round 1 established that
+      # the VFD builds, so a build failure here is a real regression and should
+      # stop the job rather than quietly drop the variant we came to measure.
+      - name: Build and run baseline + clio_vfd
+        id: bench
         run: |
           set -eo pipefail
           if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
@@ -106,84 +119,62 @@ jobs:
           conda activate iowarp
           set -u
           export CMAKE_PREFIX_PATH="${CONDA_PREFIX}${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}"
+          export PKG_CONFIG_PATH="${CONDA_PREFIX}/lib/pkgconfig:${CONDA_PREFIX}/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
 
-          cmake -S clio-src -B build \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_AR="$(xcrun -f ar)" \
-            -DCMAKE_RANLIB="$(xcrun -f ranlib)" \
-            -DCLIO_CORE_ENABLE_ELF=OFF \
-            -DCLIO_CORE_ENABLE_CONDA=ON \
-            -DCLIO_CORE_ENABLE_RUNTIME=ON \
-            -DCLIO_CORE_ENABLE_CTE=ON \
-            -DCLIO_CORE_ENABLE_CAE=OFF \
-            -DCLIO_CORE_ENABLE_CEE=OFF \
-            -DCLIO_CORE_ENABLE_TESTS=OFF \
-            -DCLIO_CORE_ENABLE_BENCHMARKS=OFF \
-            -DCLIO_CORE_ENABLE_PYTHON=OFF \
-            -DCLIO_CTE_ENABLE_VFD=ON \
-            -DCLIO_CTE_ENABLE_HDF5_VOL=OFF \
-            -DCLIO_CTE_ENABLE_POSIX_ADAPTER=OFF \
-            -DCLIO_CTE_ENABLE_STDIO_ADAPTER=OFF \
-            -DCLIO_CTE_ENABLE_FUSE_ADAPTER=OFF \
-            -DCLIO_CTE_ENABLE_ADIOS2_ADAPTER=OFF \
-            -DCLIO_CTE_ENABLE_COMPRESS=OFF \
-            -DCLIO_CORE_ENABLE_GRAY_SCOTT=OFF \
-            -DCLIO_CTP_LOG_LEVEL=1 2>&1 | tee configure.log
-          # Did the target get generated at all? That alone answers half of it.
-          if grep -q "VFD: building against HDF5" configure.log; then
-            echo "vfd_configured=yes" >> "$GITHUB_OUTPUT"
-          else
-            echo "vfd_configured=no" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build the VFD target
-        id: build
-        continue-on-error: true
-        run: |
-          set -eo pipefail
-          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-            source "$HOME/miniconda3/etc/profile.d/conda.sh"
-          elif command -v conda >/dev/null 2>&1; then
-            eval "$(conda shell.bash hook)"
-          fi
-          conda activate iowarp
-          set -u
-          cmake --build build --target clio_vfd -j"$(sysctl -n hw.ncpu)" 2>&1 | tee build.log
+          bash .github/scripts/nc4_clio_bench.sh \
+            --clone \
+            --clio-src "$(pwd)/nc4-clio-work/clio-src" \
+            --work-dir "$(pwd)/nc4-clio-work" \
+            --results-dir "$(pwd)/benchmark-results" \
+            --hdf5-ref develop \
+            --netcdf-ref main \
+            --variants baseline,clio_vfd \
+            --bench-args "${{ inputs.bench_args || '6 64 16 64 16 64 16' }}" \
+            --run-timeout 20m \
+            --jobs "$(sysctl -n hw.ncpu)"
 
       - name: Verdict
         if: always()
         run: |
           {
-            echo "## Does the CLIO VFD build on macOS without the ELF gate?"
+            echo "## Does the CLIO VFD run on macOS with the ELF gate moved?"
             echo
-            echo "| step | result |"
+            echo "| variant | measured? |"
             echo "| --- | --- |"
-            echo "| configure generated the vfd target | ${{ steps.configure.outputs.vfd_configured || 'n/a' }} |"
-            echo "| \`cmake --build --target clio_vfd\` | ${{ steps.build.outcome }} |"
+            for v in baseline clio_vfd; do
+              if [ -s "benchmark-results/tst_chunks3_${v}.txt" ]; then
+                echo "| \`$v\` | yes |"
+              else
+                echo "| \`$v\` | **no** |"
+              fi
+            done
             echo
-            if [ -f build/bin/libclio_vfd.dylib ]; then
-              echo "**libclio_vfd.dylib was produced.**"
-              echo
+            if [ -s benchmark-results/tst_chunks3_clio_vfd.txt ]; then
+              echo "### clio_vfd timings"
               echo '```'
-              ls -la build/bin/libclio_vfd.dylib
-              otool -L build/bin/libclio_vfd.dylib | head -20
+              grep -E "^\s+(contiguous|chunked|compressed)" \
+                benchmark-results/tst_chunks3_clio_vfd.txt || true
+              echo '```'
+              echo "### baseline, for comparison"
+              echo '```'
+              grep -E "^\s+(contiguous|chunked|compressed)" \
+                benchmark-results/tst_chunks3_baseline.txt || true
               echo '```'
             else
-              echo "**No libclio_vfd.dylib.** First errors:"
-              echo
+              echo "**clio_vfd produced no result.** Tail of the runtime log:"
               echo '```'
-              grep -E "error:|Error|No rule to make" build.log 2>/dev/null | head -25 || echo "(no build.log)"
+              tail -30 nc4-clio-work/clio_run.log 2>/dev/null || echo "(no clio_run.log)"
               echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
-          test -f build/bin/libclio_vfd.dylib
+          test -s benchmark-results/tst_chunks3_clio_vfd.txt
 
-      - name: Upload logs
+      - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: clio-vfd-macos-probe
+          name: clio-vfd-macos-run-probe
           path: |
-            configure.log
-            build.log
+            benchmark-results/
+            nc4-clio-work/clio_run.log
           if-no-files-found: warn
