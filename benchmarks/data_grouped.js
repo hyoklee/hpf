@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786004516925,
+  "lastUpdate": 1786070123962,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -15710,6 +15710,206 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.4917,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "3769580469d00669adbb33fbd69ce88da0cf77cd",
+          "message": "ci: probe whether the CLIO VFD builds on macOS without the ELF gate\n\nThe VFD has no macOS series because clio-core never builds the target there:\nadd_subdirectory(vfd) sits inside if(CLIO_CORE_ENABLE_ELF), and that option\ndoes pkg_check_modules(libelf REQUIRED libelf), unsatisfiable on Mach-O.\n\nThe gate looks incidental. The VFD is a plugin HDF5 dlopen's, not a libc\ninterceptor: it never includes real_api.h and never calls dlsym/RTLD_NEXT, and\nctp::interceptor is an INTERFACE target that only attaches libelf when ELF is\non. Its real dependency, clio_cte_cfs_adapter, is built under if(UNIX), which\nholds on macOS -- and clio-core already draws this exact distinction in the\ncomment above the cfs gate.\n\nThis clones upstream dev, moves the VFD onto the same UNIX gate as cfs in-job\n(nothing is pushed to clio-core), and tries to build the target against the\nconda HDF5, which satisfies the VFD's HDF5 >= 1.14 requirement. Experiment\nonly; delete once it has answered.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-06T21:25:23-05:00",
+          "tree_id": "6cf66f46c300cf7a774ab626df130b3d12d1f8d9",
+          "url": "https://github.com/hyoklee/hpf/commit/3769580469d00669adbb33fbd69ce88da0cf77cd"
+        },
+        "date": 1786069922378,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.43511099999999997,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.43511099999999997,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.420584,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 3.18615,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.18615,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 3.46613,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.41245,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.41245,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.51767,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.45822,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.45822,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.62861,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "2f353bdf66292afafd6f017577db9072c0855744",
+          "message": "ci: re-anchor the VFD probe on current clio-core dev\n\nThe first probe stopped at its own assertion -- \"cfs UNIX block not found as\nexpected\" -- rather than reporting a meaningless result. Upstream dev had moved\n(8370b76f -> 20c802db): e2050b6b deleted adapter/cfs outright, folding the\ndescriptor layer into clio::cte::filesystem::Client, and the VFD now links\nclio_cte_filesystem_client instead of clio_cte_cfs_adapter.\n\nThat refactor strengthens the hypothesis rather than weakening it: the VFD's\nlast POSIX-shaped dependency is gone, and the filesystem chimod it now links is\nnot UNIX-gated. Anchor the edit on the ELF-gate comment, which survives, and\ninsert the UNIX-gated VFD block ahead of it. Dry-run against current upstream\ndev produces the intended CMake.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-06T21:27:44-05:00",
+          "tree_id": "ec5cd086d414d91d13d8cfa63a6165f0cf2c7264",
+          "url": "https://github.com/hyoklee/hpf/commit/2f353bdf66292afafd6f017577db9072c0855744"
+        },
+        "date": 1786070123718,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.5559919999999999,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.5559919999999999,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.550817,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 4.00804,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.00804,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 4.3418,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 0.96189,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.96189,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.1182,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 5.26928,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 5.26928,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.82986,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
