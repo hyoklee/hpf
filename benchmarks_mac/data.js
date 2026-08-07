@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786013605178,
+  "lastUpdate": 1786069924764,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -10716,6 +10716,78 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 3.94796,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "3769580469d00669adbb33fbd69ce88da0cf77cd",
+          "message": "ci: probe whether the CLIO VFD builds on macOS without the ELF gate\n\nThe VFD has no macOS series because clio-core never builds the target there:\nadd_subdirectory(vfd) sits inside if(CLIO_CORE_ENABLE_ELF), and that option\ndoes pkg_check_modules(libelf REQUIRED libelf), unsatisfiable on Mach-O.\n\nThe gate looks incidental. The VFD is a plugin HDF5 dlopen's, not a libc\ninterceptor: it never includes real_api.h and never calls dlsym/RTLD_NEXT, and\nctp::interceptor is an INTERFACE target that only attaches libelf when ELF is\non. Its real dependency, clio_cte_cfs_adapter, is built under if(UNIX), which\nholds on macOS -- and clio-core already draws this exact distinction in the\ncomment above the cfs gate.\n\nThis clones upstream dev, moves the VFD onto the same UNIX gate as cfs in-job\n(nothing is pushed to clio-core), and tries to build the target against the\nconda HDF5, which satisfies the VFD's HDF5 >= 1.14 requirement. Experiment\nonly; delete once it has answered.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-06T21:25:23-05:00",
+          "tree_id": "6cf66f46c300cf7a774ab626df130b3d12d1f8d9",
+          "url": "https://github.com/hyoklee/hpf/commit/3769580469d00669adbb33fbd69ce88da0cf77cd"
+        },
+        "date": 1786069919698,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.5750850000000001,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 6.57045,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.75046,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 1.81988,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.571545,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 5.48386,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 0.7666649999999999,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 4.28517,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
