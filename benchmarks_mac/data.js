@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786070151383,
+  "lastUpdate": 1786145673442,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -10860,6 +10860,78 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 3.95595,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "1c29dac0ab91509a5bed1c358dc479d87c4ea0cf",
+          "message": "ci: validate the descriptor-layer port on Linux as well as Windows\n\nThe port renames the descriptor API's types (off_t/ssize_t -> FsOff/FsSsize)\nin signatures the POSIX, STDIO and MPI-IO interceptors call, so a green\nWindows build is only half an answer: those callers have to keep building too.\nAdds a Linux job in iowarp/deps-cpu that builds clio_vfd alongside\nclio_cte_posix and clio_cte_stdio with ELF on.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-07T18:27:07-05:00",
+          "tree_id": "b87ab4799fe788744d7efcd7f00ea397231aadcc",
+          "url": "https://github.com/hyoklee/hpf/commit/1c29dac0ab91509a5bed1c358dc479d87c4ea0cf"
+        },
+        "date": 1786145669845,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.614392,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 7.27633,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.6834,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 2.27909,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.48543400000000003,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 5.59562,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 0.806363,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 3.83404,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
