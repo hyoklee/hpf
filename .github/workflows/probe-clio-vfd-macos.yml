@@ -1,0 +1,189 @@
+name: probe - CLIO VFD on macOS
+
+# EXPERIMENT, not part of the benchmark suite. Delete once it has answered.
+#
+# The CLIO VFD has no macOS series in benchmarks_nc4_clio_mac/ because
+# clio-core never builds the target there: add_subdirectory(vfd) sits inside
+# `if(CLIO_CORE_ENABLE_ELF)` in context-transfer-engine/adapter/CMakeLists.txt,
+# and that option does pkg_check_modules(libelf REQUIRED libelf), which cannot
+# be satisfied on Mach-O.
+#
+# The gate looks incidental rather than deliberate: the VFD is a plugin HDF5
+# dlopen's, not a libc interceptor. It never includes real_api.h and never
+# calls dlsym/RTLD_NEXT; it links ctp::interceptor, but that is an INTERFACE
+# target which only attaches libelf when ELF is on. Its actual dependency,
+# clio_cte_cfs_adapter, is built under `if(UNIX)` -- true on macOS -- and
+# clio-core already draws exactly this distinction in a comment above the cfs
+# gate: "Gated on UNIX, not on ELF: unlike the interceptors it never touches
+# real_api.h".
+#
+# So: does moving the VFD to the same UNIX gate as cfs make it build on macOS?
+# This clones upstream dev, applies that change in-job (nothing is pushed
+# anywhere), and tries to build the target. HDF5 comes from the conda env
+# CI/ci-deps.sh creates -- the VFD needs >= 1.14 and conda ships 1.14, so there
+# is no need to build HDF5 develop here. The question is whether it compiles
+# and links at all, not how fast it is.
+
+on:
+  workflow_dispatch:
+    inputs:
+      clio_ref:
+        description: 'clio-core ref to probe'
+        type: string
+        default: dev
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  probe:
+    runs-on: macos-26
+    timeout-minutes: 120
+    steps:
+      - name: Clone clio-core
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch "${{ inputs.clio_ref || 'dev' }}" \
+            --recurse-submodules https://github.com/iowarp/clio-core.git clio-src
+          git -C clio-src rev-parse HEAD
+
+      - name: Move the VFD off the ELF gate and onto the UNIX gate
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path("clio-src/context-transfer-engine/adapter/CMakeLists.txt")
+          s = p.read_text()
+
+          vfd_block = ("    if (CLIO_CTE_ENABLE_VFD)\n"
+                       "        add_subdirectory(vfd)\n"
+                       "    endif()\n")
+          cfs_block = "if(UNIX)\n    add_subdirectory(cfs)\nendif()\n"
+
+          # Fail loudly rather than probing an unmodified tree and reporting a
+          # result that says nothing about the change.
+          assert s.count(vfd_block) == 1, "VFD block not found as expected"
+          assert s.count(cfs_block) == 1, "cfs UNIX block not found as expected"
+
+          insert = (
+              "\n"
+              "# PROBE: the VFD is a dlopen'd HDF5 plugin, not an interceptor --\n"
+              "# it never touches real_api.h -- so gate it like cfs.\n"
+              "if(UNIX AND CLIO_CTE_ENABLE_VFD)\n"
+              "    add_subdirectory(vfd)\n"
+              "endif()\n"
+          )
+          s = s.replace(vfd_block, "")                 # out of the ELF gate
+          s = s.replace(cfs_block, cfs_block + insert) # onto the UNIX gate
+          p.write_text(s)
+          print("gate moved")
+          PY
+          echo "--- resulting diff ---"
+          git -C clio-src diff --stat
+          git -C clio-src diff -- context-transfer-engine/adapter/CMakeLists.txt
+
+      - name: Install clio-core dependencies (conda)
+        run: |
+          set -eo pipefail
+          cd clio-src
+          chmod +x CI/ci-deps.sh
+          ./CI/ci-deps.sh --only-deps release
+
+      - name: Configure with the VFD on and ELF off
+        id: configure
+        run: |
+          set -eo pipefail
+          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniconda3/etc/profile.d/conda.sh"
+          elif command -v conda >/dev/null 2>&1; then
+            eval "$(conda shell.bash hook)"
+          fi
+          conda activate iowarp
+          set -u
+          export CMAKE_PREFIX_PATH="${CONDA_PREFIX}${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}"
+
+          cmake -S clio-src -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_AR="$(xcrun -f ar)" \
+            -DCMAKE_RANLIB="$(xcrun -f ranlib)" \
+            -DCLIO_CORE_ENABLE_ELF=OFF \
+            -DCLIO_CORE_ENABLE_CONDA=ON \
+            -DCLIO_CORE_ENABLE_RUNTIME=ON \
+            -DCLIO_CORE_ENABLE_CTE=ON \
+            -DCLIO_CORE_ENABLE_CAE=OFF \
+            -DCLIO_CORE_ENABLE_CEE=OFF \
+            -DCLIO_CORE_ENABLE_TESTS=OFF \
+            -DCLIO_CORE_ENABLE_BENCHMARKS=OFF \
+            -DCLIO_CORE_ENABLE_PYTHON=OFF \
+            -DCLIO_CTE_ENABLE_VFD=ON \
+            -DCLIO_CTE_ENABLE_HDF5_VOL=OFF \
+            -DCLIO_CTE_ENABLE_POSIX_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_STDIO_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_FUSE_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_ADIOS2_ADAPTER=OFF \
+            -DCLIO_CTE_ENABLE_COMPRESS=OFF \
+            -DCLIO_CORE_ENABLE_GRAY_SCOTT=OFF \
+            -DCLIO_CTP_LOG_LEVEL=1 2>&1 | tee configure.log
+          # Did the target get generated at all? That alone answers half of it.
+          if grep -q "VFD: building against HDF5" configure.log; then
+            echo "vfd_configured=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "vfd_configured=no" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the VFD target
+        id: build
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniconda3/etc/profile.d/conda.sh"
+          elif command -v conda >/dev/null 2>&1; then
+            eval "$(conda shell.bash hook)"
+          fi
+          conda activate iowarp
+          set -u
+          cmake --build build --target clio_vfd -j"$(sysctl -n hw.ncpu)" 2>&1 | tee build.log
+
+      - name: Verdict
+        if: always()
+        run: |
+          {
+            echo "## Does the CLIO VFD build on macOS without the ELF gate?"
+            echo
+            echo "| step | result |"
+            echo "| --- | --- |"
+            echo "| configure generated the vfd target | ${{ steps.configure.outputs.vfd_configured || 'n/a' }} |"
+            echo "| \`cmake --build --target clio_vfd\` | ${{ steps.build.outcome }} |"
+            echo
+            if [ -f build/bin/libclio_vfd.dylib ]; then
+              echo "**libclio_vfd.dylib was produced.**"
+              echo
+              echo '```'
+              ls -la build/bin/libclio_vfd.dylib
+              otool -L build/bin/libclio_vfd.dylib | head -20
+              echo '```'
+            else
+              echo "**No libclio_vfd.dylib.** First errors:"
+              echo
+              echo '```'
+              grep -E "error:|Error|No rule to make" build.log 2>/dev/null | head -25 || echo "(no build.log)"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          test -f build/bin/libclio_vfd.dylib
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clio-vfd-macos-probe
+          path: |
+            configure.log
+            build.log
+          if-no-files-found: warn
