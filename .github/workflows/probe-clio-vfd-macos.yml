@@ -63,23 +63,23 @@ jobs:
           vfd_block = ("    if (CLIO_CTE_ENABLE_VFD)\n"
                        "        add_subdirectory(vfd)\n"
                        "    endif()\n")
-          cfs_block = "if(UNIX)\n    add_subdirectory(cfs)\nendif()\n"
+          elf_comment = "# Adapters require ELF support (for real_api.h)\n"
 
           # Fail loudly rather than probing an unmodified tree and reporting a
           # result that says nothing about the change.
           assert s.count(vfd_block) == 1, "VFD block not found as expected"
-          assert s.count(cfs_block) == 1, "cfs UNIX block not found as expected"
+          assert s.count(elf_comment) == 1, "ELF gate comment not found as expected"
 
           insert = (
-              "\n"
               "# PROBE: the VFD is a dlopen'd HDF5 plugin, not an interceptor --\n"
-              "# it never touches real_api.h -- so gate it like cfs.\n"
+              "# it never touches real_api.h -- so it does not need the ELF gate.\n"
               "if(UNIX AND CLIO_CTE_ENABLE_VFD)\n"
               "    add_subdirectory(vfd)\n"
               "endif()\n"
+              "\n"
           )
-          s = s.replace(vfd_block, "")                 # out of the ELF gate
-          s = s.replace(cfs_block, cfs_block + insert) # onto the UNIX gate
+          s = s.replace(vfd_block, "")                     # out of the ELF gate
+          s = s.replace(elf_comment, insert + elf_comment) # onto a UNIX gate
           p.write_text(s)
           print("gate moved")
           PY
