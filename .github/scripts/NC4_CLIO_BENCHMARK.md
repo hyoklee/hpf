@@ -6,7 +6,7 @@ Compares three NetCDF-4 performance profiles and publishes the history to
 | Series | Stack | How it is selected |
 | --- | --- | --- |
 | `baseline` | netCDF-C `main` + HDF5 `develop` | nothing set (sec2 VFD, native VOL) |
-| `clio_vfd` | + clio-core `dev` HDF5 VFD | `HDF5_DRIVER=clio_vfd`, `HDF5_DRIVER_CONFIG="true 65536"` |
+| `clio_vfd` | + clio-core `dev` HDF5 VFD | `HDF5_DRIVER=clio_vfd`, `HDF5_DRIVER_CONFIG="cache=1"` |
 | `clio_vol` | + clio-core `dev` HDF5 VOL connector | `HDF5_VOL_CONNECTOR=clio` |
 
 All three run **the same** netCDF-C binary against **the same** HDF5 build.
@@ -148,6 +148,21 @@ build target list names `clio_cte_filesystem_runtime` explicitly.
 **The VFD driver name is `clio_vfd`, not `clio`.** clio-core's
 `adapter/vfd/README.md` says `HDF5_DRIVER=clio`; `H5FD_CLIO_NAME` in
 `H5FDclio.h` says `clio_vfd`, and the header is what HDF5 matches against.
+
+**`HDF5_DRIVER_CONFIG` is `key=value`, and a string the driver cannot parse
+fails the open.** The VFD pulls the string off the FAPL with
+`H5Pget_driver_config_str` and parses it with clio's shared grammar
+(`adapter/clio_config_str.h`); unparseable input is rejected on purpose, so a
+mistyped knob cannot be silently ignored. `cache=1` is the spelling; the
+positional `"true 65536"` passed here before clio-core `6873b60a` (2026-08-10)
+was ignored back then — the driver read no config string at all — and fails the
+open now with *"no '=' (expected key=value)"*. Two things make that hard to see,
+so budget for them: netCDF-C reports **any** `H5Fcreate` failure as `Permission denied` (it
+`BAIL`s with a literal `EACCES` in `libhdf5/hdf5create.c`), and the driver's own
+error message never reaches the printed stack because HDF5 2.3.0 runs driver
+callbacks inside `H5_BEFORE_USER_CB`, leaving only `H5FD_open(): can't open
+file`. The VFD README's "does not yet parse `HDF5_DRIVER_CONFIG`" is stale — as
+with the driver name, believe the source.
 
 **A variant that fails is dropped, not faked.** If a CLIO variant crashes or
 exceeds `--run-timeout`, its result file is removed, the parse step emits an

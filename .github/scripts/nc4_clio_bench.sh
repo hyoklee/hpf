@@ -953,9 +953,22 @@ if has_variant clio_vfd; then
           # Driver name is H5FD_CLIO_NAME from clio-core's H5FDclio.h. The
           # adapter README still says "clio"; the header is authoritative.
           export HDF5_DRIVER="clio_vfd"
-          # "<persistence> <page_size>": persist so the netCDF file on disk is
-          # real and the comparison is apples-to-apples with the baseline.
-          export HDF5_DRIVER_CONFIG="true 65536"
+          # HDF5 stores this string on the FAPL and the driver pulls it with
+          # H5Pget_driver_config_str (there is no H5FD_class_t callback for it).
+          # The grammar is clio's shared "key=value;..." one, and the driver
+          # fails the open on anything it cannot parse -- deliberately, so a
+          # mistyped knob cannot be silently ignored. Until clio-core 6873b60a
+          # (2026-08-10) the driver read this string not at all, so the
+          # positional "<persistence> <page_size>" that used to be passed here
+          # was silently ignored; since that commit it fails the open with "no
+          # '=' (expected key=value)", which netCDF-C then reports as the very
+          # misleading "Permission denied" (hdf5create.c BAILs with a literal
+          # EACCES whenever H5Fcreate fails).
+          # `cache=1` asks for the CTE cache tier, which is what makes this
+          # variant a CLIO measurement rather than a second baseline; the
+          # on-disk native file is authoritative either way, so the comparison
+          # stays apples-to-apples. Accepted keys: cache.
+          export HDF5_DRIVER_CONFIG="cache=1"
           export CLIO_SERVER_CONF="$CLIO_CONF"
           run_variant clio_vfd "NetCDF-4 with HDF5 develop + clio-core VFD" ) || RC=$?
         record_variant clio_vfd "$RC"

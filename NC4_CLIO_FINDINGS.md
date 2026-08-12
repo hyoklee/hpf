@@ -15,7 +15,7 @@ adapter and not to a different library build.
 | Series | Selected by |
 | --- | --- |
 | baseline | nothing set (sec2 VFD, native VOL) |
-| CLIO VFD | `HDF5_DRIVER=clio_vfd`, `HDF5_DRIVER_CONFIG="true 65536"` |
+| CLIO VFD | `HDF5_DRIVER=clio_vfd`, `HDF5_DRIVER_CONFIG="cache=1"` (was `"true 65536"`; see finding 5) |
 | CLIO VOL | `HDF5_VOL_CONNECTOR=clio` |
 
 Workload `tst_chunks3` from netcdf-c `nc_perf`, args `6 64 16 64 16 64 16`
@@ -185,24 +185,53 @@ holding all 18 is a complete measurement no matter how the process ended.
 kills a process that has not exited 30 s after its last timing line, so a
 teardown hang costs half a minute instead of the whole timeout.
 
-### 5. CLIO VFD: `nc_create` now fails with EACCES
+### 5. "Permission denied" from the VFD was a stale `HDF5_DRIVER_CONFIG`
 
-The same run lost `clio_vfd` too, for an unrelated and genuine reason: the very
-first `nc_create` fails with `Permission denied` (exit 13) right after the cache
-line, before any timing —
+The same run lost `clio_vfd` too, for an unrelated reason: the very first
+`nc_create` failed right after the cache line, before any timing —
 
 ```
 Sorry! Unexpected result, .../nc_perf/tst_chunks3.c, line: 314 - Permission denied
 ```
 
-Line 314 is the `nc_create(FILENAME, NC_NETCDF4 | NC_CLASSIC_MODEL, &ncid)`.
-This reproduces locally with the same sources as above, in a directory the
-baseline variant writes to happily, so it is the VFD's own path and not the
-runner's filesystem. It postdates the measurements in the table above (taken
-2026-08-03, when the VFD ran to completion), so something on clio-core `dev`
-between `b5c68c5e`/`03819a98` and `a19a0356` regressed file creation through the
-CFS chimod. Not yet bisected. This one *is* a failed measurement — no timings
-exist — so the driver drops the variant, which is the right outcome.
+Nothing was denied. Line 314 is `nc_create(FILENAME, NC_NETCDF4 |
+NC_CLASSIC_MODEL, &ncid)`, and netCDF-C's `NC4_create` does `BAIL(EACCES)` —
+a *literal* `EACCES`, not a netCDF status — whenever `H5Fcreate` fails
+(`libhdf5/hdf5create.c:249`). `nc_strerror(13)` then falls through to
+`strerror`, so every possible HDF5 create failure is reported as "Permission
+denied". `strace` showed the give-away: the file was never opened for writing at
+all, and no syscall returned `EACCES`.
+
+The actual failure was our own config string, and the change that broke it is
+datable: clio-core
+[`6873b60a`](https://github.com/iowarp/clio-core/commit/6873b60a) (2026-08-10,
+"CLIO cache tier for the VOL and VFD connectors") taught the driver to pull
+`HDF5_DRIVER_CONFIG` off the FAPL with `H5Pget_driver_config_str` and parse it
+with clio's shared `key=value;...` grammar (`adapter/clio_config_str.h`),
+rejecting anything it cannot understand so that a mistyped knob cannot be
+silently ignored. **Before that commit the driver did not read the string at
+all.** The benchmark was passing the positional `"true 65536"`
+(`<persistence> <page_size>`), which was therefore ignored for the 2026-08-03
+measurements — the persistence and page-size it claimed to set were never in
+effect, and nothing was lost by that, since the VFD's authoritative store is a
+real on-disk native file regardless. Two days after `6873b60a` the same string
+became *"config entry 'true 65536' has no '=' (expected key=value)"* and failed
+the open. `HDF5_DRIVER_CONFIG="cache=1"` is the current spelling — it asks for
+the CTE cache tier, which is the thing this series is supposed to measure — and
+the variant measures again. Two things hid the cause:
+
+- The driver's own message never reaches the printed stack. It pushes with
+  `H5Epush2(H5E_DEFAULT, ...)`, and HDF5 2.3.0 runs driver callbacks inside
+  `H5_BEFORE_USER_CB`/`H5_AFTER_USER_CB`, so what a caller sees is HDF5's outer
+  `H5FD_open(): can't open file` with nothing underneath it.
+- `context-transfer-engine/adapter/vfd/README.md` still says the driver "does
+  not yet parse `HDF5_DRIVER_CONFIG`" — stale, and the opposite of what the code
+  now does. As with the driver *name* (finding 3), the source is authoritative
+  and the README is not.
+
+Worth reporting upstream on the netCDF-C side too: `BAIL(EACCES)` turns every
+VFD/VOL create failure into a wrong diagnosis, and the same `BAIL` pattern is in
+the diskless branch immediately above it.
 
 ## Verified in CI
 
