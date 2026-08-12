@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786275373645,
+  "lastUpdate": 1786535808095,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "NetCDF-4 CLIO Performance Benchmarks (Windows)": [
@@ -1190,6 +1190,136 @@ window.BENCHMARK_DATA = {
             "value": 0.011,
             "unit": "sec",
             "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - Windows (patched nc_perf) - hdf5 57128d33 / netcdf-c db5a7f93 / clio-core 3538bf65"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "3f0ff537926925a7812441909af77b5f06630ddc",
+          "message": "ci: run tst_chunks3 through the ported VFD on Windows\n\nThe build question is answered on both platforms, so the Windows job becomes\nthe end-to-end one: HDF5 develop and netCDF-C main from source, a live\nclio_run, and tst_chunks3 driven through HDF5_DRIVER=clio_vfd against the\nclio-core branch carrying the port. Results printed, not published -- a\npatched clio-core does not belong in the dashboard history.\n\n--allow-adapter-build-failure is deliberately not passed: the VFD is what is\nbeing measured, so a build failure should stop the job rather than silently\ndrop the variant.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-08T01:24:02Z",
+          "url": "https://github.com/hyoklee/hpf/commit/3f0ff537926925a7812441909af77b5f06630ddc"
+        },
+        "date": 1786535806264,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0017,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0015,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0027,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0016,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0015,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0015,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0016,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0016,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0016,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0029,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_hdf5_develop",
+            "value": 0.00055,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_hdf5_develop",
+            "value": 0.0044,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_hdf5_develop",
+            "value": 0.0068,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_hdf5_develop",
+            "value": 0.00067,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_hdf5_develop",
+            "value": 0.0088,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_hdf5_develop",
+            "value": 0.012,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - Windows (patched nc_perf) - hdf5 eeba6ab8 / netcdf-c db5a7f93 / clio-core 9eac238e"
           }
         ]
       }
