@@ -155,6 +155,24 @@ empty series, and the surviving variants still publish. The workflow prints a
 per-variant table to the job summary so a persistently missing series is
 visible, and fails outright only if the *baseline* produced nothing.
 
+**A variant that fails to *exit* is not a failed measurement.** `tst_chunks3`
+prints 18 timing lines — 3 storage types × 2 operations × 3 access shapes,
+whatever dimensions it was given — and does no work after the last one. A
+process still alive past that point is wedged in teardown, which is exactly
+where the CLIO VOL ends up (see below), and every number the dashboard plots is
+already in the file. `run_variant` therefore keeps a result whose 18 lines are
+all present even when the process exited non-zero, notes the unclean exit in the
+file itself, and reports the variant in a separate "measured but killed because
+they never exited" list. `exit_hang_watchdog` kills such a process
+`--exit-grace` seconds (default 30) after its last timing line, so a teardown
+hang costs half a minute instead of the whole `--run-timeout`.
+
+Getting this wrong is what the fix was for: the 2026-08-12 Linux run
+([31577100886](https://github.com/hyoklee/hpf/actions/runs/31577100886))
+measured all 18 `clio_vol` timings in 3 seconds, sat in teardown for the full
+45-minute timeout, and then had its complete result file deleted —
+`[warn] variant clio_vol failed (exit 124); discarding its result file`.
+
 ## Known upstream issues
 
 **clio-core `dev` HDF5 VOL: `clio_file_specific` NULL-object dereference.**
@@ -168,6 +186,37 @@ fixed upstream. The fix mirrors `H5VLpassthru`: for those two op types, copy
 the FAPL, `H5Pset_vol(..., H5VL_NATIVE, NULL)`, and forward with a NULL obj.
 clio-core's own VOL compat suite does not catch this because h5py never calls
 `H5Fis_accessible`.
+
+**clio-core `dev` HDF5 VOL: the process cannot exit.** With the connector
+selected, `tst_chunks3` produces every timing and then blocks forever in
+`exit()`. The atexit ordering is the whole story: HDF5 registers
+`H5_term_library` on the first HDF5 call, and the connector's first `H5Fcreate`
+initialises the clio client *after* that, which registers clio's
+`RuntimeManagerCleanupAtExit` second. atexit handlers run in reverse order, so
+clio tears its client down first, and `H5_term_library` then closes the file
+that HDF5 still holds open — through the connector, which issues a `DelBlobTask`
+on a finalised client and waits for a reply that can never arrive:
+
+```
+#0  syscall
+#1  IpcCpu2Cpu::RecvOut<clio::cte::core::DelBlobTask>(...)
+#2  Future<DelBlobTask>::WaitCpu2Cpu(float, bool)
+#3  clio_write_stamp(...)                     [libclio_hdf5_vol.so]
+#4  clio_file_close(void*, long, void**)      [libclio_hdf5_vol.so]
+#5  H5VL_file_close                           [libhdf5.so.1000]
+#6  H5F__close_cb / H5I_clear_type / H5F_term_package
+#9  H5_term_library
+#10 __run_exit_handlers                       [libc]
+```
+
+The wait has no timeout, so nothing recovers it. Reproduced against clio-core
+`dev` @ `a19a0356` with HDF5 `develop` and netCDF-C `main`. Reaching that atexit
+close needs a file still in HDF5's id table when `main` returns, which
+`tst_chunks3` leaves behind even though it calls `nc_close`; a program that
+closes every HDF5 object itself exits normally, which is why clio-core's
+h5py-based VOL compat suite does not see this.
+The benchmark's own workaround is the completeness rule above — the numbers are
+all produced before the hang, so the series survives.
 
 **clio-core `dev` HDF5 VFD: contiguous slab writes are orders of magnitude
 slower than sec2.** Measured locally at 32³, `contiguous write 32 32 1` took

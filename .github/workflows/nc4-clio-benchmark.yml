@@ -215,16 +215,22 @@ jobs:
           # A CLIO variant that crashes or times out is dropped by the driver so
           # the surviving variants still publish. That must be visible here --
           # otherwise the dashboard quietly loses a series and nobody notices.
+          # A variant that produced every timing and then failed to *exit* keeps
+          # its result (the driver stamps the NOTE line below into it); that is
+          # a real measurement and a real adapter bug, so say both.
           {
             echo "### Variants"
             echo
             echo "| variant | result |"
             echo "| --- | --- |"
             for v in baseline clio_vfd clio_vol; do
-              if [ -s "benchmark-results/tst_chunks3_${v}.txt" ]; then
-                echo "| \`$v\` | measured |"
-              else
+              f="benchmark-results/tst_chunks3_${v}.txt"
+              if [ ! -s "$f" ]; then
                 echo "| \`$v\` | :warning: no result (crashed or timed out) |"
+              elif grep -q '^NOTE: process did not exit cleanly' "$f"; then
+                echo "| \`$v\` | measured, :warning: process never exited (killed after the last timing) |"
+              else
+                echo "| \`$v\` | measured |"
               fi
             done
           } >> "$GITHUB_STEP_SUMMARY"

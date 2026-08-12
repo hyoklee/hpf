@@ -20,7 +20,9 @@
 # Exit status is non-zero only for build failures. A variant whose *run* fails
 # (e.g. the clio runtime could not start) is reported, skipped, and leaves no
 # result file -- the parse step then simply emits no series for it rather than
-# poisoning the history with a bogus number.
+# poisoning the history with a bogus number. A variant that produced every
+# timing and then failed to *exit* is a different case and keeps its result:
+# see run_variant and exit_hang_watchdog.
 
 set -euo pipefail
 
@@ -183,6 +185,11 @@ STAGES="build,run"
 JOBS="$NCPU"
 VARIANTS="baseline,clio_vfd,clio_vol"
 RUN_TIMEOUT="45m"
+# How long a variant may take to *exit* after it has printed its last timing
+# line. Nothing is measured past that point -- the only thing left is process
+# teardown -- so a process still alive after this has wedged in teardown and is
+# killed, keeping the numbers it already produced (see run_variant).
+EXIT_GRACE="30"
 # clio-core's own CI builds the VFD adapter on Linux only (ci-vfd.yml is
 # ubuntu-only; the macOS job in ci-adapters.yml covers just the VOL). Where an
 # adapter is not expected to build, --allow-adapter-build-failure demotes its
@@ -210,6 +217,8 @@ Options:
   --stages LIST       subset of build,run             (default: build,run)
   --jobs N            parallel build jobs
   --run-timeout DUR   per-variant timeout(1) duration (default: 45m)
+  --exit-grace SECS   seconds a variant may take to exit after its last
+                      timing line before it is killed (default: 30)
   --allow-adapter-build-failure
                       a CLIO adapter that fails to compile drops its variant
                       instead of failing the run (for platforms where the
@@ -233,11 +242,19 @@ while [ $# -gt 0 ]; do
         --stages)      STAGES="$2"; shift 2 ;;
         --jobs)        JOBS="$2"; shift 2 ;;
         --run-timeout) RUN_TIMEOUT="$2"; shift 2 ;;
+        --exit-grace)  EXIT_GRACE="$2"; shift 2 ;;
         --allow-adapter-build-failure) ALLOW_ADAPTER_BUILD_FAILURE=1; shift ;;
         -h|--help)     usage; exit 0 ;;
         *) echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
     esac
 done
+
+# Plain seconds, not a timeout(1)-style duration: exit_hang_watchdog counts with
+# it, and a "30s" here would fail that comparison inside a background subshell,
+# silently leaving the run with no hang protection at all.
+case "$EXIT_GRACE" in
+    ''|*[!0-9]*) echo "--exit-grace takes whole seconds, got: $EXIT_GRACE" >&2; exit 2 ;;
+esac
 
 mkdir -p "$WORK_DIR"
 WORK_DIR="$(native_path "$(cd "$WORK_DIR" && pwd)")"
@@ -761,11 +778,100 @@ clio_runtime_start() {
 
 trap clio_runtime_stop EXIT
 
+# --------------------------------------------------- workload completeness
+# tst_chunks3 prints exactly one timing line per (storage type x operation x
+# access shape): 3 storage types (contiguous/chunked/compressed) x 2 operations
+# (write/read) x 3 shapes = 18, whatever dimensions it was given. A result file
+# holding all 18 is a complete measurement -- every number the dashboard plots
+# is already in it -- regardless of how the process then ended.
+EXPECTED_TIMINGS=18
+
+# Count the timing lines a result file already holds. The pattern is the
+# parser's (parse_nc4_clio_results.py): "<storage> <op> ... <value> sec ...".
+timing_line_count() {
+    # `grep -c` exits 1 on zero matches, which `set -e` would treat as fatal.
+    grep -cE \
+        '^[[:space:]]*(contiguous|chunked|compressed)[[:space:]]+(write|read)[[:space:]].*[[:space:]]sec' \
+        "$1" 2>/dev/null || true
+}
+
+results_complete() {
+    local n
+    n="$(timing_line_count "$1")"
+    [ "${n:-0}" -ge "$EXPECTED_TIMINGS" ]
+}
+
+bench_alive() {
+    if [ "$WIN" = 1 ]; then
+        tasklist //FI "IMAGENAME eq tst_chunks3.exe" 2>/dev/null \
+            | grep -qi tst_chunks3.exe
+        return $?
+    fi
+    # Anchored on the full path so it matches the workload and not the
+    # `timeout 45m <path> ...` wrapper around it (same idiom as clio_run).
+    pgrep -f "^$TST_CHUNKS3" >/dev/null 2>&1
+}
+
+bench_kill() {
+    if [ "$WIN" = 1 ]; then
+        taskkill //F //IM tst_chunks3.exe >/dev/null 2>&1 || true
+        return 0
+    fi
+    pkill -f "^$TST_CHUNKS3" >/dev/null 2>&1 || true
+    local i
+    for i in $(seq 1 10); do
+        bench_alive || return 0
+        sleep 1
+    done
+    pkill -9 -f "^$TST_CHUNKS3" >/dev/null 2>&1 || true
+}
+
+# exit_hang_watchdog <result-file>
+#
+# Kill the workload once it has printed all $EXPECTED_TIMINGS timing lines and
+# then failed to exit within $EXIT_GRACE seconds. Nothing is measured after the
+# last line, so a process still running past it is wedged in teardown -- and
+# the CLIO VOL is, reliably: HDF5 registers its H5_term_library atexit handler
+# on the first HDF5 call, the connector registers clio's client teardown later
+# (on the first H5Fcreate), so at exit clio's runs FIRST and H5_term_library's
+# file close then issues CTE tasks through a finalized client and waits for a
+# reply that can never come (see "Known upstream issues" in
+# NC4_CLIO_BENCHMARK.md). Without this the variant burns the whole
+# --run-timeout and its complete measurement is thrown away with it.
+exit_hang_watchdog() {
+    local out="$1" waited i
+    # This is started just before the pipeline that forks the workload, so the
+    # workload does not exist yet: wait for it to show up, or the `while
+    # bench_alive` below would see nothing and return immediately. Bounded, so a
+    # variant that never starts at all does not leave a watchdog spinning (and
+    # run_variant kills this one when the pipeline ends either way).
+    for i in $(seq 1 60); do
+        bench_alive && break
+        sleep 1
+    done
+    while bench_alive; do
+        if results_complete "$out"; then
+            waited=0
+            while [ "$waited" -lt "$EXIT_GRACE" ]; do
+                bench_alive || return 0
+                sleep 1
+                waited=$((waited + 1))
+            done
+            bench_alive || return 0
+            warn "all $EXPECTED_TIMINGS timings measured but the process has not exited ${EXIT_GRACE}s later; killing it"
+            bench_kill
+            return 0
+        fi
+        sleep 2
+    done
+}
+
 # run_variant <variant> <header>
 run_variant() {
     local variant="$1" header="$2"
     local out="$RESULTS_DIR/tst_chunks3_${variant}.txt"
     local dir="$RUN_DIR/$variant"
+    local rc=0 watchdog
 
     rm -rf "$dir"; mkdir -p "$dir"
 
@@ -777,35 +883,71 @@ run_variant() {
         echo "tst_chunks3 args: $BENCH_ARGS"
     } >"$out"
 
+    exit_hang_watchdog "$out" &
+    watchdog=$!
+
     # A hung variant must not stall the whole job: the CLIO adapters block
     # indefinitely when the runtime is missing a pool they need, and that is a
     # failure to report, not a reason to burn the CI timeout.
     # The sed strips clio's ANSI color codes so the archived artifact is
     # readable; the parser ignores non-timing lines either way.
     # shellcheck disable=SC2086  # BENCH_ARGS is deliberately word-split
-    if ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
-            | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out"; then
+    ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
+        | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out" || rc=$?
+
+    kill "$watchdog" 2>/dev/null || true
+    wait "$watchdog" 2>/dev/null || true
+
+    if [ "$rc" = 0 ]; then
         echo "variant $variant: ok"
+    elif results_complete "$out"; then
+        # Every timing was measured and only the exit went wrong (the CLIO VOL
+        # wedges in HDF5's atexit file close; the watchdog above then kills it).
+        # Discarding this would drop a complete, valid series from the
+        # dashboard because of a teardown bug that no timing here depends on.
+        warn "variant $variant measured all $EXPECTED_TIMINGS timings but did not exit cleanly (status $rc); keeping its result"
+        echo "NOTE: process did not exit cleanly (status $rc) after producing" \
+             "all $EXPECTED_TIMINGS timings; the timings above are complete" >>"$out"
+        echo "variant $variant: ok (measured; unclean exit $rc)"
+        # 2, not 0: the caller counts it as measured but still reports it, so a
+        # teardown bug that starts costing real data is visible in the log.
+        return 2
     else
         # Windows reports a failed DLL load as 0xC0000135 (-1073741515) with no
         # output at all, which is indistinguishable from a silent crash unless
         # the status is printed.
-        warn "variant $variant failed (exit $?); discarding its result file"
+        warn "variant $variant failed (exit $rc); discarding its result file"
         rm -f "$out"
         return 1
     fi
 }
 
 FAILED=""
+# Variants that produced a complete measurement but could not exit.
+HUNG=""
+
+# record_variant <variant> <status-from-run_variant>
+# Each variant runs in a subshell (so its HDF5_* environment cannot leak into
+# the next one), which is why the outcome comes back as an exit status rather
+# than in a variable.
+record_variant() {
+    case "$2" in
+        0) ;;
+        2) HUNG="$HUNG $1" ;;
+        *) FAILED="$FAILED $1" ;;
+    esac
+}
 
 if has_variant baseline; then
+    RC=0
     ( unset HDF5_DRIVER HDF5_DRIVER_CONFIG HDF5_VOL_CONNECTOR HDF5_PLUGIN_PATH
-      run_variant baseline "NetCDF-4 with HDF5 develop (baseline)" ) \
-        || FAILED="$FAILED baseline"
+      run_variant baseline "NetCDF-4 with HDF5 develop (baseline)" ) || RC=$?
+    record_variant baseline "$RC"
 fi
 
 if has_variant clio_vfd; then
     if clio_runtime_start; then
+        RC=0
         ( unset HDF5_VOL_CONNECTOR
           export HDF5_PLUGIN_PATH="$CLIO_BIN"
           # Driver name is H5FD_CLIO_NAME from clio-core's H5FDclio.h. The
@@ -815,8 +957,8 @@ if has_variant clio_vfd; then
           # real and the comparison is apples-to-apples with the baseline.
           export HDF5_DRIVER_CONFIG="true 65536"
           export CLIO_SERVER_CONF="$CLIO_CONF"
-          run_variant clio_vfd "NetCDF-4 with HDF5 develop + clio-core VFD" ) \
-            || FAILED="$FAILED clio_vfd"
+          run_variant clio_vfd "NetCDF-4 with HDF5 develop + clio-core VFD" ) || RC=$?
+        record_variant clio_vfd "$RC"
     else
         warn "skipping clio_vfd: runtime unavailable"
         FAILED="$FAILED clio_vfd"
@@ -826,12 +968,13 @@ fi
 
 if has_variant clio_vol; then
     if clio_runtime_start; then
+        RC=0
         ( unset HDF5_DRIVER HDF5_DRIVER_CONFIG
           export HDF5_PLUGIN_PATH="$CLIO_BIN"
           export HDF5_VOL_CONNECTOR="clio"   # under-VOL defaults to native
           export CLIO_SERVER_CONF="$CLIO_CONF"
-          run_variant clio_vol "NetCDF-4 with HDF5 develop + clio-core VOL" ) \
-            || FAILED="$FAILED clio_vol"
+          run_variant clio_vol "NetCDF-4 with HDF5 develop + clio-core VOL" ) || RC=$?
+        record_variant clio_vol "$RC"
     else
         warn "skipping clio_vol: runtime unavailable"
         FAILED="$FAILED clio_vol"
@@ -843,6 +986,9 @@ log "Results in $RESULTS_DIR"
 ls -la "$RESULTS_DIR"
 if [ -n "$UNBUILDABLE" ]; then
     warn "variants whose adapter did not build on $OS:$UNBUILDABLE"
+fi
+if [ -n "$HUNG" ]; then
+    warn "variants measured but killed because they never exited:$HUNG"
 fi
 if [ -n "$FAILED" ]; then
     warn "variants that produced no result:$FAILED"

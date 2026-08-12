@@ -137,8 +137,78 @@ clio-core's `adapter/vfd/README.md` documents `HDF5_DRIVER=clio`.
 the environment variable against. Following the README silently gets you the
 sec2 driver and a "CLIO" series identical to the baseline.
 
-## Not verified
+### 4. CLIO VOL: the process cannot exit, and that cost the series
 
-The workflow has not yet run on GitHub. Every script it invokes was exercised
-locally, but the `iowarp/deps-cpu` container path, the per-component caching,
-and the gh-pages push are untested until the first scheduled run.
+Seen first in the scheduled Linux run of 2026-08-12
+([31577100886](https://github.com/hyoklee/hpf/actions/runs/31577100886)):
+`clio_vol` printed all 18 timings in three seconds, then sat until the
+45-minute `--run-timeout` killed it, and the driver deleted its complete result
+file — `[warn] variant clio_vol failed (exit 124); discarding its result file`.
+The dashboard lost the whole series to a hang that happened *after* every
+measurement was taken.
+
+The hang is atexit ordering. HDF5 registers `H5_term_library` with `atexit` on
+the first HDF5 call; the connector initialises the clio client on the first
+`H5Fcreate`, which registers clio's `RuntimeManagerCleanupAtExit` **later**.
+Handlers run in reverse order, so clio finalises its client first
+(`[ClientPool] Clearing 0 persistent connections` is the last line in the log),
+and `H5_term_library` then closes the file HDF5 still holds open — through the
+connector, which posts a `DelBlobTask` on the finalised client and waits with no
+timeout for a reply that can never arrive:
+
+```
+#0  syscall
+#1  IpcCpu2Cpu::RecvOut<clio::cte::core::DelBlobTask>(...)
+#2  Future<DelBlobTask>::WaitCpu2Cpu(float, bool)
+#3  clio_write_stamp(...)                     [libclio_hdf5_vol.so]
+#4  clio_file_close(void*, long, void**)      [libclio_hdf5_vol.so]
+#5  H5VL_file_close                           [libhdf5.so.1000]
+#6  H5F__close_cb / H5I_clear_type / H5F_term_package
+#9  H5_term_library
+#10 __run_exit_handlers                       [libc]
+```
+
+Reproduced locally against clio-core `dev` @ `a19a0356`, HDF5 `develop` @
+`562e6028`, netCDF-C `main` @ `984d9758`. It takes a file still in HDF5's id
+table when `main` returns to reach that atexit close at all: `tst_chunks3` calls
+`nc_close` and one is there anyway, while a small program that closes its own
+HDF5 objects exits normally — which is why clio-core's h5py-based VOL compat
+suite never sees this. Upstream needs either an ordering fix (register
+clio's teardown before HDF5's, or defer it) or a bounded wait; a `Future` that
+blocks forever when the client is gone will keep turning shutdown bugs into
+hangs.
+
+The benchmark side is fixed independently of upstream: `tst_chunks3` emits
+exactly 18 timing lines and does no work after the last one, so a result file
+holding all 18 is a complete measurement no matter how the process ended.
+`nc4_clio_bench.sh` now keeps such a file (noting the unclean exit in it) and
+kills a process that has not exited 30 s after its last timing line, so a
+teardown hang costs half a minute instead of the whole timeout.
+
+### 5. CLIO VFD: `nc_create` now fails with EACCES
+
+The same run lost `clio_vfd` too, for an unrelated and genuine reason: the very
+first `nc_create` fails with `Permission denied` (exit 13) right after the cache
+line, before any timing —
+
+```
+Sorry! Unexpected result, .../nc_perf/tst_chunks3.c, line: 314 - Permission denied
+```
+
+Line 314 is the `nc_create(FILENAME, NC_NETCDF4 | NC_CLASSIC_MODEL, &ncid)`.
+This reproduces locally with the same sources as above, in a directory the
+baseline variant writes to happily, so it is the VFD's own path and not the
+runner's filesystem. It postdates the measurements in the table above (taken
+2026-08-03, when the VFD ran to completion), so something on clio-core `dev`
+between `b5c68c5e`/`03819a98` and `a19a0356` regressed file creation through the
+CFS chimod. Not yet bisected. This one *is* a failed measurement — no timings
+exist — so the driver drops the variant, which is the right outcome.
+
+## Verified in CI
+
+The Linux workflow has now run on GitHub: the `iowarp/deps-cpu` container path,
+the per-component caching, the plot generation and the gh-pages push all work
+(run [31577100886](https://github.com/hyoklee/hpf/actions/runs/31577100886)
+pushed `benchmarks_nc4_clio/` at 8 runs of history). What that run exposed was
+the two adapter problems above, not workflow plumbing. The macOS and Windows
+workflows publish to their own directories and are checked by their own runs.
