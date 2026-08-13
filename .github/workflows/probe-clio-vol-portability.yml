@@ -1,0 +1,180 @@
+name: probe - CLIO VOL portability (macOS + Windows build)
+
+# EXPERIMENT, not part of the benchmark suite. Delete once it has answered.
+#
+# Does a candidate clio-core ref compile the HDF5 VOL connector on macOS and
+# Windows? `dev` does not: the coherence stamp added in 6873b60a reads
+# st.st_mtim (POSIX-2008/glibc; Darwin spells it st_mtimespec, MSVC has no
+# sub-second member) and calls clock_gettime(CLOCK_REALTIME, ...) (MSVC has
+# neither the function nor the macro), so libclio_hdf5_vol has not built on
+# either platform since 2026-08-10 and both dashboards lost their clio_vol
+# series. Fix submitted as clio-core PR #971.
+#
+# This probe exists because clio-core's own CI cannot answer the question on a
+# pull request: the two legs that build the connector off Linux --
+# ci-adapters.yml's "adapters (macos, hdf5_vol + macfuse)" and its Windows
+# counterpart -- are both gated `if: github.event_name != 'pull_request'`, and
+# ci-windows.yml configures -DCLIO_CTE_ENABLE_HDF5_VOL=OFF. That is how the
+# breakage reached dev in the first place.
+#
+# Build only, and nothing is published: a patched clio-core does not belong in
+# the dashboard history. `clio_vol: measured` in a real run is the benchmark's
+# job, once the fix is on dev.
+
+on:
+  workflow_dispatch:
+    inputs:
+      clio_ref:
+        description: 'clio-core ref to build (branch in iowarp/clio-core)'
+        type: string
+        default: vol-mtime-portability
+      platforms:
+        description: 'which probe to run'
+        type: choice
+        options: [both, macos, windows]
+        default: both
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  macos-vol-build:
+    name: VOL build (macOS)
+    if: inputs.platforms == 'both' || inputs.platforms == 'macos'
+    runs-on: macos-26
+    timeout-minutes: 120
+    steps:
+      - name: Checkout HPF
+        uses: actions/checkout@v4
+
+      - name: Install coreutils
+        run: brew install coreutils
+
+      # Cloned here rather than by the driver because CI/ci-deps.sh lives in the
+      # clio checkout and has to run before anything is configured.
+      - name: Clone clio-core at the ref under test
+        run: |
+          set -euo pipefail
+          mkdir -p nc4-clio-work
+          git clone --depth 1 --branch "${{ inputs.clio_ref }}" \
+            --recurse-submodules \
+            https://github.com/iowarp/clio-core.git nc4-clio-work/clio-src
+          echo "clio-core $(git -C nc4-clio-work/clio-src rev-parse HEAD)"
+
+      - name: Install clio-core dependencies (conda)
+        run: |
+          set -euo pipefail
+          cd nc4-clio-work/clio-src
+          chmod +x CI/ci-deps.sh
+          ./CI/ci-deps.sh --only-deps release
+
+      # No --allow-adapter-build-failure: a VOL that does not compile is the
+      # whole question, so let it fail the job and say so.
+      - name: Build HDF5 + the VOL connector
+        run: |
+          set -eo pipefail
+          if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniconda3/etc/profile.d/conda.sh"
+          elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/anaconda3/etc/profile.d/conda.sh"
+          elif command -v conda >/dev/null 2>&1; then
+            eval "$(conda shell.bash hook)"
+          fi
+          conda activate iowarp
+          set -u
+          export CMAKE_PREFIX_PATH="${CONDA_PREFIX}${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}"
+          export PKG_CONFIG_PATH="${CONDA_PREFIX}/lib/pkgconfig:${CONDA_PREFIX}/share/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+
+          bash .github/scripts/nc4_clio_bench.sh \
+            --clone \
+            --clio-src "$GITHUB_WORKSPACE/nc4-clio-work/clio-src" \
+            --work-dir "$GITHUB_WORKSPACE/nc4-clio-work" \
+            --hdf5-ref develop \
+            --netcdf-ref main \
+            --variants clio_vol \
+            --stages build \
+            --jobs "$(sysctl -n hw.ncpu)"
+
+      - name: Say what was built
+        if: always()
+        run: |
+          {
+            echo "### VOL build (macOS) — clio-core \`${{ inputs.clio_ref }}\`"
+            echo
+            if [ -f nc4-clio-work/clio-build/bin/libclio_hdf5_vol.dylib ]; then
+              echo ":white_check_mark: \`libclio_hdf5_vol.dylib\` built"
+              otool -L nc4-clio-work/clio-build/bin/libclio_hdf5_vol.dylib \
+                | grep -i hdf5 | sed 's/^/    /'
+            else
+              echo ":x: no \`libclio_hdf5_vol.dylib\` — see the build log"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  windows-vol-build:
+    name: VOL build (Windows)
+    if: inputs.platforms == 'both' || inputs.platforms == 'windows'
+    runs-on: windows-2025
+    timeout-minutes: 180
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+    steps:
+      - name: Checkout HPF
+        uses: actions/checkout@v4
+
+      - name: Exclude workspace from Defender (link-flake mitigation)
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          Add-MpPreference -ExclusionPath "${{ github.workspace }}" -ErrorAction SilentlyContinue
+          Add-MpPreference -ExclusionProcess "link.exe","cl.exe","mspdbsrv.exe","vcpkg.exe","MSBuild.exe" -ErrorAction SilentlyContinue
+          if ($env:VCPKG_INSTALLATION_ROOT) {
+            Add-MpPreference -ExclusionPath "$env:VCPKG_INSTALLATION_ROOT" -ErrorAction SilentlyContinue
+          }
+
+      - name: Bootstrap vcpkg and install zlib
+        shell: pwsh
+        run: |
+          if (-not $env:VCPKG_INSTALLATION_ROOT) {
+            throw "VCPKG_INSTALLATION_ROOT is unset; clio-core needs vcpkg on Windows"
+          }
+          & "$env:VCPKG_INSTALLATION_ROOT\vcpkg.exe" install zlib:x64-windows
+
+      - name: Clone clio-core at the ref under test
+        run: |
+          set -euo pipefail
+          mkdir -p nc4-clio-work
+          git -c core.autocrlf=false -c core.eol=lf clone --depth 1 \
+            --branch "${{ inputs.clio_ref }}" --recurse-submodules \
+            https://github.com/iowarp/clio-core.git nc4-clio-work/clio-src
+          echo "clio-core $(git -C nc4-clio-work/clio-src rev-parse HEAD)"
+
+      - name: Build HDF5 + the VOL connector
+        run: |
+          set -euo pipefail
+          bash .github/scripts/nc4_clio_bench.sh \
+            --clone \
+            --clio-src "$GITHUB_WORKSPACE/nc4-clio-work/clio-src" \
+            --work-dir "$GITHUB_WORKSPACE/nc4-clio-work" \
+            --hdf5-ref develop \
+            --netcdf-ref main \
+            --variants clio_vol \
+            --stages build \
+            --jobs "${NUMBER_OF_PROCESSORS:-4}"
+
+      - name: Say what was built
+        if: always()
+        run: |
+          {
+            echo "### VOL build (Windows) — clio-core \`${{ inputs.clio_ref }}\`"
+            echo
+            dll="$(find nc4-clio-work/clio-build/bin -maxdepth 2 -name clio_hdf5_vol.dll -print -quit 2>/dev/null || true)"
+            if [ -n "$dll" ]; then
+              echo ":white_check_mark: \`$dll\` built"
+            else
+              echo ":x: no \`clio_hdf5_vol.dll\` — see the build log"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

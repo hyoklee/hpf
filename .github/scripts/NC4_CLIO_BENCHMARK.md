@@ -50,7 +50,7 @@ What differs, and why:
 | process control | `pkill`/`pgrep` | same | `taskkill`/`tasklist` |
 | workload | stock `tst_chunks3` | stock | **patched** — nc_perf is POSIX-only (see below) |
 | VFD adapter | must build; a failure is a regression | builds and measures (since clio-core PR #938) | target does not exist on `dev` (see below) |
-| VOL adapter | must build; a failure is a regression | **broken upstream** — `st_mtim` is not a Darwin `struct stat` member | must build |
+| VOL adapter | must build; a failure is a regression | **broken upstream** — `st_mtim`/`clock_gettime` (clio-core PR #971) | **broken upstream** — same |
 
 **netCDF-C's benchmarks do not build on Windows.** `tst_chunks3`'s timing
 macros are built on `getrusage(2)`, and not one of nc_perf's 23 sources carries
@@ -232,15 +232,23 @@ the FAPL, `H5Pset_vol(..., H5VL_NATIVE, NULL)`, and forward with a NULL obj.
 clio-core's own VOL compat suite does not catch this because h5py never calls
 `H5Fis_accessible`.
 
-**clio-core `dev` HDF5 VOL: does not compile on macOS.** The coherence-stamp
-code added in `6873b60a` reads `st.st_mtim` (`clio_vol.cc:822-823, 908-909`),
-which is the glibc spelling; Darwin's `struct stat` has `st_mtimespec` (and
-`st_mtime`/`st_mtimensec`). The macOS runner therefore fails with
-`error: no member named 'st_mtim' in 'stat'`, the driver drops the `clio_vol`
-variant, and the macOS dashboard has no VOL series — reported by the job summary
-as *adapter not built on this platform*. Nothing on this side can fix it: the
-benchmark measures upstream's adapter, and patching clio-core sources here would
-make the numbers describe a tree nobody ships.
+**clio-core `dev` HDF5 VOL: does not compile on macOS or Windows.** The
+coherence-stamp code added in `6873b60a` reads `st.st_mtim`
+(`clio_vol.cc:822-823, 908-909`) and calls `clock_gettime(CLOCK_REALTIME, ...)`.
+`st_mtim` is the POSIX-2008/glibc spelling: Darwin calls the same member
+`st_mtimespec` and MSVC has no sub-second member at all, and MSVC has neither
+`clock_gettime` nor `CLOCK_REALTIME`. So macOS fails with
+`error: no member named 'st_mtim' in 'stat'` (×4) and Windows with the same four
+plus `C2065: 'CLOCK_REALTIME': undeclared identifier`; the driver drops the
+`clio_vol` variant and both dashboards have had no VOL series since 2026-08-10.
+Fix submitted upstream as
+[clio-core PR #971](https://github.com/iowarp/clio-core/pull/971) (a
+`clio_stat_mtime()` helper for the three `struct stat` spellings,
+`std::chrono::system_clock` for the wall clock, and a 1 s default stamp
+granularity on Windows where mtime has one-second resolution). The series return
+on their own once it lands on `dev` — nothing here needs to change, and patching
+clio-core sources in this repo would make the numbers describe a tree nobody
+ships.
 
 **clio-core `dev` HDF5 VOL: the process cannot exit.** With the connector
 selected, `tst_chunks3` produces every timing and then blocks forever in

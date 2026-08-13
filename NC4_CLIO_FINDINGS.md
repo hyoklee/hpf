@@ -233,6 +233,61 @@ Worth reporting upstream on the netCDF-C side too: `BAIL(EACCES)` turns every
 VFD/VOL create failure into a wrong diagnosis, and the same `BAIL` pattern is in
 the diskless branch immediately above it.
 
+### 6. The off-Linux dashboards: VFD came back, VOL cannot compile
+
+The macOS and Windows dashboards had no CLIO series at all, and the job
+summaries could not say why — all three platforms rendered their variant table
+from "is the result file non-empty?", so an adapter that does not exist, one that
+fails to compile, and one that crashes at runtime printed the same warning. Four
+distinct things were hiding behind it.
+
+**macOS VFD — fixed, and publishing.** clio-core
+[`df614075`](https://github.com/iowarp/clio-core/commit/df614075) (PR #938,
+2026-08-06) moved `add_subdirectory(vfd)` off the ELF gate to
+`if(UNIX AND CLIO_CTE_ENABLE_VFD)`, so the VFD has been *building* on macOS since
+then — `libclio_vfd.dylib`, confirmed in the runner logs. What kept the series
+off the dashboard was the run failing with exit 13, i.e. finding 5's stale
+`HDF5_DRIVER_CONFIG`. With `cache=1` the macOS VFD measures and
+`benchmarks_nc4_clio_mac/` carries the series.
+
+**Windows VFD — absent, not broken.** Windows is not UNIX, so the target does not
+exist and MSBuild reports `MSB1009: Project file does not exist. Switch:
+clio_vfd.vcxproj`. The port is written and merged —
+[PR #950](https://github.com/iowarp/clio-core/pull/950) — but onto the
+`fs-descriptor-windows` branch, which `git compare` reports as *diverged* from
+both `dev` and `main`. A `dev` build cannot contain it and no flag on this side
+changes that; `probe-clio-vfd-windows.yml` exercises that branch on demand and
+publishes nothing.
+
+**macOS and Windows VOL — an upstream portability bug.** The coherence stamp
+added in `6873b60a` reads `st.st_mtim` and calls `clock_gettime(CLOCK_REALTIME,
+...)`. `st_mtim` is the POSIX-2008/glibc name; Darwin spells the same member
+`st_mtimespec`, and MSVC has no sub-second member at all and neither
+`clock_gettime` nor `CLOCK_REALTIME`:
+
+```
+macOS:   clio_vol.cc:822:51: error: no member named 'st_mtim' in 'stat'   (x4)
+Windows: clio_vol.cc(822,51): error C2039: 'st_mtim': is not a member of 'stat'  (x4)
+         clio_vol.cc(905,21): error C2065: 'CLOCK_REALTIME': undeclared identifier
+         clio_vol.cc(905,7):  error C3861: 'clock_gettime': identifier not found
+```
+
+Submitted upstream as
+[clio-core PR #971](https://github.com/iowarp/clio-core/pull/971): a
+`clio_stat_mtime()` helper covering the three `struct stat` spellings,
+`std::chrono::system_clock` in place of `clock_gettime`, and a 1 s default stamp
+granularity on Windows — where `stat()` reports mtime in whole seconds, so the
+10 ms default would call a file unambiguous whose next write lands in the same
+reported second, quietly weakening the fail-closed rule that check exists for.
+Verified on Linux (identical 18 timings and identical stamp text); the macOS and
+Windows branches are checked by clio-core's own adapter CI on that PR.
+
+**The reporting itself.** `nc4_clio_bench.sh` now records every variant's
+outcome and reason in `benchmark-results/variant_status.tsv`, and
+`variant_summary.sh` renders it for all three workflows, so "adapter not built on
+this platform" and "crashed or timed out" are no longer the same sentence. That
+is what made the four causes above separable in the first place.
+
 ## Verified in CI
 
 The Linux workflow has now run on GitHub: the `iowarp/deps-cpu` container path,
