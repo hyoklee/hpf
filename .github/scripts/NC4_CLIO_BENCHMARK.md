@@ -23,6 +23,7 @@ The workload is `tst_chunks3` from netcdf-c's `nc_perf`.
 | `../workflows/nc4-clio-benchmark-win.yml` | the same on `windows-2025`, publishing to `benchmarks_nc4_clio_win/` |
 | `apply_win_nc_perf_shims.py` | supplies `getrusage` so the workload compiles with MSVC |
 | `nc4_clio_bench.sh` | builds the three stacks and runs the variants (shared by CI and local runs) |
+| `variant_summary.sh` | renders the per-variant outcome table for all three job summaries |
 | `clio_runtime.yaml` | `clio_run` compose config used by both CLIO variants |
 | `parse_nc4_clio_results.py` | `tst_chunks3` text → benchmark JSON, per variant |
 | `combine_nc4_clio_results.py` | three variant JSONs → one suffixed github-action-benchmark payload |
@@ -48,7 +49,8 @@ What differs, and why:
 | shm cleanup | sweeps `/dev/shm` | no-op | no-op |
 | process control | `pkill`/`pgrep` | same | `taskkill`/`tasklist` |
 | workload | stock `tst_chunks3` | stock | **patched** — nc_perf is POSIX-only (see below) |
-| VFD adapter | must build; a failure is a regression | not available (ELF gate) | not available (ELF gate) |
+| VFD adapter | must build; a failure is a regression | builds and measures (since clio-core PR #938) | target does not exist on `dev` (see below) |
+| VOL adapter | must build; a failure is a regression | **broken upstream** — `st_mtim` is not a Darwin `struct stat` member | must build |
 
 **netCDF-C's benchmarks do not build on Windows.** `tst_chunks3`'s timing
 macros are built on `getrusage(2)`, and not one of nc_perf's 23 sources carries
@@ -71,17 +73,31 @@ CRLF and failed the other way. The injector normalises endings for matching,
 preserves the file's own style on write, and carries no line numbers to go
 stale when upstream edits the file for unrelated reasons.
 
-**The CLIO VFD cannot be built off Linux.** clio-core puts `add_subdirectory(vfd)`
-inside `if(CLIO_CORE_ENABLE_ELF)` in `context-transfer-engine/adapter/CMakeLists.txt`,
-and that option does `pkg_check_modules(libelf REQUIRED libelf)` — so asking for
-it on Mach-O or Windows fails at configure time — and clio-core's own
-`ci-adapters.yml` sets `CLIO_CTE_ENABLE_VFD=OFF` on Windows for the same reason.
-The VFD itself never touches `real_api.h` (it is a plugin, not an interceptor),
-so the gate looks incidental rather than intended, but working around it would
-mean installing an ELF library on those platforms to satisfy a CMake condition.
-The workflows instead attempt the target, get `No rule to make target
-'clio_vfd'`, drop the variant with a warning, and publish the rest. If upstream
-ungates it, the series appears on its own.
+**Where the CLIO VFD builds, and why Windows still has no series.** This used to
+read "the VFD cannot be built off Linux", because clio-core kept
+`add_subdirectory(vfd)` inside `if(CLIO_CORE_ENABLE_ELF)` and that option does
+`pkg_check_modules(libelf REQUIRED libelf)`. That is no longer the gate:
+[`df614075`](https://github.com/iowarp/clio-core/commit/df614075) (PR #938,
+2026-08-06) moved it to `if(UNIX AND CLIO_CTE_ENABLE_VFD)`, on the grounds that
+the VFD is a plugin HDF5 `dlopen`s and never touches `real_api.h`. So:
+
+- **macOS is UNIX, and the VFD builds there now.** It is expected to compile and
+  measure. `libclio_vfd.dylib` has been building on the macOS runner since
+  2026-08-06; what kept the series off the dashboard afterwards was the run
+  failing with the stale `HDF5_DRIVER_CONFIG` string, not the build.
+- **Windows is not UNIX, so the target does not exist** and MSBuild says
+  `MSB1009: Project file does not exist. Switch: clio_vfd.vcxproj`. The port is
+  written and merged — [PR #950](https://github.com/iowarp/clio-core/pull/950),
+  "Port the HDF5 VFD to Windows" — but onto the `fs-descriptor-windows` branch,
+  which is not an ancestor of `dev` or `main`. Until it lands on `dev` a dev
+  build cannot have it, and no flag here changes that.
+  `probe-clio-vfd-windows.yml` exercises that branch on demand and publishes
+  nothing, because a patched clio-core does not belong in the dashboard history.
+
+The workflows attempt the target either way, drop the variant when it is absent,
+and publish the rest — and the job summary now says *why* it was dropped
+(`variant_status.tsv`, below), so a platform gap no longer looks like a crash.
+When the port reaches `dev`, the Windows series appears on its own.
 
 **Why the macOS ABI gate resolves the soname.** HDF5 stamps its install name as
 `@rpath/libhdf5.<soversion>.dylib`, and dyld searches each `LC_RPATH` entry in
@@ -170,6 +186,20 @@ empty series, and the surviving variants still publish. The workflow prints a
 per-variant table to the job summary so a persistently missing series is
 visible, and fails outright only if the *baseline* produced nothing.
 
+**"No result" is four different things, and the summary has to say which.** The
+driver records every variant's outcome, with a reason, in
+`benchmark-results/variant_status.tsv` (`<variant>\t<status>\t<note>`, statuses
+`measured`, `measured_no_exit`, `not_built`, `no_result`, `not_requested`), and
+`variant_summary.sh` renders it into the job summary for all three platforms.
+Before that, each workflow derived the table from "is the result file
+non-empty?", so an adapter that does not exist on the platform (Windows VFD), one
+that fails to compile (macOS VOL), and one that crashed at runtime all printed
+the same warning — which is how the Windows VFD spent weeks looking like a
+crashing adapter instead of an absent one. Rows are appended and the last row for
+a variant wins; a run stage keeps the preceding build stage's `not_built` rows
+and discards everything else, so a repeated `--stages run` cannot report a
+variant it never touched.
+
 **A variant that fails to *exit* is not a failed measurement.** `tst_chunks3`
 prints 18 timing lines — 3 storage types × 2 operations × 3 access shapes,
 whatever dimensions it was given — and does no work after the last one. A
@@ -201,6 +231,16 @@ fixed upstream. The fix mirrors `H5VLpassthru`: for those two op types, copy
 the FAPL, `H5Pset_vol(..., H5VL_NATIVE, NULL)`, and forward with a NULL obj.
 clio-core's own VOL compat suite does not catch this because h5py never calls
 `H5Fis_accessible`.
+
+**clio-core `dev` HDF5 VOL: does not compile on macOS.** The coherence-stamp
+code added in `6873b60a` reads `st.st_mtim` (`clio_vol.cc:822-823, 908-909`),
+which is the glibc spelling; Darwin's `struct stat` has `st_mtimespec` (and
+`st_mtime`/`st_mtimensec`). The macOS runner therefore fails with
+`error: no member named 'st_mtim' in 'stat'`, the driver drops the `clio_vol`
+variant, and the macOS dashboard has no VOL series — reported by the job summary
+as *adapter not built on this platform*. Nothing on this side can fix it: the
+benchmark measures upstream's adapter, and patching clio-core sources here would
+make the numbers describe a tree nobody ships.
 
 **clio-core `dev` HDF5 VOL: the process cannot exit.** With the connector
 selected, `tst_chunks3` produces every timing and then blocks forever in

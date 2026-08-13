@@ -267,6 +267,28 @@ NETCDF_INSTALL="$WORK_DIR/netcdf-install"
 CLIO_BUILD="$WORK_DIR/clio-build"
 CLIO_BIN="$CLIO_BUILD/bin"
 
+# ------------------------------------------------------- per-variant status
+# Why a series is missing is knowledge this script has and the workflow's job
+# summary does not: "the adapter does not build on this platform" and "it built,
+# ran, and crashed" both leave no result file, and reporting them as one line
+# ("no result (not built, crashed, or timed out)") is how a platform gap and a
+# regression end up looking identical on the dashboard. Record the outcome here,
+# at the point that knows it, and let the summary render it.
+#
+#   <variant>\t<status>\t<note>
+#
+# status is one of: measured | measured_no_exit | not_built | no_result |
+# not_requested. note is free text and may be empty.
+STATUS_FILE="$RESULTS_DIR/variant_status.tsv"
+
+# set_variant_status <variant> <status> [note]
+# Appended, not rewritten: run_variant runs in a subshell (see record_variant),
+# so a shell variable would not survive. Readers take the LAST row for a
+# variant, which makes a later, better-informed row win.
+set_variant_status() {
+    printf '%s\t%s\t%s\n' "$1" "$2" "${3:-}" >>"$STATUS_FILE"
+}
+
 # Where the built plugins actually are. A multi-config generator would put them
 # in bin/<config>, but clio-core pins RUNTIME_OUTPUT_DIRECTORY to bin/, so on
 # Windows the DLLs land in bin/ while only the import libraries go to
@@ -331,6 +353,10 @@ echo "sources: $(tr -d '\n ' < "$SOURCES_JSON")"
 
 # --------------------------------------------------------------- build
 if has_stage build; then
+
+# A build starts a fresh accounting. `--stages run` on its own does NOT truncate,
+# so the not_built rows from a preceding `--stages build` survive into the run.
+: >"$STATUS_FILE"
 
 log "Building HDF5 ($HDF5_REF) -> $HDF5_INSTALL"
 # Shared libs are mandatory: a VOL connector / VFD plugin is dlopen'd into the
@@ -440,10 +466,24 @@ if has_variant clio_vfd || has_variant clio_vol; then
         CLIO_PREFIX_PATH="$CLIO_PREFIX_PATH;$(echo "$CMAKE_PREFIX_PATH" | tr ':' ';')"
     fi
 
-    # ELF support is Linux-only. clio-core gates add_subdirectory(vfd) behind it
-    # (adapter/CMakeLists.txt) and CLIO_CORE_ENABLE_ELF does
-    # pkg_check_modules(libelf REQUIRED), so the VFD target simply does not
-    # exist off Linux -- hence --allow-adapter-build-failure on those runners.
+    # CLIO_CORE_ENABLE_ELF is Linux-only (it does pkg_check_modules(libelf
+    # REQUIRED)) and it used to gate the VFD too, but no longer: clio-core
+    # df614075 (2026-08-06, PR #938) moved add_subdirectory(vfd) out of the ELF
+    # block to `if(UNIX AND CLIO_CTE_ENABLE_VFD)`, because the VFD is a plugin
+    # HDF5 dlopen's and never touches real_api.h. Consequences per platform:
+    #   Linux   -- VFD and VOL both build; a failure is a regression.
+    #   macOS   -- UNIX, so the VFD builds here now. Do not "fix" a macOS VFD
+    #              failure by disabling the variant; it is expected to measure.
+    #   Windows -- not UNIX, so the target does not exist and MSBuild reports
+    #              "MSB1009: Project file does not exist. Switch:
+    #              clio_vfd.vcxproj". The port itself is written and merged, but
+    #              onto the fs-descriptor-windows branch (PR #950), which is not
+    #              an ancestor of dev or main -- so a dev build cannot have it.
+    #              probe-clio-vfd-windows.yml runs that branch on demand;
+    #              nothing publishes from it. The variant reappears here by
+    #              itself once the port reaches dev.
+    # --allow-adapter-build-failure is what turns a missing target into a
+    # dropped variant instead of a failed job (mac and Windows pass it).
     # The rest mirrors what clio-core's own ci-macos.yml / ci-adapters.yml do.
     if [ "$WIN" = 1 ]; then
         # vcpkg supplies zeromq/yaml-cpp/cereal/msgpack (and an hdf5 we must not
@@ -526,6 +566,13 @@ if has_variant clio_vfd || has_variant clio_vol; then
         warn "target $target failed to build; dropping the $variant variant"
         VARIANTS="$(echo ",$VARIANTS," | sed "s/,$variant,/,/" | sed 's/^,//; s/,$//')"
         UNBUILDABLE="$UNBUILDABLE $variant"
+        # Name the known platform gap explicitly. Anything else is a real build
+        # failure and the log is where to look, so do not guess at a cause.
+        local note="target $target did not build on $OS"
+        if [ "$WIN" = 1 ] && [ "$variant" = clio_vfd ]; then
+            note="$note: clio-core gates the VFD on UNIX, and the Windows port (PR #950) is on the fs-descriptor-windows branch, not on $CLIO_REF"
+        fi
+        set_variant_status "$variant" not_built "$note"
     }
     build_adapter clio_vfd clio_vfd
     build_adapter clio_vol clio_hdf5_vol
@@ -636,6 +683,16 @@ fi  # stage build
 if ! has_stage run; then
     log "stages=$STAGES -- skipping run"
     exit 0
+fi
+
+# Every run measures afresh, so drop the previous run's outcomes -- otherwise a
+# repeated `--stages run` (or one narrowed with --variants) would leave last
+# run's rows in place and the summary would report a variant this run never
+# touched. not_built rows are the exception: they are build-stage facts, and a
+# `--stages build` + `--stages run` pair must not lose them.
+if [ -f "$STATUS_FILE" ]; then
+    awk -F'\t' '$2 == "not_built"' "$STATUS_FILE" >"$STATUS_FILE.new" || true
+    mv "$STATUS_FILE.new" "$STATUS_FILE"
 fi
 
 # Repeated from the build stage so that --stages run alone still finds them.
@@ -900,6 +957,7 @@ run_variant() {
 
     if [ "$rc" = 0 ]; then
         echo "variant $variant: ok"
+        set_variant_status "$variant" measured
     elif results_complete "$out"; then
         # Every timing was measured and only the exit went wrong (the CLIO VOL
         # wedges in HDF5's atexit file close; the watchdog above then kills it).
@@ -909,6 +967,8 @@ run_variant() {
         echo "NOTE: process did not exit cleanly (status $rc) after producing" \
              "all $EXPECTED_TIMINGS timings; the timings above are complete" >>"$out"
         echo "variant $variant: ok (measured; unclean exit $rc)"
+        set_variant_status "$variant" measured_no_exit \
+            "all $EXPECTED_TIMINGS timings measured; process did not exit (status $rc) and was killed"
         # 2, not 0: the caller counts it as measured but still reports it, so a
         # teardown bug that starts costing real data is visible in the log.
         return 2
@@ -917,6 +977,8 @@ run_variant() {
         # output at all, which is indistinguishable from a silent crash unless
         # the status is printed.
         warn "variant $variant failed (exit $rc); discarding its result file"
+        set_variant_status "$variant" no_result \
+            "ran but produced fewer than $EXPECTED_TIMINGS timings (exit $rc)"
         rm -f "$out"
         return 1
     fi
@@ -975,6 +1037,7 @@ if has_variant clio_vfd; then
     else
         warn "skipping clio_vfd: runtime unavailable"
         FAILED="$FAILED clio_vfd"
+        set_variant_status clio_vfd no_result "clio_run did not become ready; variant never ran"
     fi
     clio_runtime_stop
 fi
@@ -991,12 +1054,31 @@ if has_variant clio_vol; then
     else
         warn "skipping clio_vol: runtime unavailable"
         FAILED="$FAILED clio_vol"
+        set_variant_status clio_vol no_result "clio_run did not become ready; variant never ran"
     fi
     clio_runtime_stop
 fi
 
+# Backfill a row for every canonical variant that has none yet, so the summary
+# never has to guess what silence meant. Anything still unaccounted for was
+# either not asked for (--variants) or dropped before it could run.
+status_recorded() {
+    [ -f "$STATUS_FILE" ] || return 1
+    awk -F'\t' -v v="$1" '$1 == v { found = 1 } END { exit !found }' "$STATUS_FILE"
+}
+for variant in baseline clio_vfd clio_vol; do
+    status_recorded "$variant" && continue
+    if has_variant "$variant"; then
+        set_variant_status "$variant" no_result "no outcome recorded; see the log"
+    else
+        set_variant_status "$variant" not_requested "not in --variants ($VARIANTS)"
+    fi
+done
+
 log "Results in $RESULTS_DIR"
 ls -la "$RESULTS_DIR"
+echo "variant status:"
+cat "$STATUS_FILE"
 if [ -n "$UNBUILDABLE" ]; then
     warn "variants whose adapter did not build on $OS:$UNBUILDABLE"
 fi

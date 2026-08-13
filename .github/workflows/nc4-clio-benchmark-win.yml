@@ -243,24 +243,13 @@ jobs:
       - name: Report which variants produced results
         if: always()
         run: |
+          # Outcomes and their reasons come from the driver
+          # (benchmark-results/variant_status.tsv); this step only renders them.
+          # It matters most here: the CLIO VFD does not build on Windows at all,
+          # and a table that cannot say so reads as if the adapter were crashing.
+          . .github/scripts/variant_summary.sh
           {
-            echo "### Variants (Windows)"
-            echo
-            echo "| variant | result |"
-            echo "| --- | --- |"
-            # A variant that produced every timing and then failed to *exit*
-            # keeps its result (the driver stamps the NOTE line below into it);
-            # that is a real measurement and a real adapter bug, so say both.
-            for v in baseline clio_vfd clio_vol; do
-              f="benchmark-results/tst_chunks3_${v}.txt"
-              if [ ! -s "$f" ]; then
-                echo "| \`$v\` | :warning: no result (not built, crashed, or timed out) |"
-              elif grep -q '^NOTE: process did not exit cleanly' "$f"; then
-                echo "| \`$v\` | measured, :warning: process never exited (killed after the last timing) |"
-              else
-                echo "| \`$v\` | measured |"
-              fi
-            done
+            variant_summary_table "Variants (Windows)"
             echo
             echo "_Workload built with .github/scripts/apply_win_nc_perf_shims.py_"
             echo "_(nc_perf has no Windows support upstream; the shim supplies getrusage)._"

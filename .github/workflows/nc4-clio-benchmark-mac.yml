@@ -241,29 +241,15 @@ jobs:
       - name: Report which variants produced results
         if: always()
         run: |
-          # A CLIO variant that crashes, times out, or does not compile on macOS
-          # is dropped by the driver so the surviving variants still publish.
-          # That must be visible here -- otherwise the dashboard quietly loses a
-          # series and nobody notices. A variant that produced every timing and
-          # then failed to *exit* keeps its result (the driver stamps the NOTE
-          # line below into it); that is a real measurement and a real adapter
-          # bug, so say both.
-          {
-            echo "### Variants (macOS)"
-            echo
-            echo "| variant | result |"
-            echo "| --- | --- |"
-            for v in baseline clio_vfd clio_vol; do
-              f="benchmark-results/tst_chunks3_${v}.txt"
-              if [ ! -s "$f" ]; then
-                echo "| \`$v\` | :warning: no result (not built, crashed, or timed out) |"
-              elif grep -q '^NOTE: process did not exit cleanly' "$f"; then
-                echo "| \`$v\` | measured, :warning: process never exited (killed after the last timing) |"
-              else
-                echo "| \`$v\` | measured |"
-              fi
-            done
-          } >> "$GITHUB_STEP_SUMMARY"
+          # A CLIO variant that cannot build, crashes, or times out is dropped by
+          # the driver so the surviving variants still publish. That must be
+          # visible here, and it must distinguish a platform gap from a
+          # regression -- on macOS the VFD is expected to build and measure
+          # (clio-core PR #938 moved it off the ELF gate), so "not built" here is
+          # news, not the status quo. The driver records the outcome and the
+          # reason in benchmark-results/variant_status.tsv.
+          . .github/scripts/variant_summary.sh
+          variant_summary_table "Variants (macOS)" >> "$GITHUB_STEP_SUMMARY"
           test -s benchmark-results/tst_chunks3_baseline.txt || {
             echo "::error::the baseline variant produced no result; nothing to compare against"
             exit 1
