@@ -143,6 +143,31 @@ jobs:
           }
           & "$env:VCPKG_INSTALLATION_ROOT\vcpkg.exe" install zlib:x64-windows
 
+      # The driver's build stage configures netCDF-C too, and netCDF-C refuses to
+      # configure without m4 (it generates libsrc/attr.c from .m4 sources). Same
+      # step as nc4-clio-benchmark-win.yml, and for the same reason the path is
+      # handed over rather than put on PATH: MSYS2's bin carries a link.exe that
+      # would shadow MSVC's linker.
+      - name: Locate or install m4
+        shell: pwsh
+        run: |
+          $m4 = (Get-Command m4 -ErrorAction SilentlyContinue).Source
+          if (-not $m4) {
+            $cand = "C:\msys64\usr\bin\m4.exe"
+            if (-not (Test-Path $cand) -and (Test-Path "C:\msys64\usr\bin\pacman.exe")) {
+              & C:\msys64\usr\bin\pacman.exe -S --noconfirm --needed m4
+            }
+            if (Test-Path $cand) { $m4 = $cand }
+          }
+          if (-not $m4) {
+            choco install m4 -y --no-progress | Out-Null
+            $m4 = (Get-Command m4 -ErrorAction SilentlyContinue).Source
+          }
+          if (-not $m4) { throw "m4 not found; netCDF-C cannot generate attr.c without it" }
+          $m4 = $m4 -replace '\\','/'
+          Write-Host "m4: $m4"
+          "NC_M4=$m4" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
       - name: Clone clio-core at the ref under test
         run: |
           set -euo pipefail
