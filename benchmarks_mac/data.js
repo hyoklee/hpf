@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786526628896,
+  "lastUpdate": 1786584107394,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -11002,6 +11002,78 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 2.95555,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "1b300ed2c4e40f47bfdfa3c91a41b29ae841c044",
+          "message": "ci: pass the VFD's current config-string grammar, not the old positional one\n\nThe clio_vfd variant died on its first nc_create with \"Permission denied\"\n(exit 13) before any timing, in CI and locally. Nothing was denied:\nnetCDF-C's NC4_create BAILs with a literal EACCES whenever H5Fcreate\nfails (libhdf5/hdf5create.c:249), so nc_strerror(13) falls through to\nstrerror and every HDF5 create failure reads as a permission problem.\nstrace confirmed the file was never opened for writing and no syscall\nreturned EACCES.\n\nThe real cause was this script's HDF5_DRIVER_CONFIG. clio-core 6873b60a\n(2026-08-10) taught the VFD to pull that string off the FAPL with\nH5Pget_driver_config_str and parse it with clio's shared \"key=value;...\"\ngrammar, failing the open on anything it cannot parse; before that commit\nthe driver read the string not at all. The positional \"true 65536\"\n(<persistence> <page_size>) we were passing was therefore ignored for the\n2026-08-03 measurements and became a hard parse error two days before the\nfailing run. cache=1 is the current spelling and asks for the CTE cache\ntier, which is what this series exists to measure.\n\nTwo things hid the cause and are now written down: the driver's own\nH5Epush2 message never reaches the printed stack, because HDF5 2.3.0 runs\ndriver callbacks inside H5_BEFORE_USER_CB, and the VFD README still says\nthe driver does not parse HDF5_DRIVER_CONFIG.\n\nVerified locally against clio-core dev a19a0356: all three variants\nproduce results and the combined payload carries 54 benchmarks (18 per\nseries) where before clio_vfd contributed none. The VFD's contiguous-slab\npathology is unchanged and still tracked -- contiguous write 64 64 1 is\n7.6 s against the baseline's 0.017 s.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-12T17:45:17-05:00",
+          "tree_id": "7547f943f117ce27c5da0769787e6cbb44643e9d",
+          "url": "https://github.com/hyoklee/hpf/commit/1b300ed2c4e40f47bfdfa3c91a41b29ae841c044"
+        },
+        "date": 1786584105210,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 1.12,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 7.13038,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.08884,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 1.71829,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.43675,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 5.64834,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 0.674067,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 3.03137,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
