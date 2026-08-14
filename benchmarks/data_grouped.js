@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786518961591,
+  "lastUpdate": 1786691793293,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -16108,6 +16108,104 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.61933,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "4b34a897d19420d1800ab171d1f0263051c849c3",
+          "message": "ci(probe): install m4 in the Windows VOL probe\n\nThe probe's Windows job failed in netCDF-C's configure, not in the VOL:\n\"m4 is required to generate attr.c\". The driver's build stage configures\nnetCDF-C on the way to clio-core, and no stock Windows toolchain ships m4 --\nnc4-clio-benchmark-win.yml already solves this and the probe simply lacked\nthe step. Copied verbatim, including handing the path over as NC_M4 rather\nthan adding MSYS2's bin to PATH, where its link.exe would shadow MSVC's.\n\nThe macOS job of the same run answered its question at clio-core\ne3f32dd7 (PR #971): libclio_hdf5_vol.dylib builds, no st_mtim errors.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-08-13T03:19:10Z",
+          "url": "https://github.com/hyoklee/hpf/commit/4b34a897d19420d1800ab171d1f0263051c849c3"
+        },
+        "date": 1786691792817,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.65524,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.65524,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.646583,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 3.79051,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.79051,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 4.21805,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.04474,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.04474,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.37814,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.31437,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.31437,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.80389,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
