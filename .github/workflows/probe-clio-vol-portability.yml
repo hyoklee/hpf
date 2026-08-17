@@ -65,6 +65,15 @@ jobs:
             https://github.com/iowarp/clio-core.git nc4-clio-work/clio-src
           echo "clio-core $(git -C nc4-clio-work/clio-src rev-parse HEAD)"
 
+      # Same macOS c_stdlib gap as the benchmark workflow hits; without this the
+      # probe dies in conda install and never reaches the question it exists to
+      # answer. Self-announcing no-op once clio-core defines c_stdlib for osx.
+      - name: Patch clio-core's conda variants for macOS
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/patch_clio_conda_variants.sh
+          .github/scripts/patch_clio_conda_variants.sh "$GITHUB_WORKSPACE/nc4-clio-work/clio-src"
+
       - name: Install clio-core dependencies (conda)
         run: |
           set -euo pipefail

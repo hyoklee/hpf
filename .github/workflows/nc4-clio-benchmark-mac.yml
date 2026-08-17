@@ -189,6 +189,17 @@ jobs:
           fi
           git -C nc4-clio-work/clio-src rev-parse HEAD
 
+      # clio-core PR #973 added `{{ stdlib("c") }}` to the conda recipe but
+      # defined c_stdlib for Linux only, so on macOS it renders as the
+      # nonexistent package `c_osx-arm64` and ci-deps.sh's `conda install` fails
+      # every retry. The script supplies the macOS half of that mapping and is a
+      # self-announcing no-op once upstream defines it. See the script header.
+      - name: Patch clio-core's conda variants for macOS
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/patch_clio_conda_variants.sh
+          .github/scripts/patch_clio_conda_variants.sh "$GITHUB_WORKSPACE/nc4-clio-work/clio-src"
+
       # ci-deps.sh installs Miniconda if absent and creates the `iowarp` env
       # holding clio-core's dependency set. It is not cached: the env is several
       # GB, and this job only runs when an upstream repo actually moved.

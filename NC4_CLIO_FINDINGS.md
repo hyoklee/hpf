@@ -288,6 +288,81 @@ outcome and reason in `benchmark-results/variant_status.tsv`, and
 this platform" and "crashed or timed out" are no longer the same sentence. That
 is what made the four causes above separable in the first place.
 
+### 7. The macOS job stopped before it built anything: a Linux-only `c_stdlib`
+
+Every macOS run from 2026-08-14 on failed in *Install clio-core dependencies
+(conda)*, three retries deep, with a package name that has never existed:
+
+```
+Dependencies to install:
+  c_osx-arm64 clangxx_osx-arm64 cmake make pkg-config ...
+
+PackagesNotFoundInChannelsError: The following packages are not available
+from current channels:
+  - c_osx-arm64
+```
+
+clio-core
+[`ae532d92`](https://github.com/iowarp/clio-core/commit/ae532d92) (PR #973,
+2026-08-13) added `{{ stdlib("c") }}` to `installers/conda/meta.yaml` so the
+Linux package builds against `sysroot_linux-64` 2.28 and installs on RHEL8 — a
+good change — and defined the matching variant keys **Linux-only**:
+
+```yaml
+c_stdlib:
+  - sysroot                 # [linux]
+c_stdlib_version:
+  - '2.28'                  # [linux]
+```
+
+conda-build strips non-matching `# [selector]` lines *before* parsing the YAML,
+so on macOS `c_stdlib` is undefined, and `conda_build/jinja_context.py`'s
+`_target()` then falls back to the language name itself
+(`package_prefix = language` for stdlib, then `f"{package_prefix}_{target_platform}"`).
+`{{ stdlib("c") }}` therefore renders to `c_osx-arm64`.
+
+Two things follow from that, and the second is the one that matters here:
+
+* `CI/ci-deps.sh --only-deps` feeds the rendered requirements straight to
+  `conda install`, so the job dies before HDF5, netCDF-C or clio-core is
+  configured. Not an adapter problem, and not something
+  `--allow-adapter-build-failure` can drop a series over — nothing was built.
+* clio-core's **own** `ci-macos.yml` has been red since the same commit, for the
+  same reason, so this is not going to be fixed by waiting for the next `dev`.
+
+Reproduced off CI, on Linux, by rendering the recipe for the macOS subdir with
+the version of conda-build the runner installs:
+
+```console
+$ CONDA_SUBDIR=osx-arm64 conda render installers/conda -c conda-forge   # conda-build 26.7.0
+build: ['c_osx-arm64', 'clangxx_osx-arm64', 'cmake', 'make', 'pkg-config']
+```
+
+which is the CI list exactly. Note the build environment is left *unresolved*
+there: with the patch below it resolves to 46 real packages instead.
+
+The fix on this side is `.github/scripts/patch_clio_conda_variants.sh`, called
+before `ci-deps.sh` by the macOS benchmark and by
+`probe-clio-vol-portability.yml`. It adds the macOS half of the mapping that
+conda-forge's own pinning publishes — `macosx_deployment_target`, whose
+per-target build `macosx_deployment_target_osx-arm64` is a real package — with
+11.0 for arm64 and 10.13 for x86_64, the same floor the recipe's existing
+`MACOSX_DEPLOYMENT_TARGET` comment gives for nanobind's aligned new/delete.
+Same render, patched:
+
+```
+build count: 46
+has c_osx-arm64: False
+stdlib pkg: ['macosx_deployment_target_osx-arm64']
+```
+
+It edits the recipe's *variant config* only — which dependency packages conda
+resolves for the build env — so no clio-core source is patched and the benchmark
+still measures the tree upstream ships. It prints why and exits without touching
+anything once the recipe stops calling `stdlib(` or gains a `c_stdlib` entry
+that applies to macOS, so the call sites can be deleted on someone's schedule
+rather than silently rotting.
+
 ## Verified in CI
 
 The Linux workflow has now run on GitHub: the `iowarp/deps-cpu` container path,
