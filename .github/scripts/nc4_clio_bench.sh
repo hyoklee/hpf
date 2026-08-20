@@ -777,7 +777,10 @@ clio_runtime_stop() {
     # Match the runtime we started by its full path. A bare `pkill -f clio_run`
     # would also kill a developer's unrelated clio_run on the same machine.
     if [ "$WIN" = 1 ]; then
-        taskkill //F //IM clio_run.exe >/dev/null 2>&1 || true
+        # //T so the runtime's worker children go with it (same reasoning as
+        # bench_kill): a stray clio worker left running can hold a shm segment
+        # or the :9413 port the next variant's clio_run needs.
+        taskkill //F //T //IM clio_run.exe >/dev/null 2>&1 || true
     else
         pkill -f "^$CLIO_BIN/clio_run" >/dev/null 2>&1 || true
     fi
@@ -871,7 +874,16 @@ bench_alive() {
 
 bench_kill() {
     if [ "$WIN" = 1 ]; then
-        taskkill //F //IM tst_chunks3.exe >/dev/null 2>&1 || true
+        # //T kills the whole process tree, not just tst_chunks3.exe. The CLIO
+        # VOL client leaves worker children (chimaera/clio) that inherited the
+        # workload's stdout -- the run_variant pipe. Killing only tst_chunks3.exe
+        # by image name leaves those children alive holding the pipe open, so the
+        # sed|tee stage downstream never sees EOF and the whole run hangs until
+        # the job's own timeout. That is the 6-hour cancel this workflow started
+        # taking once clio_vol began building on Windows: the workload measured
+        # all 18 timings, the exit-hang watchdog killed tst_chunks3.exe, and its
+        # orphaned children kept the pipe open for the remaining ~5.5 hours.
+        taskkill //F //T //IM tst_chunks3.exe >/dev/null 2>&1 || true
         return 0
     fi
     pkill -f "^$TST_CHUNKS3" >/dev/null 2>&1 || true

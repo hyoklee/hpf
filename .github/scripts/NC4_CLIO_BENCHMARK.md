@@ -212,6 +212,20 @@ they never exited" list. `exit_hang_watchdog` kills such a process
 `--exit-grace` seconds (default 30) after its last timing line, so a teardown
 hang costs half a minute instead of the whole `--run-timeout`.
 
+**On Windows the kill has to take the whole process tree.** `bench_kill` and
+`clio_runtime_stop` use `taskkill //F //T //IM` — the `//T` matters. The CLIO
+VOL client leaves worker children (chimaera/clio) that inherited the workload's
+stdout, which is the `run_variant` pipe. Killing only `tst_chunks3.exe` by image
+name leaves those children alive holding the pipe open, so the downstream
+`sed | tee` never sees EOF and the run hangs on the pipeline `wait` — past the
+watchdog, past `--run-timeout`, all the way to the job's own timeout. That is
+what turned the Windows benchmark into a daily 6-hour cancel the moment
+`clio_vol` began *building* there (clio-core PR #971 landed the VOL portability
+fix on `dev`): the workload measured all 18 timings, the watchdog killed
+`tst_chunks3.exe`, and its orphaned children held the pipe for the remaining
+~5.5 hours. `//T` reaps the descendants too, so the pipeline closes and the
+complete measurement is kept as `measured_no_exit`.
+
 Getting this wrong is what the fix was for: the 2026-08-12 Linux run
 ([31577100886](https://github.com/hyoklee/hpf/actions/runs/31577100886))
 measured all 18 `clio_vol` timings in 3 seconds, sat in teardown for the full
