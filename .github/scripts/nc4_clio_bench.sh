@@ -958,11 +958,36 @@ run_variant() {
     # A hung variant must not stall the whole job: the CLIO adapters block
     # indefinitely when the runtime is missing a pool they need, and that is a
     # failure to report, not a reason to burn the CI timeout.
-    # The sed strips clio's ANSI color codes so the archived artifact is
-    # readable; the parser ignores non-timing lines either way.
-    # shellcheck disable=SC2086  # BENCH_ARGS is deliberately word-split
-    ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
-        | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out" || rc=$?
+    if [ "$WIN" = 1 ]; then
+        # Capture to a FILE, not through a `... | sed | tee` pipe. On Windows the
+        # CLIO VOL client leaves a worker that inherited the workload's stdout
+        # and outlives it -- and it is *detached*, not a tree child, so no
+        # `taskkill //T` reaches it. A live pipe then never reaches EOF while
+        # that orphan holds the write end, so the pipeline `wait` hangs past the
+        # exit-hang watchdog, past --run-timeout, all the way to the job's own
+        # 360-minute limit (the 6-hour cancels this workflow kept taking once
+        # clio_vol began building here). A plain file has no reader to block: the
+        # orphan writing to it is harmless, and run_with_timeout returns the
+        # moment its direct child is gone. Colors are stripped from the archived
+        # file afterwards -- the parser ignores non-timing lines regardless.
+        # shellcheck disable=SC2086  # BENCH_ARGS is deliberately word-split
+        ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) \
+            >>"$out" 2>&1 || rc=$?
+        if sed "s/${ESC}\\[[0-9;]*m//g" "$out" >"$out.decolored" 2>/dev/null; then
+            mv "$out.decolored" "$out"
+        else
+            rm -f "$out.decolored"
+        fi
+        # Echo the workload's output into the step log, which the pipe's `tee`
+        # used to provide live.
+        cat "$out"
+    else
+        # The sed strips clio's ANSI color codes so the archived artifact is
+        # readable; the parser ignores non-timing lines either way.
+        # shellcheck disable=SC2086  # BENCH_ARGS is deliberately word-split
+        ( cd "$dir" && run_with_timeout "$RUN_TIMEOUT" "$TST_CHUNKS3" $BENCH_ARGS ) 2>&1 \
+            | sed "$SED_UNBUF" "s/${ESC}\\[[0-9;]*m//g" | tee -a "$out" || rc=$?
+    fi
 
     kill "$watchdog" 2>/dev/null || true
     wait "$watchdog" 2>/dev/null || true

@@ -185,21 +185,31 @@ holding all 18 is a complete measurement no matter how the process ended.
 kills a process that has not exited 30 s after its last timing line, so a
 teardown hang costs half a minute instead of the whole timeout.
 
-On Windows that kill has to be a *tree* kill, and getting it wrong cost six
-hours a day. clio-core [PR #971](https://github.com/iowarp/clio-core/pull/971)
-landed the VOL portability fix on `dev`, so `clio_vol` started **building** on
-Windows (finding 6) — and with it came this same teardown hang. But the CLIO
-client leaves worker children (chimaera/clio) that inherited the workload's
-stdout, i.e. the `run_variant` pipe. `bench_kill` was killing only
-`tst_chunks3.exe` by image name (`taskkill //F //IM`), so those children stayed
-alive holding the pipe open, the downstream `sed | tee` never saw EOF, and the
-run hung on the pipeline `wait` — past the 30 s watchdog, past `--run-timeout`,
-to the job's own 360-minute limit. Every scheduled Windows run from 2026-08-14
-on was **cancelled at ~6 hours** for exactly this: 18 timings measured in three
-seconds, then 5.5 hours of orphaned children holding a pipe. The fix is `//T` on
-the Windows `taskkill` in `bench_kill` and `clio_runtime_stop`, reproduced and
-verified off CI: with `//IM` alone the pipeline never returns; with `//F //T
-//IM` it returns in seconds with all 18 timings kept.
+On Windows this teardown hang cost six hours a day, and killing the process was
+not enough to stop it — the real fix is to stop piping the workload's output.
+clio-core [PR #971](https://github.com/iowarp/clio-core/pull/971) landed the VOL
+portability fix on `dev`, so `clio_vol` started **building** on Windows
+(finding 6) — and with it came this same teardown hang. The CLIO client, loaded
+into `tst_chunks3`, leaves a worker that inherited the workload's stdout — the
+`run_variant` pipe — and *outlives* the workload. So even after
+`exit_hang_watchdog` killed `tst_chunks3.exe`, that orphan held the pipe's write
+end open, the downstream `sed | tee` never saw EOF, and the run hung on the
+pipeline `wait` — past the 30 s watchdog, past `--run-timeout`, to the job's own
+360-minute limit. Every scheduled Windows run from 2026-08-14 on was
+**cancelled at ~6 hours** for exactly this: 18 timings measured in three
+seconds, then ~5.5 hours of an orphan holding a pipe.
+
+The first attempt — `taskkill //F //T //IM` to take the whole process *tree* —
+did not fix it (run [32333759358](https://github.com/hyoklee/hpf/actions/runs/32333759358)
+still cancelled at 6 h): the worker is **detached**, not a tree descendant of
+`tst_chunks3.exe`, so no image-name tree kill reaches it. The fix that works is
+structural: on Windows `run_variant` writes the workload's output straight to a
+**file** instead of through a `… | sed | tee` pipe. A file has no reader to
+block — an orphan that keeps writing to it is harmless — and `run_with_timeout`
+returns the moment its direct child is gone. Reproduced off CI: with a surviving
+holder the pipe never returns; the file capture returns in seconds with all 18
+timings kept. (`//T` is retained in `bench_kill`/`clio_runtime_stop` as cheap
+hygiene, but it is the file capture, not the tree kill, that ends the hang.)
 
 ### 5. "Permission denied" from the VFD was a stale `HDF5_DRIVER_CONFIG`
 
