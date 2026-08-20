@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786775400343,
+  "lastUpdate": 1787200719834,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -11672,6 +11672,78 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 5.54249,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "589aea4942629c1a86148f29a421fd42c1e12d0b",
+          "message": "ci(win): tree-kill the hung workload so the benchmark stops burning 6h\n\nEvery scheduled NetCDF-4 CLIO Windows run since 2026-08-14 was cancelled at\nthe job's 360-minute timeout. The cause was not a slow build: clio-core PR #971\nlanded the VOL portability fix on dev, so clio_vol began *building* on Windows,\nand with it came the known teardown hang (finding 4) -- the workload measures\nall 18 timings, then wedges in HDF5's atexit file close.\n\nexit_hang_watchdog is supposed to bound that to 30s, but on Windows bench_kill\nran `taskkill //F //IM tst_chunks3.exe`, killing only the workload by image\nname. The CLIO client leaves worker children (chimaera/clio) that inherited the\nworkload's stdout -- the run_variant pipe -- so those orphans kept the pipe open,\nthe downstream sed|tee never saw EOF, and the run hung on the pipeline wait for\nthe remaining ~5.5 hours.\n\nAdd //T so taskkill takes the whole process tree in bench_kill and, for the\nsame reason, clio_runtime_stop. Reproduced and verified off CI: with //IM alone\nthe pipeline never returns; with //F //T //IM it returns in seconds with all 18\ntimings kept (the variant is recorded measured_no_exit and still publishes).\n\nCo-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>",
+          "timestamp": "2026-08-19T23:31:30-05:00",
+          "tree_id": "574610ef4eb321fac9af934f7e0e242ac7638346",
+          "url": "https://github.com/hyoklee/hpf/commit/589aea4942629c1a86148f29a421fd42c1e12d0b"
+        },
+        "date": 1787200719538,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.6176050000000001,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 4.47353,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.35638,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 1.76049,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.632408,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 3.83917,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 0.9717,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 4.21028,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
