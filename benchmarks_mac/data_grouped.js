@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787129647324,
+  "lastUpdate": 1787200691154,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -15790,6 +15790,106 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 2.06087,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "committer": {
+            "email": "hyoklee@hdfgroup.org",
+            "name": "H. Joe Lee",
+            "username": "hyoklee"
+          },
+          "distinct": true,
+          "id": "589aea4942629c1a86148f29a421fd42c1e12d0b",
+          "message": "ci(win): tree-kill the hung workload so the benchmark stops burning 6h\n\nEvery scheduled NetCDF-4 CLIO Windows run since 2026-08-14 was cancelled at\nthe job's 360-minute timeout. The cause was not a slow build: clio-core PR #971\nlanded the VOL portability fix on dev, so clio_vol began *building* on Windows,\nand with it came the known teardown hang (finding 4) -- the workload measures\nall 18 timings, then wedges in HDF5's atexit file close.\n\nexit_hang_watchdog is supposed to bound that to 30s, but on Windows bench_kill\nran `taskkill //F //IM tst_chunks3.exe`, killing only the workload by image\nname. The CLIO client leaves worker children (chimaera/clio) that inherited the\nworkload's stdout -- the run_variant pipe -- so those orphans kept the pipe open,\nthe downstream sed|tee never saw EOF, and the run hung on the pipeline wait for\nthe remaining ~5.5 hours.\n\nAdd //T so taskkill takes the whole process tree in bench_kill and, for the\nsame reason, clio_runtime_stop. Reproduced and verified off CI: with //IM alone\nthe pipeline never returns; with //F //T //IM it returns in seconds with all 18\ntimings kept (the variant is recorded measured_no_exit and still publishes).\n\nCo-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>",
+          "timestamp": "2026-08-19T23:31:30-05:00",
+          "tree_id": "574610ef4eb321fac9af934f7e0e242ac7638346",
+          "url": "https://github.com/hyoklee/hpf/commit/589aea4942629c1a86148f29a421fd42c1e12d0b"
+        },
+        "date": 1787200688575,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.413331,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.413331,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.626244,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5.18832,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 5.18832,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 7.0622,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 0.632078,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.632078,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.07726,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 3.23278,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 3.23278,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.81084,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
