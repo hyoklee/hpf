@@ -199,17 +199,31 @@ pipeline `wait` — past the 30 s watchdog, past `--run-timeout`, to the job's o
 **cancelled at ~6 hours** for exactly this: 18 timings measured in three
 seconds, then ~5.5 hours of an orphan holding a pipe.
 
-The first attempt — `taskkill //F //T //IM` to take the whole process *tree* —
-did not fix it (run [32333759358](https://github.com/hyoklee/hpf/actions/runs/32333759358)
-still cancelled at 6 h): the worker is **detached**, not a tree descendant of
-`tst_chunks3.exe`, so no image-name tree kill reaches it. The fix that works is
-structural: on Windows `run_variant` writes the workload's output straight to a
-**file** instead of through a `… | sed | tee` pipe. A file has no reader to
-block — an orphan that keeps writing to it is harmless — and `run_with_timeout`
-returns the moment its direct child is gone. Reproduced off CI: with a surviving
-holder the pipe never returns; the file capture returns in seconds with all 18
-timings kept. (`//T` is retained in `bench_kill`/`clio_runtime_stop` as cheap
-hygiene, but it is the file capture, not the tree kill, that ends the hang.)
+Two attempts were needed, because there are two independent ways the POSIX path
+hangs here and both had to go:
+
+1. `taskkill //F //T //IM` to take the whole process *tree* — no effect
+   (run [32333759358](https://github.com/hyoklee/hpf/actions/runs/32333759358)
+   still cancelled at 6 h). The worker is **detached**, not a tree descendant of
+   `tst_chunks3.exe`, so no image-name tree kill reaches it.
+2. Capturing to a **file** instead of a `… | sed | tee` pipe — also no effect on
+   its own (run [32362824565](https://github.com/hyoklee/hpf/actions/runs/32362824565)
+   still cancelled at 6 h). Removing the pipe removes one blocker, but the run
+   still hung at the *same* line, which proved the blocker was not only the pipe:
+   after the workload is killed the runner never reaps it in a way `timeout` or
+   bash `wait` observe, so *any* wait on the process blocks to the job timeout.
+
+The fix that works replaces the POSIX `exit_hang_watchdog &` +
+`run_with_timeout … | sed | tee` pair, on Windows only, with a self-contained
+poll loop: launch the workload to a file, poll `tasklist`/the result file for
+completion or the run-timeout, and once it decides to stop the workload **break
+unconditionally — never `wait` on it**, kill or no kill. An orphan left writing
+to a file is harmless, and the loop cannot run past `--run-timeout`. Reproduced
+off CI, including the pathological case where the kill does nothing: the loop
+still returns in seconds with all 18 timings kept. (`//T` stays in
+`bench_kill`/`clio_runtime_stop` as cheap hygiene; the loop is what ends the
+hang.) Linux/macOS keep the pipe path — they have neither the detached orphan
+nor the unreapable-process behaviour, and the live `tee` output is useful.
 
 ### 5. "Permission denied" from the VFD was a stale `HDF5_DRIVER_CONFIG`
 

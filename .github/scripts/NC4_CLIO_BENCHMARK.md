@@ -212,24 +212,27 @@ they never exited" list. `exit_hang_watchdog` kills such a process
 `--exit-grace` seconds (default 30) after its last timing line, so a teardown
 hang costs half a minute instead of the whole `--run-timeout`.
 
-**On Windows the workload's output goes to a file, not a `sed | tee` pipe, and
-that is what stops the teardown hang.** The CLIO VOL client, loaded into
-`tst_chunks3`, leaves a *detached* worker that inherited the workload's stdout —
-the `run_variant` pipe — and outlives it. With a live pipe the downstream
-`sed | tee` blocks until every write end closes, so that one orphan keeps the
-pipeline's `wait` from ever returning: past the exit-hang watchdog, past
-`--run-timeout`, all the way to the job's own 360-minute limit. That is what
-turned the Windows benchmark into a daily 6-hour cancel the moment `clio_vol`
-began *building* there (clio-core PR #971 landed the VOL portability fix on
-`dev`): 18 timings measured in three seconds, then ~5.5 hours of an orphan
-holding a pipe. Killing harder does not help — the worker is detached, so
-`taskkill //F //T //IM` (tree kill) never reaches it. A file has no reader to
-block: `run_variant` redirects the workload straight to the result file on
-Windows, `run_with_timeout` returns as soon as its direct child dies, the orphan
-writing to the file afterward is harmless, and the complete measurement is kept
-as `measured_no_exit`. Colors are stripped from the file after the run instead
-of by the pipe's `sed`. (`bench_kill`/`clio_runtime_stop` still pass `//T` as
-cheap hygiene.)
+**On Windows `run_variant` uses a self-contained poll loop, not the POSIX
+`exit_hang_watchdog &` + `run_with_timeout … | sed | tee` pair.** The CLIO VOL
+client, loaded into `tst_chunks3`, leaves a *detached* worker that inherited the
+workload's handles and outlives it, and the runner then never reaps the killed
+workload in a way `timeout`/`wait` observe. Either fact alone hangs the POSIX
+path to the job's 360-minute limit: the detached orphan holds a live
+`sed | tee` pipe open so it never reaches EOF, and even with the pipe removed any
+`wait` on the workload blocks forever. That is what turned the Windows benchmark
+into a daily 6-hour cancel the moment `clio_vol` began *building* there
+(clio-core PR #971 landed the VOL portability fix on `dev`): 18 timings measured
+in three seconds, then ~5.5 hours of a wait that never returns. Two things were
+tried and did **not** fix it — `taskkill //F //T //IM` (the worker is detached,
+so a tree kill misses it) and file-instead-of-pipe capture (removes one blocker,
+but the `wait` still hangs). The loop that works launches the workload to a
+file, polls `tasklist` and the result file for completion or the run-timeout,
+and once it decides to stop the workload **breaks unconditionally without ever
+waiting on it** — kill or no kill. An orphan left writing to a file is harmless,
+the loop cannot run past `--run-timeout`, and a completed-but-unexited variant is
+kept as `measured_no_exit`. Colors are stripped from the file after the run
+instead of by the pipe's `sed`. (`bench_kill`/`clio_runtime_stop` still pass
+`//T` as cheap hygiene.)
 
 Getting this wrong is what the fix was for: the 2026-08-12 Linux run
 ([31577100886](https://github.com/hyoklee/hpf/actions/runs/31577100886))
