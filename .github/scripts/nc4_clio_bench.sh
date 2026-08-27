@@ -190,8 +190,8 @@ RUN_TIMEOUT="45m"
 # teardown -- so a process still alive after this has wedged in teardown and is
 # killed, keeping the numbers it already produced (see run_variant).
 EXIT_GRACE="30"
-# clio-core's own CI builds the VFD adapter on Linux only (ci-vfd.yml is
-# ubuntu-only; the macOS job in ci-adapters.yml covers just the VOL). Where an
+# clio-core's own CI does not exercise every adapter on every platform (ci-vfd.yml
+# is ubuntu-only; the macOS job in ci-adapters.yml covers just the VOL). Where an
 # adapter is not expected to build, --allow-adapter-build-failure demotes its
 # build failure to a dropped variant instead of failing the whole run.
 ALLOW_ADAPTER_BUILD_FAILURE=0
@@ -469,22 +469,22 @@ if has_variant clio_vfd || has_variant clio_vol; then
     # CLIO_CORE_ENABLE_ELF is Linux-only (it does pkg_check_modules(libelf
     # REQUIRED)) and it used to gate the VFD too, but no longer: clio-core
     # df614075 (2026-08-06, PR #938) moved add_subdirectory(vfd) out of the ELF
-    # block to `if(UNIX AND CLIO_CTE_ENABLE_VFD)`, because the VFD is a plugin
-    # HDF5 dlopen's and never touches real_api.h. Consequences per platform:
+    # block, because the VFD is a plugin HDF5 dlopen's and never touches
+    # real_api.h. That left `if(UNIX AND CLIO_CTE_ENABLE_VFD)`, which still shut
+    # Windows out; clio-core ddc93622 (2026-08-26, PR #1034) dropped the UNIX
+    # half too, so the gate is now CLIO_CTE_ENABLE_VFD alone. Per platform:
     #   Linux   -- VFD and VOL both build; a failure is a regression.
-    #   macOS   -- UNIX, so the VFD builds here now. Do not "fix" a macOS VFD
+    #   macOS   -- UNIX, so the VFD builds here. Do not "fix" a macOS VFD
     #              failure by disabling the variant; it is expected to measure.
-    #   Windows -- not UNIX, so the target does not exist and MSBuild reports
-    #              "MSB1009: Project file does not exist. Switch:
-    #              clio_vfd.vcxproj". The port itself is written and merged, but
-    #              onto the fs-descriptor-windows branch (PR #950), which is not
-    #              an ancestor of dev or main -- so a dev build cannot have it.
-    #              probe-clio-vfd-windows.yml runs that branch on demand;
-    #              nothing publishes from it. The variant reappears here by
-    #              itself once the port reaches dev.
+    #   Windows -- the VFD builds here too as of PR #1034: adapter/vfd adds
+    #              H5FDclio_compat_win.cc for the Win32 file I/O and defines
+    #              H5_BUILT_AS_DYNAMIC_LIB so H5P_CLS_FILE_ACCESS_ID_g resolves
+    #              as a dllimport. Expected to measure, same as the VOL.
     # --allow-adapter-build-failure is what turns a missing target into a
-    # dropped variant instead of a failed job (mac and Windows pass it).
-    # The rest mirrors what clio-core's own ci-macos.yml / ci-adapters.yml do.
+    # dropped variant instead of a failed job. Only macOS still passes it (for
+    # a VOL that clio-core's own CI does not cover there); Windows no longer
+    # needs it, so a Windows VFD failure now fails the job like Linux.
+    # The rest mirrors what clio-core's own ci-macos.yml / ci-windows.yml do.
     if [ "$WIN" = 1 ]; then
         # vcpkg supplies zeromq/yaml-cpp/cereal/msgpack (and an hdf5 we must not
         # let win -- see the ABI gate below). The manifest and overlay port live
@@ -566,13 +566,10 @@ if has_variant clio_vfd || has_variant clio_vol; then
         warn "target $target failed to build; dropping the $variant variant"
         VARIANTS="$(echo ",$VARIANTS," | sed "s/,$variant,/,/" | sed 's/^,//; s/,$//')"
         UNBUILDABLE="$UNBUILDABLE $variant"
-        # Name the known platform gap explicitly. Anything else is a real build
-        # failure and the log is where to look, so do not guess at a cause.
-        local note="target $target did not build on $OS"
-        if [ "$WIN" = 1 ] && [ "$variant" = clio_vfd ]; then
-            note="$note: clio-core gates the VFD on UNIX, and the Windows port (PR #950) is on the fs-descriptor-windows branch, not on $CLIO_REF"
-        fi
-        set_variant_status "$variant" not_built "$note"
+        # No cause is guessed at: every adapter this driver builds is now
+        # expected to compile on all three platforms, so a failure here is a
+        # real one and the build log is where to look.
+        set_variant_status "$variant" not_built "target $target did not build on $OS"
     }
     build_adapter clio_vfd clio_vfd
     build_adapter clio_vol clio_hdf5_vol

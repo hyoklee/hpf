@@ -290,14 +290,17 @@ off the dashboard was the run failing with exit 13, i.e. finding 5's stale
 `HDF5_DRIVER_CONFIG`. With `cache=1` the macOS VFD measures and
 `benchmarks_nc4_clio_mac/` carries the series.
 
-**Windows VFD — absent, not broken.** Windows is not UNIX, so the target does not
-exist and MSBuild reports `MSB1009: Project file does not exist. Switch:
-clio_vfd.vcxproj`. The port is written and merged —
-[PR #950](https://github.com/iowarp/clio-core/pull/950) — but onto the
-`fs-descriptor-windows` branch, which `git compare` reports as *diverged* from
-both `dev` and `main`. A `dev` build cannot contain it and no flag on this side
-changes that; `probe-clio-vfd-windows.yml` exercises that branch on demand and
-publishes nothing.
+**Windows VFD — was absent, now landed.** Windows is not UNIX, so under
+`if(UNIX AND CLIO_CTE_ENABLE_VFD)` the target did not exist and MSBuild reported
+`MSB1009: Project file does not exist. Switch: clio_vfd.vcxproj`. The port was
+written and merged onto the `fs-descriptor-windows` branch
+([PR #950](https://github.com/iowarp/clio-core/pull/950)), which diverged from
+both `dev` and `main`, so a `dev` build could not contain it. It reached `dev` in
+[`ddc93622`](https://github.com/iowarp/clio-core/commit/ddc93622)
+([PR #1034](https://github.com/iowarp/clio-core/pull/1034), 2026-08-26), which
+also dropped the `UNIX` half of the gate. The Windows workflow now builds the VFD
+as a first-class variant — no `--allow-adapter-build-failure` — so a failure
+there is a regression rather than a dropped row.
 
 **macOS and Windows VOL — an upstream portability bug.** The coherence stamp
 added in `6873b60a` reads `st.st_mtim` and calls `clock_gettime(CLOCK_REALTIME,

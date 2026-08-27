@@ -78,26 +78,27 @@ read "the VFD cannot be built off Linux", because clio-core kept
 `add_subdirectory(vfd)` inside `if(CLIO_CORE_ENABLE_ELF)` and that option does
 `pkg_check_modules(libelf REQUIRED libelf)`. That is no longer the gate:
 [`df614075`](https://github.com/iowarp/clio-core/commit/df614075) (PR #938,
-2026-08-06) moved it to `if(UNIX AND CLIO_CTE_ENABLE_VFD)`, on the grounds that
-the VFD is a plugin HDF5 `dlopen`s and never touches `real_api.h`. So:
+2026-08-06) moved it out of the ELF block, on the grounds that the VFD is a
+plugin HDF5 `dlopen`s and never touches `real_api.h`. That left
+`if(UNIX AND CLIO_CTE_ENABLE_VFD)`, which still shut Windows out;
+[`ddc93622`](https://github.com/iowarp/clio-core/commit/ddc93622) (PR #1034,
+2026-08-26) dropped the `UNIX` half too. The gate is now `CLIO_CTE_ENABLE_VFD`
+alone, and the VFD is expected to compile and measure on all three platforms:
 
-- **macOS is UNIX, and the VFD builds there now.** It is expected to compile and
-  measure. `libclio_vfd.dylib` has been building on the macOS runner since
+- **macOS.** `libclio_vfd.dylib` has been building on the macOS runner since
   2026-08-06; what kept the series off the dashboard afterwards was the run
   failing with the stale `HDF5_DRIVER_CONFIG` string, not the build.
-- **Windows is not UNIX, so the target does not exist** and MSBuild says
-  `MSB1009: Project file does not exist. Switch: clio_vfd.vcxproj`. The port is
-  written and merged — [PR #950](https://github.com/iowarp/clio-core/pull/950),
-  "Port the HDF5 VFD to Windows" — but onto the `fs-descriptor-windows` branch,
-  which is not an ancestor of `dev` or `main`. Until it lands on `dev` a dev
-  build cannot have it, and no flag here changes that.
-  `probe-clio-vfd-windows.yml` exercises that branch on demand and publishes
-  nothing, because a patched clio-core does not belong in the dashboard history.
+- **Windows.** `adapter/vfd` builds `H5FDclio_compat_win.cc` for the Win32 file
+  I/O and defines `H5_BUILT_AS_DYNAMIC_LIB` so `H5P_CLS_FILE_ACCESS_ID_g`
+  resolves as a `dllimport` under MSVC — without it the link fails with LNK2019
+  on that one symbol, functions being unaffected.
 
-The workflows attempt the target either way, drop the variant when it is absent,
-and publish the rest — and the job summary now says *why* it was dropped
-(`variant_status.tsv`, below), so a platform gap no longer looks like a crash.
-When the port reaches `dev`, the Windows series appears on its own.
+The Windows workflow therefore no longer passes
+`--allow-adapter-build-failure`: a VFD that does not build there is a
+regression, and fails the job as it does on Linux. macOS still passes it, for a
+VOL that clio-core's own CI does not cover on that platform. When a variant is
+dropped the job summary says *why* (`variant_status.tsv`, below), so a platform
+gap does not look like a crash.
 
 **Why the macOS ABI gate resolves the soname.** HDF5 stamps its install name as
 `@rpath/libhdf5.<soversion>.dylib`, and dyld searches each `LC_RPATH` entry in

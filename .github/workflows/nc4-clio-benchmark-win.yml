@@ -6,8 +6,7 @@ name: NetCDF-4 CLIO Performance Benchmark (Windows)
 # benchmark name alone, so one shared directory would interleave the platforms
 # into a single line graph.
 #
-# Two things are true of Windows that are not true of the other two runners, and
-# both change what this workflow can measure:
+# Two things about Windows differ from the other two runners:
 #
 #   * netCDF-C's benchmark suite is POSIX-only. tst_chunks3's timing macros are
 #     built on getrusage(2), which MSVC does not have -- no nc_perf source
@@ -17,11 +16,14 @@ name: NetCDF-4 CLIO Performance Benchmark (Windows)
 #     CPU time the POSIX platforms measure). The numbers published here are
 #     therefore from a locally patched workload; the patch is upstreamable.
 #
-#   * There is no CLIO VFD. clio-core gates add_subdirectory(vfd) behind
-#     CLIO_CORE_ENABLE_ELF, which requires libelf, and its own ci-adapters.yml
-#     sets CLIO_CTE_ENABLE_VFD=OFF on Windows. The driver is given
-#     --allow-adapter-build-failure so the variant drops itself and the rest
-#     still publishes -- exactly as on macOS.
+#   * The CLIO VFD builds and runs here as of clio-core ddc93622 (PR #1034,
+#     2026-08-26), which dropped the `UNIX AND` half of the VFD's CMake gate --
+#     the adapter now compiles wherever CLIO_CTE_ENABLE_VFD is on, with
+#     H5FDclio_compat_win.cc supplying the Win32 file I/O. Before that the
+#     target did not exist on Windows and the driver was given
+#     --allow-adapter-build-failure so the variant could drop itself; it is no
+#     longer passed, so a Windows VFD build failure fails the job exactly as it
+#     does on Linux.
 #
 # clio-core's dependencies come from vcpkg (its ci-windows.yml route), which
 # also installs an hdf5 of its own. Windows binds DLL imports by bare filename
@@ -237,7 +239,6 @@ jobs:
             --clio-ref dev \
             --bench-args "${{ inputs.bench_args || '6 64 16 64 16 64 16' }}" \
             --run-timeout 45m \
-            --allow-adapter-build-failure \
             --jobs "${NUMBER_OF_PROCESSORS:-4}"
 
       - name: Report which variants produced results
@@ -245,8 +246,8 @@ jobs:
         run: |
           # Outcomes and their reasons come from the driver
           # (benchmark-results/variant_status.tsv); this step only renders them.
-          # It matters most here: the CLIO VFD does not build on Windows at all,
-          # and a table that cannot say so reads as if the adapter were crashing.
+          # All three variants are expected to measure on Windows now that the
+          # VFD builds here, so a row that is not `ok` is something to look at.
           . .github/scripts/variant_summary.sh
           {
             variant_summary_table "Variants (Windows)"
