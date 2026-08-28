@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787730345899,
+  "lastUpdate": 1787944674603,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Windows)": [
@@ -16680,6 +16680,104 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 2.15753,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "26ab9612811565602638d6ea737a82515bbd0455",
+          "message": "ci(win): measure the CLIO VFD now that clio-core dev builds it\n\nclio-core ddc93622 (PR #1034, 2026-08-26) dropped the `UNIX AND` half of\nthe VFD's CMake gate, so `if(CLIO_CTE_ENABLE_VFD)` is the whole condition\nand the adapter compiles on Windows: adapter/vfd picks up\nH5FDclio_compat_win.cc for the Win32 file I/O and defines\nH5_BUILT_AS_DYNAMIC_LIB so H5P_CLS_FILE_ACCESS_ID_g resolves as a\ndllimport (without it MSVC links everything but that one global).\n\nThe Windows benchmark already passed -DCLIO_CTE_ENABLE_VFD=ON and the run\nstage was already platform-aware, so what changes is the tolerance:\n--allow-adapter-build-failure existed only for this platform gap, and it\nis no longer passed. A Windows VFD that does not build now fails the job\nas it does on Linux, instead of dropping itself out of the published\nseries. macOS keeps the flag, for a VOL that clio-core's own CI does not\ncover there.\n\nDrop the Windows special case in build_adapter() that annotated a\nclio_vfd failure with \"the port is on the fs-descriptor-windows branch\" \u2014\nthat is now false and would misdirect anyone reading a real failure.\n\nDelete probe-clio-vfd-windows.yml. It said \"delete once it has answered\",\nand it has: it proved the port worked end to end before it landed.\n\nDocs: NC4_CLIO_BENCHMARK.md described the UNIX gate as current, so it is\nrewritten around the two-step history and the current expectation that\nall three platforms measure the VFD. NC4_CLIO_FINDINGS.md keeps the\nPR #950 / MSB1009 history \u2014 that file records what broke on the way \u2014\nwith the entry updated to say the port landed.\n\nCo-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01H9EpQCTVMkEqcaRoTagJDF",
+          "timestamp": "2026-08-27T18:33:05Z",
+          "url": "https://github.com/hyoklee/hpf/commit/26ab9612811565602638d6ea737a82515bbd0455"
+        },
+        "date": 1787944670417,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 1.14154,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.14154,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.29085,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 5.81104,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 5.81104,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 7.79791,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 1.77968,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 1.77968,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 2.425,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 5.97735,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 5.97735,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 2.37276,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
