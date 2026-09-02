@@ -47,9 +47,9 @@ on:
         type: string
         default: '6 64 16 64 16 64 16'
       clio_repo:
-        description: 'clio-core git URL (override to test a fork/PR before it lands on iowarp dev)'
+        description: 'clio-core git URL (default: hyoklee/core fork; set to iowarp/clio-core to track upstream)'
         type: string
-        default: 'https://github.com/iowarp/clio-core.git'
+        default: 'https://github.com/hyoklee/core.git'
       clio_ref:
         description: 'clio-core branch to build'
         type: string
@@ -93,10 +93,12 @@ jobs:
           }
           HDF5_SHA=$(resolve https://github.com/HDFGroup/hdf5.git develop)
           NETCDF_SHA=$(resolve https://github.com/Unidata/netcdf-c.git main)
-          # clio source is overridable via workflow_dispatch so a fork/PR can be
-          # benchmarked before it lands on iowarp dev; scheduled runs get the
-          # defaults. The change gate and cache keys still work off clio_sha.
-          CLIO_SHA=$(resolve "${{ inputs.clio_repo || 'https://github.com/iowarp/clio-core.git' }}" "${{ inputs.clio_ref || 'dev' }}")
+          # Windows tracks the hyoklee/core fork's dev, where the CLIO VFD's
+          # Windows fixes land first (e.g. the O_ACCMODE define this build needs);
+          # scheduled runs use that default, and a dispatch can point at
+          # iowarp/clio-core (or any fork/branch) instead. The change gate and
+          # cache keys still work off clio_sha.
+          CLIO_SHA=$(resolve "${{ inputs.clio_repo || 'https://github.com/hyoklee/core.git' }}" "${{ inputs.clio_ref || 'dev' }}")
           {
             echo "hdf5_sha=$HDF5_SHA"
             echo "netcdf_sha=$NETCDF_SHA"
@@ -247,7 +249,7 @@ jobs:
             --results-dir "$(pwd)/benchmark-results" \
             --hdf5-ref develop \
             --netcdf-ref main \
-            --clio-repo "${{ inputs.clio_repo || 'https://github.com/iowarp/clio-core.git' }}" \
+            --clio-repo "${{ inputs.clio_repo || 'https://github.com/hyoklee/core.git' }}" \
             --clio-ref "${{ inputs.clio_ref || 'dev' }}" \
             --bench-args "${{ inputs.bench_args || '6 64 16 64 16 64 16' }}" \
             --run-timeout 45m \
