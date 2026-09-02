@@ -46,6 +46,14 @@ on:
         description: 'tst_chunks3 args: <deflate> <dim1> <chunk1> <dim2> <chunk2> <dim3> <chunk3>'
         type: string
         default: '6 64 16 64 16 64 16'
+      clio_repo:
+        description: 'clio-core git URL (override to test a fork/PR before it lands on iowarp dev)'
+        type: string
+        default: 'https://github.com/iowarp/clio-core.git'
+      clio_ref:
+        description: 'clio-core branch to build'
+        type: string
+        default: 'dev'
 
 concurrency:
   group: nc4-clio-benchmark-win
@@ -85,7 +93,10 @@ jobs:
           }
           HDF5_SHA=$(resolve https://github.com/HDFGroup/hdf5.git develop)
           NETCDF_SHA=$(resolve https://github.com/Unidata/netcdf-c.git main)
-          CLIO_SHA=$(resolve https://github.com/iowarp/clio-core.git dev)
+          # clio source is overridable via workflow_dispatch so a fork/PR can be
+          # benchmarked before it lands on iowarp dev; scheduled runs get the
+          # defaults. The change gate and cache keys still work off clio_sha.
+          CLIO_SHA=$(resolve "${{ inputs.clio_repo || 'https://github.com/iowarp/clio-core.git' }}" "${{ inputs.clio_ref || 'dev' }}")
           {
             echo "hdf5_sha=$HDF5_SHA"
             echo "netcdf_sha=$NETCDF_SHA"
@@ -236,7 +247,8 @@ jobs:
             --results-dir "$(pwd)/benchmark-results" \
             --hdf5-ref develop \
             --netcdf-ref main \
-            --clio-ref dev \
+            --clio-repo "${{ inputs.clio_repo || 'https://github.com/iowarp/clio-core.git' }}" \
+            --clio-ref "${{ inputs.clio_ref || 'dev' }}" \
             --bench-args "${{ inputs.bench_args || '6 64 16 64 16 64 16' }}" \
             --run-timeout 45m \
             --jobs "${NUMBER_OF_PROCESSORS:-4}"

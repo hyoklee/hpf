@@ -212,6 +212,8 @@ Options:
   --hdf5-ref REF      default: develop
   --netcdf-ref REF    default: main
   --clio-ref REF      default: dev
+  --clio-repo URL     clio-core git URL (default: iowarp/clio-core; override to
+                      build a fork/PR)
   --bench-args "..."  tst_chunks3 args (default: "6 512 64 512 64 512 64")
   --variants LIST     subset of baseline,clio_vfd,clio_vol
   --stages LIST       subset of build,run             (default: build,run)
@@ -237,6 +239,7 @@ while [ $# -gt 0 ]; do
         --hdf5-ref)    HDF5_REF="$2"; shift 2 ;;
         --netcdf-ref)  NETCDF_REF="$2"; shift 2 ;;
         --clio-ref)    CLIO_REF="$2"; shift 2 ;;
+        --clio-repo)   CLIO_REPO="$2"; shift 2 ;;
         --bench-args)  BENCH_ARGS="$2"; shift 2 ;;
         --variants)    VARIANTS="$2"; shift 2 ;;
         --stages)      STAGES="$2"; shift 2 ;;
