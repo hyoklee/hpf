@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790256842431,
+  "lastUpdate": 1790343814822,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Mac)": [
@@ -17168,6 +17168,104 @@ window.BENCHMARK_DATA = {
               {
                 "name": "HDF5 develop",
                 "value": 1.62174,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "1720bc0e8341114ba6e566e8ead672b8a8f53a58",
+          "message": "ci(win): track the hyoklee/core fork's dev for the CLIO source\n\nThe CLIO VFD's Windows fixes land on the hyoklee/core fork's dev first (e.g. the\nO_ACCMODE define the CTE cache tier needs to compile under MSVC, merged there as\nPR #1073). Point the Windows benchmark's default clio source at that fork's dev\nso the VFD builds and is measured; a workflow_dispatch can still override\nclio_repo/clio_ref back to iowarp/clio-core or any other fork/branch.\n\nCo-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>",
+          "timestamp": "2026-09-02T18:40:39Z",
+          "url": "https://github.com/hyoklee/hpf/commit/1720bc0e8341114ba6e566e8ead672b8a8f53a58"
+        },
+        "date": 1790343811538,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100",
+            "value": 0.680609,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.680609,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 0.9913339999999999,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "cmpd_subset 100",
+            "value": 6.87193,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 6.87193,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 9.74746,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "many_dsets 100",
+            "value": 0.730268,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 0.730268,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 1.94427,
+                "unit": "sec",
+                "extra": "HDF5 develop"
+              }
+            ]
+          },
+          {
+            "name": "vds 100",
+            "value": 4.57403,
+            "unit": "sec",
+            "series": [
+              {
+                "name": "HDF5 1.14.6",
+                "value": 4.57403,
+                "unit": "sec",
+                "extra": "HDF5 1.14.6"
+              },
+              {
+                "name": "HDF5 develop",
+                "value": 2.31657,
                 "unit": "sec",
                 "extra": "HDF5 develop"
               }
