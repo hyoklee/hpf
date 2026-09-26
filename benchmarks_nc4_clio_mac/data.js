@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790347036139,
+  "lastUpdate": 1790430434519,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "NetCDF-4 CLIO Performance Benchmarks (macOS)": [
@@ -9170,6 +9170,352 @@ window.BENCHMARK_DATA = {
             "value": 0.028,
             "unit": "sec",
             "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 2854a25f / netcdf-c beb7b958 / clio-core 57a3f35c"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "1720bc0e8341114ba6e566e8ead672b8a8f53a58",
+          "message": "ci(win): track the hyoklee/core fork's dev for the CLIO source\n\nThe CLIO VFD's Windows fixes land on the hyoklee/core fork's dev first (e.g. the\nO_ACCMODE define the CTE cache tier needs to compile under MSVC, merged there as\nPR #1073). Point the Windows benchmark's default clio source at that fork's dev\nso the VFD builds and is measured; a workflow_dispatch can still override\nclio_repo/clio_ref back to iowarp/clio-core or any other fork/branch.\n\nCo-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>",
+          "timestamp": "2026-09-02T18:40:39Z",
+          "url": "https://github.com/hyoklee/hpf/commit/1720bc0e8341114ba6e566e8ead672b8a8f53a58"
+        },
+        "date": 1790430433367,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0011,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.00094,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0022,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0009,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.00095,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0011,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.00095,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0023,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.001,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.00088,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_hdf5_develop",
+            "value": 0.00038,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_hdf5_develop",
+            "value": 0.0032,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_hdf5_develop",
+            "value": 0.005,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_hdf5_develop",
+            "value": 0.00036,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_hdf5_develop",
+            "value": 0.0068,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_hdf5_develop",
+            "value": 0.0081,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0022,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0049,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0019,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0022,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0055,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0069,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0022,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.005,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_clio_vfd",
+            "value": 0.00081,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_clio_vfd",
+            "value": 0.0066,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_clio_vfd",
+            "value": 0.015,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_clio_vfd",
+            "value": 0.00079,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_clio_vfd",
+            "value": 0.013,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_clio_vfd",
+            "value": 0.023,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0023,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0025,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0048,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0049,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0025,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0055,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0022,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0049,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_clio_vol",
+            "value": 0.0008,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_clio_vol",
+            "value": 0.0074,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_clio_vol",
+            "value": 0.011,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_clio_vol",
+            "value": 0.13,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_clio_vol",
+            "value": 0.013,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_clio_vol",
+            "value": 0.018,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - macOS - hdf5 a3cf1ea8 / netcdf-c beb7b958 / clio-core 57a3f35c"
           }
         ]
       }
