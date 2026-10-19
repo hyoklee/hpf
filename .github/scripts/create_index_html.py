@@ -148,6 +148,13 @@ def main():
             </div>
 
             <div class="plot-container">
+                <h3>many_groups - Many Groups</h3>
+                <img src="./custom-plots/many_groups_10000_comparison.png"
+                     alt="many_groups benchmark comparison"
+                     title="Group creation performance: develop vs 1.14">
+            </div>
+
+            <div class="plot-container">
                 <h3>vds - Virtual Dataset</h3>
                 <img src="./custom-plots/vds_100_comparison.png"
                      alt="vds benchmark comparison"
@@ -189,6 +196,13 @@ def main():
             </div>
 
             <div class="plot-container">
+                <h3>many_groups - Many Groups</h3>
+                <img src="./custom-plots-win/many_groups_10000_comparison.png"
+                     alt="many_groups benchmark comparison (Windows)"
+                     title="Group creation performance: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
                 <h3>vds - Virtual Dataset</h3>
                 <img src="./custom-plots-win/vds_100_comparison.png"
                      alt="vds benchmark comparison (Windows)"
@@ -203,6 +217,7 @@ def main():
                     <li><strong>efc_no:</strong> Tests external file cache performance by opening multiple files through external links</li>
                     <li><strong>cmpd_subset:</strong> Tests compound datatype subset selection and I/O performance</li>
                     <li><strong>many_dsets:</strong> Tests performance with many datasets in a single file</li>
+                    <li><strong>many_groups:</strong> Tests creation of 10000 groups in the root group (HPF 1.0.0 write2.c)</li>
                     <li><strong>vds:</strong> Tests virtual dataset (VDS) functionality and performance</li>
                 </ul>
 

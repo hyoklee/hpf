@@ -58,6 +58,14 @@ set_property(TARGET many_dsets
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
+set(many_groups_srcs src/many_groups.cpp)
+add_executable(many_groups ${many_groups_srcs})
+target_link_libraries(many_groups ${LINK_LIBS} Catch2::Catch2)
+target_include_directories(many_groups PUBLIC ${MPI_C_INCLUDE_DIRS})
+set_property(TARGET many_groups
+      APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
+)
+
 set(vds_srcs src/vds.cpp)
 add_executable(vds ${vds_srcs})
 target_link_libraries(vds ${LINK_LIBS} Catch2::Catch2)
@@ -95,6 +103,20 @@ add_test(NAME TEST_many_dsets COMMAND "${CMAKE_COMMAND}"
     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
 set_tests_properties(TEST_many_dsets PROPERTIES DEPENDS CLEAR_many_dsets)
+
+add_test(
+   NAME CLEAR_many_groups
+   COMMAND ${CMAKE_COMMAND} -E remove *.h5
+)
+add_test(NAME TEST_many_groups COMMAND "${CMAKE_COMMAND}"
+    -D "TEST_PROGRAM=$<TARGET_FILE:many_groups>"
+    -D "TEST_EXPECT=0"
+    -D "TEST_SKIP_COMPARE:BOOL=true"
+    -D "TEST_OUTPUT=many_groups.out"
+    -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
+    -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
+)
+set_tests_properties(TEST_many_groups PROPERTIES DEPENDS CLEAR_many_groups)
 
 
 add_test(
@@ -148,6 +170,13 @@ target_compile_options(
 
 target_compile_options(
    many_dsets
+   PRIVATE
+     $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
+     $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
+)
+
+target_compile_options(
+   many_groups
    PRIVATE
      $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
      $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>
