@@ -10,6 +10,8 @@
 //                      an unlimited dimension, in "/group_0" of the first file
 //   "add_rec"        - 2000 times: open the first file, extend the dataset by
 //                      one record and write that record
+// Built with the 1.6 API (HDF5 configured with HDF5_DEFAULT_API_VERSION=v16,
+// or -DH5_USE_16_API), the steps make the same 1.6 calls as write2.c.
 // As in write2.c, the timers cover only the HDF5 calls of each step; creating
 // or closing the files around a step is not timed. Unlike write2.c, the
 // records are generated before the "1000000 record" timer starts, and the
@@ -63,9 +65,13 @@ create_groups(hid_t fileid, int num_group)
     {
         std::string group_name = GROUP_BASENAME + std::to_string(i);
 
-        // write2.c called the 1.6 H5Gcreate(fileid, name, 0), which creates
-        // the same group as the 1.8 API with default property lists.
+        // The 1.6 H5Gcreate(fileid, name, 0) of write2.c creates the same
+        // group as the 1.8 API with default property lists.
+#ifdef H5_USE_16_API
+        hid_t gid = H5Gcreate(fileid, group_name.c_str(), (size_t)0);
+#else
         hid_t gid = H5Gcreate(fileid, group_name.c_str(), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+#endif
         if(gid < 0)
         {
             std::cout << "Cannot create the group: " << group_name << std::endl;
@@ -187,7 +193,11 @@ create_datasets(hid_t gid, const std::vector<samp_t>& samp_data)
         return -1;
     }
 
+#ifdef H5_USE_16_API
+    hid_t did = H5Dcreate(gid, DATASETNAME, datatype, dataspace, chunk_prop);
+#else
     hid_t did = H5Dcreate(gid, DATASETNAME, datatype, dataspace, H5P_DEFAULT, chunk_prop, H5P_DEFAULT);
+#endif
     if(did < 0)
     {
         std::cout << "Cannot create dataset" << std::endl;
@@ -233,16 +243,24 @@ update_dataset(const char* file_name, const char* dset_path)
             std::cout << "Cannot open the existing HDF5 file" << std::endl;
             return -1;
         }
+#ifdef H5_USE_16_API
+        hid_t did = H5Dopen(file_id, dset_path);
+#else
         hid_t did = H5Dopen(file_id, dset_path, H5P_DEFAULT);
+#endif
         if(did < 0)
         {
             std::cout << "Cannot open the existing HDF5 dataset" << std::endl;
             return -1;
         }
 
-        // Extend the dataset (write2.c used the deprecated H5Dextend).
+        // Extend the dataset. H5Dextend is deprecated since 1.8.
         hsize_t size[1] = {NUM_RECORD + 1};
+#ifdef H5_USE_16_API
+        if(H5Dextend(did, size) < 0)
+#else
         if(H5Dset_extent(did, size) < 0)
+#endif
         {
             std::cout << "Cannot extend the dataset" << std::endl;
             return -1;
@@ -320,6 +338,9 @@ measure_groups(Catch::Benchmark::Chronometer& meter, const char* base, int num_g
 }
 
 TEST_CASE("write2 layout") {
+#ifdef H5_USE_16_API
+  printf("HDF5 1.6 API\n");
+#endif
   printf("deflate filter %s\n", H5Zfilter_avail(H5Z_FILTER_DEFLATE) > 0 ? "available" : "not available, records are only shuffled");
 
   REQUIRE(create_record_file() == 0);
@@ -352,7 +373,11 @@ TEST_CASE("write2 layout") {
 
   hid_t fid = H5Fopen(H5FILE_NAME, H5F_ACC_RDONLY, H5P_DEFAULT);
   REQUIRE(fid >= 0);
+#ifdef H5_USE_16_API
+  hid_t did = H5Dopen(fid, DATASET_PATH);
+#else
   hid_t did = H5Dopen(fid, DATASET_PATH, H5P_DEFAULT);
+#endif
   REQUIRE(did >= 0);
 
   hid_t space = H5Dget_space(did);

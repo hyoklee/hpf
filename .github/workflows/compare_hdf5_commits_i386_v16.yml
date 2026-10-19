@@ -1,0 +1,173 @@
+name: Compare HDF5 Commits (write2, i386, v16 API)
+
+# Like compare_hdf5_commits.yml, but on 32-bit x86 (Alpine Linux, musl) with
+# both HDF5 commits configured with HDF5_DEFAULT_API_VERSION=v16, so write2
+# makes the same 1.6 API calls as the HPF 1.0.0 write2.c. Results are only
+# reported in the run summary and artifact, not in the daily dashboards.
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Base HDF5 commit/ref'
+        default: 'c8f58d6f8bc1b315af38fd15eb10aa4269f071a1'
+      head:
+        description: 'Head HDF5 commit/ref'
+        default: 'ab5df5526c96a03bf1d89cea59603b77a239eac0'
+      rounds:
+        description: 'Alternating rounds per commit'
+        default: '5'
+      samples:
+        description: 'Catch2 samples per round'
+        default: '20'
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/compare_hdf5_commits_i386_v16.yml'
+
+env:
+  BASE: ${{ inputs.base || 'c8f58d6f8bc1b315af38fd15eb10aa4269f071a1' }}
+  HEAD: ${{ inputs.head || 'ab5df5526c96a03bf1d89cea59603b77a239eac0' }}
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Checkout HPF
+      uses: actions/checkout@v4
+
+    - name: Resolve HDF5 commits
+      id: sha
+      run: |
+        git clone --filter=blob:none --no-checkout https://github.com/HDFGroup/hdf5.git hdf5-src
+        cd hdf5-src
+        for side in BASE HEAD; do
+          sha=$(git rev-parse "${!side}^{commit}" 2>/dev/null ||
+                git rev-parse "origin/${!side}^{commit}")
+          echo "$(echo $side | tr A-Z a-z)=$sha" >> $GITHUB_OUTPUT
+          git log -1 --format="$side: %H %cI %s" "$sha"
+        done
+
+    - name: Cache HDF5 base build
+      id: cache-base
+      uses: actions/cache@v4
+      with:
+        path: hdf5-base-install
+        key: hdf5-commit-${{ steps.sha.outputs.base }}-alpine-x86-v16
+
+    - name: Cache HDF5 head build
+      id: cache-head
+      uses: actions/cache@v4
+      with:
+        path: hdf5-head-install
+        key: hdf5-commit-${{ steps.sha.outputs.head }}-alpine-x86-v16
+
+    - name: Check out HDF5 sources
+      run: |
+        if [[ "${{ steps.cache-base.outputs.cache-hit }}" != "true" ]]; then
+          git -C hdf5-src worktree add -q ../hdf5-base-src ${{ steps.sha.outputs.base }}
+        fi
+        if [[ "${{ steps.cache-head.outputs.cache-hit }}" != "true" ]]; then
+          git -C hdf5-src worktree add -q ../hdf5-head-src ${{ steps.sha.outputs.head }}
+        fi
+
+    - name: Set up Alpine Linux (x86)
+      uses: jirutka/setup-alpine@v1
+      with:
+        arch: x86
+        packages: >
+          build-base
+          cmake
+          file
+          git
+          linux-headers
+
+    - name: Build HDF5 commits (v16 API)
+      shell: alpine.sh {0}
+      run: |
+        set -e
+        cd "${{ github.workspace }}"
+        echo "Alpine arch: $(apk --print-arch)"
+        for side in base head; do
+          [ -d hdf5-$side-src ] || continue
+          cmake -S hdf5-$side-src -B hdf5-$side-build \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/hdf5-$side-install" \
+                -DHDF5_DEFAULT_API_VERSION:STRING=v16 \
+                -DHDF5_ENABLE_PARALLEL=OFF \
+                -DHDF5_ENABLE_THREADSAFE=OFF \
+                -DBUILD_TESTING=OFF \
+                -DHDF5_BUILD_EXAMPLES=OFF \
+                -DHDF5_BUILD_TOOLS=OFF \
+                -DHDF5_BUILD_HL_LIB=OFF \
+                -DHDF5_BUILD_CPP_LIB=OFF \
+                -DHDF5_BUILD_FORTRAN=OFF \
+                -DHDF5_BUILD_JAVA=OFF \
+                -DHDF5_ENABLE_ZLIB_SUPPORT=OFF \
+                -DHDF5_ENABLE_SZIP_SUPPORT=OFF
+          cmake --build hdf5-$side-build -j$(nproc)
+          cmake --install hdf5-$side-build
+        done
+        for side in base head; do
+          grep -H "define H5_USE_16_API_DEFAULT" hdf5-$side-install/include/H5pubconf.h
+        done
+
+    - name: Build and test write2 against each commit
+      shell: alpine.sh {0}
+      run: |
+        set -e
+        cd "${{ github.workspace }}"
+        for side in base head; do
+          cmake -S . -B build-$side \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DHDF5_ROOT="${{ github.workspace }}/hdf5-$side-install"
+          # The other HPF tests use the 1.8+ API, so only write2 is built.
+          cmake --build build-$side -j$(nproc) --target write2
+          file build-$side/write2 || true
+          # Verify the files write2 writes.
+          (cd build-$side && \
+           LD_LIBRARY_PATH="${{ github.workspace }}/hdf5-$side-install/lib" \
+           ./write2 "write2 layout")
+        done
+
+    - name: Run benchmarks (alternating rounds)
+      shell: alpine.sh {0}
+      run: |
+        set -e
+        cd "${{ github.workspace }}"
+        mkdir -p results
+        for r in $(seq 1 ${{ inputs.rounds || '5' }}); do
+          for side in base head; do
+            echo "=== round $r: write2 with HDF5 $side ==="
+            (cd build-$side && \
+             LD_LIBRARY_PATH="${{ github.workspace }}/hdf5-$side-install/lib" \
+             ./write2 --benchmark-samples ${{ inputs.samples || '20' }}) | tee -a results/$side-$r.txt
+          done
+        done
+
+    - name: Report comparison
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-matplotlib
+        base=${{ steps.sha.outputs.base }}
+        head=${{ steps.sha.outputs.head }}
+        {
+          echo "## write2 on i386 (Alpine x86), HDF5 v16 API: \`${base:0:10}\` vs \`${head:0:10}\`"
+          echo
+          git -C hdf5-src log -1 --format='- base: [%h](https://github.com/HDFGroup/hdf5/commit/%H) %cs %s' $base
+          git -C hdf5-src log -1 --format='- head: [%h](https://github.com/HDFGroup/hdf5/commit/%H) %cs %s' $head
+          echo "- ${{ inputs.rounds || '5' }} alternating rounds x ${{ inputs.samples || '20' }} Catch2 samples, runner $(nproc) cores"
+          echo
+          python3 .github/scripts/compare_hdf5_commits.py --plot-dir results/plots \
+            "base ${base:0:10}" "head ${head:0:10}" results/comparison.json \
+            results/base-*.txt -- results/head-*.txt
+        } | tee -a $GITHUB_STEP_SUMMARY
+
+    - name: Upload results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: hdf5-commit-comparison-i386-v16-${{ github.run_number }}
+        path: results/
+        retention-days: 90
