@@ -153,6 +153,10 @@ jobs:
         ./many_dsets --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
 
         echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        echo "--- many_dsets_v1 benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./many_dsets_v1 --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
         echo "--- vds benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/develop.txt
         ./vds --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/develop.txt 2>&1 || echo "Benchmark may have failed"
 
@@ -175,6 +179,10 @@ jobs:
         echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
         echo "--- many_dsets benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
         ./many_dsets --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
+
+        echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        echo "--- many_dsets_v1 benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./many_dsets_v1 --benchmark-samples 10 >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt 2>&1 || echo "Benchmark may have failed"
 
         echo "" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt
         echo "--- vds benchmark ---" >> $GITHUB_WORKSPACE/benchmark-results/1_14.txt

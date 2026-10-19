@@ -14,4 +14,5 @@ These tests do not require MPI.
 * src/cmpd_subset.cpp: Compound dataset
 * src/efc_no.cpp: No external file cache
 * src/many_dsets.cpp: Many (> 2K) datasets
+* src/many_dsets_v1.cpp: Many datasets, as benchmarked in HPF 1.0.0
 * src/vds.cpp: Virtudal dataset
