@@ -14,5 +14,5 @@ These tests do not require MPI.
 * src/cmpd_subset.cpp: Compound dataset
 * src/efc_no.cpp: No external file cache
 * src/many_dsets.cpp: Many (> 2K) datasets
-* src/many_groups.cpp: Many (10K) groups, from 1.0.0 write2.c
+* src/write2.cpp: Group creation (10K, 200K), 1M compound records, record appends (1.0.0 write2.c)
 * src/vds.cpp: Virtudal dataset

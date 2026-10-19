@@ -1,9 +1,9 @@
-name: Compare HDF5 Commits (many_groups)
+name: Compare HDF5 Commits (write2)
 
-# Measures HPF benchmarks (by default src/many_groups.cpp) against
-# two HDF5 commits on the same runner. The defaults compare the last HDF5
-# develop commit of 2026-10-15 (#6675, internal threading split) with the
-# commit before it from 2026-10-13.
+# Measures HPF benchmarks (by default every step of src/write2.cpp, each
+# plotted on its own) against two HDF5 commits on the same runner. The
+# defaults compare the last HDF5 develop commit of 2026-10-15 (#6675, internal
+# threading split) with the commit before it from 2026-10-13.
 
 on:
   workflow_dispatch:
@@ -16,26 +16,26 @@ on:
         default: 'ab5df5526c96a03bf1d89cea59603b77a239eac0'
       benchmarks:
         description: 'Space-separated HPF benchmark executables'
-        default: 'many_groups'
+        default: 'write2'
       rounds:
         description: 'Alternating rounds per commit'
         default: '5'
       samples:
         description: 'Catch2 samples per round'
-        default: '50'
+        default: '20'
   push:
     branches: [ main ]
     paths:
-      - 'src/many_groups.cpp'
+      - 'src/write2.cpp'
       - '.github/workflows/compare_hdf5_commits.yml'
       - '.github/scripts/compare_hdf5_commits.py'
 
 env:
   BASE: ${{ inputs.base || 'c8f58d6f8bc1b315af38fd15eb10aa4269f071a1' }}
   HEAD: ${{ inputs.head || 'ab5df5526c96a03bf1d89cea59603b77a239eac0' }}
-  BENCHMARKS: ${{ inputs.benchmarks || 'many_groups' }}
+  BENCHMARKS: ${{ inputs.benchmarks || 'write2' }}
   ROUNDS: ${{ inputs.rounds || '5' }}
-  SAMPLES: ${{ inputs.samples || '50' }}
+  SAMPLES: ${{ inputs.samples || '20' }}
 
 jobs:
   compare:
@@ -48,7 +48,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build python3 git
+        sudo apt-get install -y build-essential cmake ninja-build python3 python3-matplotlib git
 
     - name: Resolve HDF5 commits
       id: sha
@@ -110,10 +110,10 @@ jobs:
                 -DCMAKE_BUILD_TYPE=Release \
                 -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5-$side-install
           ninja -C build-$side
-          # The CTest run also verifies the file many_groups writes.
+          # The CTest run also verifies the file write2 writes.
           (cd build-$side && \
            LD_LIBRARY_PATH=$GITHUB_WORKSPACE/hdf5-$side-install/lib \
-           ctest --output-on-failure -R "many_groups")
+           ctest --output-on-failure -R "write2")
         done
 
     - name: Run benchmarks (alternating rounds)
@@ -141,7 +141,7 @@ jobs:
           git -C hdf5-src log -1 --format='- head: [%h](https://github.com/HDFGroup/hdf5/commit/%H) %cs %s' $head
           echo "- $ROUNDS alternating rounds x $SAMPLES Catch2 samples, runner $(nproc) cores"
           echo
-          python3 .github/scripts/compare_hdf5_commits.py \
+          python3 .github/scripts/compare_hdf5_commits.py --plot-dir results/plots \
             "base ${base:0:10}" "head ${head:0:10}" results/comparison.json \
             results/base-*.txt -- results/head-*.txt
         } | tee -a $GITHUB_STEP_SUMMARY

@@ -58,11 +58,11 @@ set_property(TARGET many_dsets
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
-set(many_groups_srcs src/many_groups.cpp)
-add_executable(many_groups ${many_groups_srcs})
-target_link_libraries(many_groups ${LINK_LIBS} Catch2::Catch2)
-target_include_directories(many_groups PUBLIC ${MPI_C_INCLUDE_DIRS})
-set_property(TARGET many_groups
+set(write2_srcs src/write2.cpp)
+add_executable(write2 ${write2_srcs})
+target_link_libraries(write2 ${LINK_LIBS} Catch2::Catch2)
+target_include_directories(write2 PUBLIC ${MPI_C_INCLUDE_DIRS})
+set_property(TARGET write2
       APPEND PROPERTY COMPILE_DEFINITIONS STANDALONE
 )
 
@@ -105,18 +105,18 @@ add_test(NAME TEST_many_dsets COMMAND "${CMAKE_COMMAND}"
 set_tests_properties(TEST_many_dsets PROPERTIES DEPENDS CLEAR_many_dsets)
 
 add_test(
-   NAME CLEAR_many_groups
+   NAME CLEAR_write2
    COMMAND ${CMAKE_COMMAND} -E remove *.h5
 )
-add_test(NAME TEST_many_groups COMMAND "${CMAKE_COMMAND}"
-    -D "TEST_PROGRAM=$<TARGET_FILE:many_groups>"
+add_test(NAME TEST_write2 COMMAND "${CMAKE_COMMAND}"
+    -D "TEST_PROGRAM=$<TARGET_FILE:write2>"
     -D "TEST_EXPECT=0"
     -D "TEST_SKIP_COMPARE:BOOL=true"
-    -D "TEST_OUTPUT=many_groups.out"
+    -D "TEST_OUTPUT=write2.out"
     -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
     -P "${PROJECT_SOURCE_DIR}/scripts/runTest.cmake"
 )
-set_tests_properties(TEST_many_groups PROPERTIES DEPENDS CLEAR_many_groups)
+set_tests_properties(TEST_write2 PROPERTIES DEPENDS CLEAR_write2)
 
 
 add_test(
@@ -176,7 +176,7 @@ target_compile_options(
 )
 
 target_compile_options(
-   many_groups
+   write2
    PRIVATE
      $<$<CXX_COMPILER_ID:MSVC>:/DCATCH_CONFIG_ENABLE_BENCHMARKING>
      $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-DCATCH_CONFIG_ENABLE_BENCHMARKING>

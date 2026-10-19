@@ -148,10 +148,31 @@ def main():
             </div>
 
             <div class="plot-container">
-                <h3>many_groups - Many Groups</h3>
-                <img src="./custom-plots/many_groups_10000_comparison.png"
-                     alt="many_groups benchmark comparison"
-                     title="Group creation performance: develop vs 1.14">
+                <h3>write2 - 10000 groups</h3>
+                <img src="./custom-plots/write2_10000_groups_comparison.png"
+                     alt="write2 10000 groups benchmark comparison"
+                     title="Creating 10000 empty groups: develop vs 1.14">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - 200000 groups</h3>
+                <img src="./custom-plots/write2_200000_groups_comparison.png"
+                     alt="write2 200000 groups benchmark comparison"
+                     title="Creating 200000 empty groups: develop vs 1.14">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - 1000000 record</h3>
+                <img src="./custom-plots/write2_1000000_record_comparison.png"
+                     alt="write2 1000000 record benchmark comparison"
+                     title="Writing 1000000 compound records: develop vs 1.14">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - add_rec</h3>
+                <img src="./custom-plots/write2_add_rec_comparison.png"
+                     alt="write2 add_rec benchmark comparison"
+                     title="Appending a record 2000 times: develop vs 1.14">
             </div>
 
             <div class="plot-container">
@@ -196,10 +217,31 @@ def main():
             </div>
 
             <div class="plot-container">
-                <h3>many_groups - Many Groups</h3>
-                <img src="./custom-plots-win/many_groups_10000_comparison.png"
-                     alt="many_groups benchmark comparison (Windows)"
-                     title="Group creation performance: develop vs 1.14 (Windows)">
+                <h3>write2 - 10000 groups</h3>
+                <img src="./custom-plots-win/write2_10000_groups_comparison.png"
+                     alt="write2 10000 groups benchmark comparison (Windows)"
+                     title="Creating 10000 empty groups: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - 200000 groups</h3>
+                <img src="./custom-plots-win/write2_200000_groups_comparison.png"
+                     alt="write2 200000 groups benchmark comparison (Windows)"
+                     title="Creating 200000 empty groups: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - 1000000 record</h3>
+                <img src="./custom-plots-win/write2_1000000_record_comparison.png"
+                     alt="write2 1000000 record benchmark comparison (Windows)"
+                     title="Writing 1000000 compound records: develop vs 1.14 (Windows)">
+            </div>
+
+            <div class="plot-container">
+                <h3>write2 - add_rec</h3>
+                <img src="./custom-plots-win/write2_add_rec_comparison.png"
+                     alt="write2 add_rec benchmark comparison (Windows)"
+                     title="Appending a record 2000 times: develop vs 1.14 (Windows)">
             </div>
 
             <div class="plot-container">
@@ -217,7 +259,7 @@ def main():
                     <li><strong>efc_no:</strong> Tests external file cache performance by opening multiple files through external links</li>
                     <li><strong>cmpd_subset:</strong> Tests compound datatype subset selection and I/O performance</li>
                     <li><strong>many_dsets:</strong> Tests performance with many datasets in a single file</li>
-                    <li><strong>many_groups:</strong> Tests creation of 10000 groups in the root group (HPF 1.0.0 write2.c)</li>
+                    <li><strong>write2:</strong> HPF 1.0.0 write2.c steps, plotted separately: 10000 groups, 200000 groups, 1000000 record (chunked compound dataset), add_rec (2000 record appends)</li>
                     <li><strong>vds:</strong> Tests virtual dataset (VDS) functionality and performance</li>
                 </ul>
 

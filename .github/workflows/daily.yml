@@ -157,8 +157,8 @@ jobs:
         echo -e "\n--- many_dsets benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
         ./many_dsets --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
-        echo -e "\n--- many_groups benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
-        ./many_groups --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
+        echo -e "\n--- write2 benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
+        ./write2 --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
 
         echo -e "\n--- vds benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt
         ./vds --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/develop.txt || true
@@ -180,8 +180,8 @@ jobs:
         echo -e "\n--- many_dsets benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
         ./many_dsets --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
-        echo -e "\n--- many_groups benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
-        ./many_groups --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
+        echo -e "\n--- write2 benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
+        ./write2 --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
 
         echo -e "\n--- vds benchmark ---" | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt
         ./vds --benchmark-samples 10 | tee -a $GITHUB_WORKSPACE/benchmark-results/1_14.txt || true
