@@ -69,6 +69,11 @@ jobs:
       id: check-run
       run: |
         SHOULD_RUN=false
+        # Pushes and manual runs always benchmark, so new or changed HPF
+        # benchmarks reach the dashboard without waiting for a new HDF5 commit.
+        if [[ "${{ github.event_name }}" != "schedule" ]]; then
+          SHOULD_RUN=true
+        fi
         if [[ "${{ steps.cache-hdf5-develop.outputs.cache-hit }}" != "true" ]] || [[ "${{ steps.cache-hdf5-1_14.outputs.cache-hit }}" != "true" ]]; then
           SHOULD_RUN=true
         fi
