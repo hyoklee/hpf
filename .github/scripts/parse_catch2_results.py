@@ -57,6 +57,12 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
             while i < len(lines):
                 bench_line = lines[i].strip()
 
+                # Catch2 pads the line after each benchmark with spaces, so a
+                # whitespace-only line separates benchmarks in the same block
+                if not bench_line and lines[i]:
+                    i += 1
+                    continue
+
                 # Stop if we hit empty line or separator
                 if not bench_line or bench_line.startswith('='):
                     break
@@ -130,8 +136,8 @@ def parse_catch2_benchmark(content: str) -> List[Dict[str, Any]]:
                                     except ValueError:
                                         continue
 
-                        # Skip std dev line
-                        i += 1
+                        # Skip the mean and std dev lines
+                        i += 2
                         continue
 
                     except (ValueError, IndexError):
