@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792236320370,
+  "lastUpdate": 1792499724833,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "NetCDF-4 CLIO Performance Benchmarks": [
@@ -18468,6 +18468,352 @@ window.BENCHMARK_DATA = {
             "value": 0.013,
             "unit": "sec",
             "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core 03c4ba2b"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "39826c8a5f6be6a1c4adb1d92110462a622d7234",
+          "message": "Compare write2 between HDF5 commits on i386 with the v16 API\n\nAdd compare_hdf5_commits_i386_v16.yml: build both HDF5 commits in an Alpine\nx86 (32-bit) chroot with HDF5_DEFAULT_API_VERSION=v16, then benchmark write2\nin alternating rounds. It reports to the run summary and artifact only, not\nto the daily dashboards.\n\nwrite2.cpp now makes the 1.6 calls of the 1.0.0 write2.c (H5Gcreate1,\nH5Dcreate1, H5Dopen1, H5Dextend) when built with the 1.6 API.\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-10-19T15:14:23Z",
+          "url": "https://github.com/hyoklee/hpf/commit/39826c8a5f6be6a1c4adb1d92110462a622d7234"
+        },
+        "date": 1792499724242,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0025,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_hdf5_develop",
+            "value": 0.0024,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_hdf5_develop",
+            "value": 0.0005,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_hdf5_develop",
+            "value": 0.004,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_hdf5_develop",
+            "value": 0.0058,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_hdf5_develop",
+            "value": 0.0006,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_hdf5_develop",
+            "value": 0.0082,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_hdf5_develop",
+            "value": 0.01,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.002,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0018,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0035,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0019,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0018,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_clio_vfd",
+            "value": 0.0032,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.002,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0018,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0033,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0019,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0017,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vfd",
+            "value": 0.0034,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_clio_vfd",
+            "value": 0.00066,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_clio_vfd",
+            "value": 0.0051,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_clio_vfd",
+            "value": 0.0079,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_clio_vfd",
+            "value": 0.00082,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_clio_vfd",
+            "value": 0.011,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_clio_vfd",
+            "value": 0.014,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VFD - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_1x64x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x1x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_read_64x64x1_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0034,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_1x64x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.002,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x1x64_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.002,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "chunked_write_64x64x1_chunks_16x16x16_nc4_clio_vol",
+            "value": 0.0035,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0023,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0021,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_read_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0034,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_1x64x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0019,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x1x64_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0019,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "compressed_write_64x64x1_chunks_16x16x16_deflate6_nc4_clio_vol",
+            "value": 0.0035,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_1x64x64_nc4_clio_vol",
+            "value": 0.00089,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x1x64_nc4_clio_vol",
+            "value": 0.0052,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_read_64x64x1_nc4_clio_vol",
+            "value": 0.0083,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_1x64x64_nc4_clio_vol",
+            "value": 0.00097,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x1x64_nc4_clio_vol",
+            "value": 0.01,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
+          },
+          {
+            "name": "contiguous_write_64x64x1_nc4_clio_vol",
+            "value": 0.013,
+            "unit": "sec",
+            "extra": "netCDF-4 main / HDF5 develop + CLIO VOL - hdf5 ab5df552 / netcdf-c bc148bf8 / clio-core e7e409d0"
           }
         ]
       }
