@@ -382,10 +382,19 @@ jobs:
             echo "No changes to publish"
           else
             git commit -m "Update NetCDF-4 CLIO Windows benchmark page (hdf5 ${{ needs.check.outputs.hdf5_sha }}, clio-core ${{ needs.check.outputs.clio_sha }})"
-            # The github-action-benchmark step above pushed to the same branch;
-            # rebase rather than force so its data.js commit is preserved.
-            git pull --rebase origin gh-pages
-            git push origin HEAD:gh-pages
+            # The github-action-benchmark step above and other workflows push to
+            # the same branch; rebase rather than force so their commits are
+            # preserved, and retry if the branch moves again before the push.
+            pushed=false
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin gh-pages && git push origin HEAD:gh-pages; then
+                pushed=true
+                break
+              fi
+              git rebase --abort 2>/dev/null || true
+              sleep $((i * 5))
+            done
+            $pushed
           fi
 
       - name: Upload detailed results

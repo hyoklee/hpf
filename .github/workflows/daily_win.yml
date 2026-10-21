@@ -286,7 +286,18 @@ jobs:
           echo "No changes to custom plots or index.html"
         else
           git commit -m "Update Windows benchmark plots and index.html (develop: ${{ steps.hdf5-develop-hash.outputs.hash }}, 1.14: ${{ steps.hdf5-1_14-hash.outputs.hash }})"
-          git push
+          # Other workflows push to gh-pages too; rebase onto theirs and retry
+          # instead of failing when the branch moved since checkout.
+          pushed=false
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin gh-pages && git push origin HEAD:gh-pages; then
+              pushed=true
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          $pushed
         fi
 
     - name: Upload detailed results
