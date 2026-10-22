@@ -439,40 +439,23 @@ td {
     var vs = all.map(function (p) { return p.v; });
     var t0 = Math.min.apply(null, ts), t1 = Math.max.apply(null, ts);
     var vmax = Math.max.apply(null, vs);
-    var vmin = Math.min.apply(null, vs);
     if (t1 === t0) { t0 -= 1; t1 += 1; }
 
-    // These are durations, so a linear axis is anchored at zero -- not
-    // zero-anchoring would exaggerate small differences. But the CLIO
-    // adapters can be thousands of times slower than native on the same
-    // operation, and on a zero-anchored linear axis that pins two of the
-    // three series flat against the baseline and shows nothing. Above a 50x
-    // spread, switch that chart to log10 (still ONE axis, and labelled as
-    // such) so all three series stay readable.
-    var logScale = vmin > 0 && vmax / vmin > 50;
-    var lo, hi;
-    if (logScale) {
-      lo = Math.floor(Math.log10(vmin) * 2) / 2;   // half-decade padding
-      hi = Math.ceil(Math.log10(vmax) * 2) / 2;
-      if (hi === lo) { hi = lo + 0.5; }
-    } else {
-      lo = 0;
-      hi = vmax > 0 ? vmax * 1.12 : 1;
-    }
-    if (logScale) { unitLine.textContent += " · log scale"; }
+    // These are durations, so the linear axis is anchored at zero -- not
+    // zero-anchoring would exaggerate small differences.
+    var lo = 0;
+    var hi = vmax > 0 ? vmax * 1.12 : 1;
 
     function X(t) { return M.left + (t - t0) / (t1 - t0) * iw; }
     function Y(v) {
-      var s = logScale ? Math.log10(v) : v;
-      return M.top + ih - (s - lo) / (hi - lo) * ih;
+      return M.top + ih - (v - lo) / (hi - lo) * ih;
     }
 
     // gridlines + y ticks (recessive)
     var TICKS = 4;
     for (var i = 0; i <= TICKS; i++) {
-      var s = lo + (hi - lo) * i / TICKS;
-      var v = logScale ? Math.pow(10, s) : s;
-      var y = M.top + ih - (s - lo) / (hi - lo) * ih;
+      var v = lo + (hi - lo) * i / TICKS;
+      var y = Y(v);
       el("line", {class: "gridline", x1: M.left, x2: M.left + iw, y1: y, y2: y}, svg);
       var lbl = el("text", {class: "axis-text", x: M.left - 8, y: y + 3,
                             "text-anchor": "end"}, svg);
