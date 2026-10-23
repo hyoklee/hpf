@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792698558063,
+  "lastUpdate": 1792786283058,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks": [
@@ -14284,6 +14284,124 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 4.9778,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "bb77b8f467433ac00934a40260bdb1bfde4ebaca",
+          "message": "Use a linear y-axis on the NetCDF-4 CLIO plot pages and link the Sep archive\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-10-22T16:20:40Z",
+          "url": "https://github.com/hyoklee/hpf/commit/bb77b8f467433ac00934a40260bdb1bfde4ebaca"
+        },
+        "date": 1792786282704,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.659984,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 4.47893,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.45161,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 10000 groups_hdf5_develop",
+            "value": 0.09004999999999999,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 200000 groups_hdf5_develop",
+            "value": 2.42099,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 1000000 record_hdf5_develop",
+            "value": 0.39982100000000004,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 add_rec_hdf5_develop",
+            "value": 0.352435,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 1.85016,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.6424690000000001,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 3.99351,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 1.05381,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 10000 groups_hdf5_1146",
+            "value": 0.106546,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 200000 groups_hdf5_1146",
+            "value": 2.20395,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 1000000 record_hdf5_1146",
+            "value": 0.41111000000000003,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 add_rec_hdf5_1146",
+            "value": 0.372867,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 4.56025,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
