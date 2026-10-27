@@ -1,8 +1,8 @@
 {
-  "hdf5_sha": "bee3442edb325310f79770f96128125de5274499",
+  "hdf5_sha": "21e852529e25efbd814206457d371db6435276a9",
   "netcdf_sha": "f5fc18262265095aba021810b32b1b6108cf1da2",
-  "clio_sha": "cc3225d29bdf1f302ed97d8191026ab3f38a3bab",
-  "run_id": "40096728904",
-  "run_number": "84",
-  "completed_at": "2026-10-24T13:18:25Z"
+  "clio_sha": "ba6e26463ca87332bbb7786df874ebbebacd6271",
+  "run_id": "40527882785",
+  "run_number": "87",
+  "completed_at": "2026-10-27T15:38:06Z"
 }
