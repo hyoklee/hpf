@@ -1,8 +1,8 @@
 {
-  "hdf5_sha": "03d73b775f9422e803b17481a8ed16106e56a691",
+  "hdf5_sha": "79fb7ce699d2753df8f7c3893c5caf9e351f24de",
   "netcdf_sha": "0d5d6aa738c8b6a4daad83e2012796779d9f8ccb",
   "clio_sha": "e49edcea243357585caac4a4d2616bd14ed4e5ce",
-  "run_id": "41328813560",
-  "run_number": "104",
-  "completed_at": "2026-11-01T17:21:13Z"
+  "run_id": "41520061868",
+  "run_number": "105",
+  "completed_at": "2026-11-02T21:01:48Z"
 }
