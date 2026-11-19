@@ -15,7 +15,11 @@
 # PATH=/usr/local/bin:/usr/ucb/bin
 export PATH=/usr/hdf/bin/gcc520/:$PATH
 # HDF5 version
-VERSION="2.0"
+# VERSION="2.0" <hyokyung 2026.01.23. 08:24:28>
+# VERSION="2.1" <hyokyung 2026.02.11. 09:48:25>
+# VERSION="2.2" <hyokyung 2026.07.23. 13:24:18>
+# VERSION="2.3" <hyokyung 2026.11.18. 20:15:33>
+VERSION="2.4"
 export CC=/usr/hdf/bin/gcc520/gcc
 export CXX=/usr/hdf/bin/gcc520/g++
 
@@ -53,6 +57,7 @@ MAKE="make"
 # 600 seconds = 10 minutes
 INTERVAL="600"
 GIT_URL="https://github.com/HDFGroup/hdf5.git"
+# GIT_URL="https://github.com/hyoklee/hdf5.git"
 ###############################################################################
 # Please DO NOT edit lines below.
 ###############################################################################
@@ -116,6 +121,7 @@ else
 fi
 cd $HDF5_PREFIX
 /mnt/scr1/hyoklee/bin/git clone --quiet $GIT_URL -b develop svn
+# /mnt/scr1/hyoklee/bin/git clone --quiet $GIT_URL -b fix-qsort_r-centos5 svn
 cd svn
 git rev-parse HEAD > $TEMP/svn.log
 $PHP  $PHP_SRC/svn.php $VERSION `cat $TEMP/svn.log` # >& /dev/null
@@ -143,9 +149,13 @@ export PATH=$PATH:/usr/hdf/bin
 #./autogen.sh
 # Get HDF5 compiler option environment
 # ./configure $HDF5_OPTION | grep -v '^checking' | grep -v '^config.status' | grep -v '^configure:' | grep -v '^appending configuration' | grep -v 'Configured on' >  $TEMP/compiler_options_hdf5.txt
+# <hyokyung 2026.01.26. 12:48:59>
 cp /mnt/hdf/hyoklee/src/hdf5.hyoklee/config/libh5cc.in ./config/libh5cc.in 
-cp /home/hyoklee/CMakeLists.txt ./src/
+# <hyokyung 2026.08. 7. 08:52:32>
+cp /mnt/hdf/hyoklee/src/jam/hdf5/tools/test/h5dump/CMakeTests.cmake ./tools/test/h5dump/CMakeTests.cmake
+# cp /home/hyoklee/CMakeLists.txt ./src/
 find . -name "CMakeLists.txt" -print0 | xargs -0 perl -pi.bak -e 's/VERSION 3\.26/VERSION 3\.18/g'
+cp /mnt/hdf/hyoklee/src/hdf5/config/HDF5Pkgconfig.cmake config/HDF5Pkgconfig.cmake
 mkdir build
 cd build
 /mnt/scr1/hyoklee/bin/cmake $HDF5_OPTION .. |  grep 'compiler' >  $TEMP/compiler_options_hdf5.txt

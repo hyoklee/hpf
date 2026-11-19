@@ -90,10 +90,11 @@ function get_host_names($aid)
   return $hosts;  
 }
 
+
 function get_hdf_versions($aid, $host)
 {
   $versions = array();
-  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid AND LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\" AND LibraryVersion !=\"1.15\"";
+  $query = "select distinct(LibraryVersion) from TestInstanceBest where TestAction_ID = $aid AND LibraryVersion !=\"1.9\" AND LibraryVersion !=\"1.11\" AND LibraryVersion !=\"1.13\" AND LibraryVersion !=\"1.15\" AND LibraryVersion !=\"2.2\" AND LibraryVersion !=\"2.3\""; // 20260724: Added 2.2. 20261119: Added 2.3.
   if($host != "all"){
     $query = $query." AND Host = '$host'";
   }
