@@ -29,7 +29,8 @@ export CXX=/usr/hdf/bin/gcc520/g++
 # VERSION="2.0" <hyokyung 2026.01.23. 08:23:54>
 # VERSION="2.1" <hyokyung 2026.02.11. 09:47:49>
 # VERSION="2.2" <hyokyung 2026.07.23. 13:23:36>
-VERSION="2.3"
+# VERSION="2.3" <hyokyung 2026.11.18. 20:14:55>
+VERSION="2.4"
 
 # Set the directory for temporary files.
 # DO NOT set it under HDF5_PREFIX. It should never be deleted by this script.
@@ -48,7 +49,9 @@ HDF5_OPTION="-DHDF5_USE_GNU_DIRS:BOOL=OFF -DHDF5_BUILD_CPP_LIB:BOOL=True -DBUILD
 
 # Configuration option for performance framework
 export CXXFLAGS=-std=c++11
-PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=$HDF5_PREFIX/bin/h5c++ --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
+# HDF5 2.3+ builds an internal thread pool by default, so static libhdf5.a needs
+# -lpthread; the framework links with plain g++ and does not get it from h5c++.
+PERF_OPTION="CC=$HDF5_PREFIX/bin/h5cc CXX=$HDF5_PREFIX/bin/h5c++ LIBS=-lpthread --disable-shared --prefix=/scr/hyoklee/chicago --with-hdf5=$HDF5_PREFIX --with-mysqlclient=/scr/hyoklee/mysql"
 # Path to performance framework source
 PERF_SRC="/scr/hyoklee/hdf5perf/trunk/hdf5perflib/"
 # Path to php command
