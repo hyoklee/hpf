@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795273822781,
+  "lastUpdate": 1795360041780,
   "repoUrl": "https://github.com/hyoklee/hpf",
   "entries": {
     "HDF5 Performance Benchmarks (Windows)": [
@@ -16916,6 +16916,124 @@ window.BENCHMARK_DATA = {
           {
             "name": "vds 100_hdf5_1146",
             "value": 5.42244,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "committer": {
+            "name": "H. Joe Lee",
+            "username": "hyoklee",
+            "email": "hyoklee@hdfgroup.org"
+          },
+          "id": "bb77b8f467433ac00934a40260bdb1bfde4ebaca",
+          "message": "Use a linear y-axis on the NetCDF-4 CLIO plot pages and link the Sep archive\n\nCo-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>",
+          "timestamp": "2026-10-22T16:20:40Z",
+          "url": "https://github.com/hyoklee/hpf/commit/bb77b8f467433ac00934a40260bdb1bfde4ebaca"
+        },
+        "date": 1795360037197,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "efc_no 100_hdf5_develop",
+            "value": 0.982049,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_develop",
+            "value": 7.51574,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "many_dsets 100_hdf5_develop",
+            "value": 1.35413,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 10000 groups_hdf5_develop",
+            "value": 0.07161920000000001,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 200000 groups_hdf5_develop",
+            "value": 2.49458,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 1000000 record_hdf5_develop",
+            "value": 0.173,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "write2 add_rec_hdf5_develop",
+            "value": 0.402566,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "vds 100_hdf5_develop",
+            "value": 2.31904,
+            "unit": "sec",
+            "extra": "HDF5 develop"
+          },
+          {
+            "name": "efc_no 100_hdf5_1146",
+            "value": 0.833521,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "cmpd_subset 100_hdf5_1146",
+            "value": 6.20448,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "many_dsets 100_hdf5_1146",
+            "value": 1.1318,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 10000 groups_hdf5_1146",
+            "value": 0.107965,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 200000 groups_hdf5_1146",
+            "value": 2.19291,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 1000000 record_hdf5_1146",
+            "value": 0.15909,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "write2 add_rec_hdf5_1146",
+            "value": 0.416823,
+            "unit": "sec",
+            "extra": "HDF5 1.14.6"
+          },
+          {
+            "name": "vds 100_hdf5_1146",
+            "value": 6.17968,
             "unit": "sec",
             "extra": "HDF5 1.14.6"
           }
